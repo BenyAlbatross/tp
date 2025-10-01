@@ -24,7 +24,6 @@ public class Internity {
         }
     }
 
-
     /**
      * Main entry-point for the java.duke.Internity application.
      */
