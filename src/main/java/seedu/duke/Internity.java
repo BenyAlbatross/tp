@@ -22,6 +22,7 @@ public class Internity {
                 isExit = true;
             }
         }
+        in.close();
     }
 
     /**
