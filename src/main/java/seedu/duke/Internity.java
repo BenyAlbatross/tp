@@ -19,6 +19,7 @@ public class Internity {
         while (!isExit) {
             String s = in.nextLine();
             if (s.equals("bye")) {
+                System.out.println("Thank you for using Internity! Goodbye!");
                 isExit = true;
             }
         }
