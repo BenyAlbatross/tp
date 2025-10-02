@@ -1,4 +1,4 @@
-package commands;
+package internity.commands;
 
 /**
  * Represents an abstract command in the system. <br>
