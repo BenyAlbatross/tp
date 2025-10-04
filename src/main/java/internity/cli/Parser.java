@@ -22,12 +22,11 @@ public class Parser {
      *
      * @param input raw user input
      * @return a {@link Command} corresponding to the input
-     * @throws IllegalArgumentException if the input is null or blank
-     * @throws InternityException if unknown command is entered
+     * @throws InternityException if input is null or blank or unknown command is entered
      */
     public Command parseInput(String input) throws InternityException {
         if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("Input cannot be null or blank");
+            throw InternityException.invalidInput();
         }
 
         String[] parts = input.trim().split("\\s+", 2);
