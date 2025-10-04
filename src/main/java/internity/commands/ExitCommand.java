@@ -7,7 +7,7 @@ package internity.commands;
  * When executed, it prints an exit message and signals that the
  * program should exit.
  * </p>
- * <p>Usage: {@code exit</p>
+ * <p>Usage: {@code exit}</p>
  */
 public class ExitCommand extends Command {
     /**
