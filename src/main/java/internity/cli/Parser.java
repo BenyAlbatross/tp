@@ -32,9 +32,11 @@ public class Parser {
         String command = parts[0].toLowerCase();
         String args = parts.length > 1 ? parts[1] : "";
 
-        return switch (command) {
-            case "exit" -> new ExitCommand();
-            default -> throw new IllegalStateException("Unknown command: " + command);
-        };
+        switch (command) {
+        case "exit":
+            return new ExitCommand();
+        default:
+            throw new IllegalStateException("Unknown command: " + command);
+        }
     }
 }
