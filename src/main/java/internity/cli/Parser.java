@@ -23,6 +23,7 @@ public class Parser {
      * @param input raw user input
      * @return a {@link Command} corresponding to the input
      * @throws IllegalArgumentException if the input is null or blank
+     * @throws InternityException if unknown command is entered
      */
     public Command parseInput(String input) throws InternityException {
         if (input == null || input.isBlank()) {
