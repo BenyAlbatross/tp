@@ -7,4 +7,7 @@ Hello from
                                     |___/
 What is your name?
 Hello Homeless SoC Student
+Unknown command: hello
+Unknown command: hello
+Unknown command: hello
 Thank you for using Internity! Goodbye!

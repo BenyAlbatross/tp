@@ -1,2 +1,5 @@
 Homeless SoC Student
-bye
+HELLO
+hElLo
+HELLO WORLD
+exit
