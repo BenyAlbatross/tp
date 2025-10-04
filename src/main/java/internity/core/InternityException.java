@@ -18,6 +18,6 @@ public class InternityException extends Exception {
     }
 
     public static InternityException unknownCommand(String message) {
-        return new InternityException("Unknown command detected: " + message);
+        return new InternityException("Unknown command: " + message);
     }
 }
