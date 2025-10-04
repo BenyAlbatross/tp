@@ -12,6 +12,7 @@ import internity.commands.Command;
  * <p>Supported commands include:
  * <ul>
  *      <li>{@code exit} - exits the program</li>
+ * </ul>
  */
 public class Parser {
     /**
