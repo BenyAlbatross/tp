@@ -2,6 +2,9 @@ package internity;
 
 import java.util.Scanner;
 
+import internity.cli.Parser;
+import internity.commands.Command;
+
 public class Internity {
     public static void initInternity() {
         String logo = " ___       _                  _ _\n" +
@@ -15,12 +18,17 @@ public class Internity {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+        Parser parser = new Parser();
         boolean isExit = false;
+
         while (!isExit && in.hasNextLine()) {
-            String s = in.nextLine();
-            if (s.equals("bye")) {
-                System.out.println("Thank you for using Internity! Goodbye!");
-                isExit = true;
+            String input = in.nextLine();
+            try {
+                Command command = parser.parseInput(input);
+                command.execute();
+                isExit = command.isExit();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
         in.close();
