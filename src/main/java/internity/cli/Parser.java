@@ -14,6 +14,14 @@ import internity.commands.Command;
  *      <li>{@code exit} - exits the program</li>
  */
 public class Parser {
+    /**
+     * Parses the given input string and returns the corresponding {@link Command}. <br>
+     * The first token (before the first space) is treated as the command keyword.
+     *
+     * @param input raw user input
+     * @return a {@link Command} corresponding to the input
+     * @throws IllegalArgumentException if the input is null or blank
+     */
     public Command parseInput(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException("Input cannot be null or blank");

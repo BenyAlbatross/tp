@@ -10,15 +10,24 @@ package internity.commands;
  * <p>Usage: {@code exit</p>
  */
 public class ExitCommand extends Command {
+    /**
+     * Executes the {@code exit} command.
+     * <p>
+     * Prints an exit message.
+     * </p>
+     */
     @Override
     public void execute() {
         System.out.println("Thank you for using Internity! Goodbye!");
     }
 
+    /**
+     * Indicates that this command terminates the program
+     *
+     * @return always {@code true}
+     */
     @Override
     public boolean isExit() {
         return true;
     }
-
-
 }
