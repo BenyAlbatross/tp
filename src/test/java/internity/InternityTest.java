@@ -1,4 +1,4 @@
-package seedu.duke;
+package internity;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
