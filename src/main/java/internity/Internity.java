@@ -7,12 +7,6 @@ import internity.commands.Command;
 import internity.ui.Ui;
 
 public class Internity {
-
-
-    public static void printGreeting(String input) {
-        System.out.println("Hello " + input);
-    }
-
     public static void initInternity() {
         Ui.printWelcomeMessage();
         Scanner in = new Scanner(System.in);
