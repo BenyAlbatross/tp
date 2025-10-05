@@ -21,7 +21,7 @@ class ParserTest {
     }
 
     @Test
-    void parseInput_ExitCommand_returnsExitCommand() throws InternityException {
+    void parseInput_exitCommand_returnsExitCommand() throws InternityException {
         Parser parser = new Parser();
         Command command = parser.parseInput("exit");
         assertInstanceOf(ExitCommand.class, command);
