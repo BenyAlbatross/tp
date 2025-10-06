@@ -23,7 +23,7 @@ manage hundreds of applications.
 {Give steps to get started quickly}
 
 1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `Duke` from [here](http://link.to/duke).
+2. Down the latest version of `Internity` from [here](http://link.to/Internity).
 
 ---
 
