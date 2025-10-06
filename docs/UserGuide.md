@@ -112,11 +112,9 @@ list sort/asc
 list sort/desc
 ```
 
-
 - `list` → shows all applications in the order they were added
 - `list sort/asc` → sorts applications by deadline ascending
 - `list sort/desc` → sorts applications by deadline descending
-
 
 ---
 
@@ -136,4 +134,3 @@ list sort/desc
 | **Remove Application** | `remove`    | `remove INDEX`                                                                                                                                              | `remove 2`                                                                      |
 | **Update Application** | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
 | **List Applications**  | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
-
