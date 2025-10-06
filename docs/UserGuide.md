@@ -23,7 +23,16 @@ manage hundreds of applications.
 1. Ensure that you have Java 17 or above installed.
 1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
-## Features 
+## Features
+
+<div style="background-color: #002b5c; color: #cce6ff; padding: 15px; border-radius: 8px; border-left: 5px solid #3399ff;">
+<h4>Notes about the command format</h4>
+<ul>
+<li>Words in <strong>UPPER_CASE</strong> are placeholders that must be supplied by you.<br>
+Example: <code>remove INDEX</code> → <code>remove 1</code></li>
+<li>If using a PDF version, be careful when copying commands that span multiple lines as spaces surrounding line-breaks may be omitted.</li>
+</ul>
+</div>
 
 ### Adding an internship entry: `add`
 Add a new internship with company, role, deadline and pay details
