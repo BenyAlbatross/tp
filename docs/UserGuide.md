@@ -1,4 +1,4 @@
-# User Guide
+# Internity User Guide
 
 ## Introduction
 
