@@ -16,12 +16,16 @@ manage hundreds of applications.
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
 
+---
+
 ## Quick Start
 
 {Give steps to get started quickly}
 
 1. Ensure that you have Java 17 or above installed.
 2. Down the latest version of `Duke` from [here](http://link.to/duke).
+
+---
 
 ## Features
 
