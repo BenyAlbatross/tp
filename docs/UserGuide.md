@@ -10,7 +10,7 @@ manage hundreds of applications.
 - [Quick Start](#quick-start)
 - [Features](#features)
   - [Adding an application](#adding-an-application-add)
-  - [Removing an application](#removing-an-application-remove)
+  - [Deleting an application](#deleting-an-application-delete)
   - [Updating an application](#updating-an-application-update)
   - [Viewing all applications](#listing-all-applications-list)
 - [FAQ](#faq)
@@ -29,14 +29,14 @@ manage hundreds of applications.
 <h4>Notes about the command format</h4>
 <ul>
 <li>Words in <strong>UPPER_CASE</strong> are placeholders that must be supplied by you.<br>
-Example: <code>remove INDEX</code> → <code>remove 1</code></li>
+Example: <code>delete INDEX</code> → <code>delete 1</code></li>
 <li>If using a PDF version, be careful when copying commands that span multiple lines as spaces surrounding line-breaks may be omitted.</li>
 </ul>
 </div>
 
 
 ### Adding an application: `add`
-Add a new internship with company, role, deadline and pay details
+Add a new internship application with company, role, deadline and pay details
 
 Format
 ```
@@ -47,24 +47,24 @@ Example:
 ```
 add company/Google role/Software Engineer deadline/2025-09-17 pay/100000
 ```
-This command adds an internship at Google for the role of Software Engineer with a deadline of 17 September 2025, and a monthly salary of $100000.
+This command adds an internship application at Google for the role of Software Engineer with a deadline of 17 September 2025, and a monthly salary of $100000.
 
 ---
 
-### Removing an application: `remove`
-Remove an existing internship entry from the internship list
+### Deleting an application: `delete`
+Delete an existing internship application from the internship list
 
 Format:
 ```
-remove INDEX
+delete INDEX
 ```
 
 Example:
 ```
-remove 2
+delete 2
 ```
 
-This command removes the internship entry at index 2 from the list.
+This command delete the internship application at index 2 from the list.
 
 ---
 
@@ -90,7 +90,7 @@ Example:
 update 1 status/Accepted
 ```
 
-This command updates the status of the internship at index 1 to "Accepted".
+This command updates the status of the internship application at index 1 to "Accepted".
 
 ---
 
@@ -131,6 +131,6 @@ list sort/desc
 | **Action**             | **Command** | **Format**                                                                                                                                                  | **Example**                                                                     |
 |------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | **Add Application**    | `add`       | `add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_DETAILS`                                                                                 | `add company/Google role/Software Engineer Intern deadline/2025-10-20 pay/1000` |
-| **Remove Application** | `remove`    | `remove INDEX`                                                                                                                                              | `remove 2`                                                                      |
+| **Delete Application** | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                      |
 | **Update Application** | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
 | **List Applications**  | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
