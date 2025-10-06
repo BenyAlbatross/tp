@@ -9,7 +9,12 @@ manage hundreds of applications.
 # Table of Contents
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - 
+  - [Adding an internship entry](#adding-an-internship-entry-add)
+  - [Removing an internship entry](#removing-an-internship-entry-remove)
+  - [Update an internship entry](#updating-an-internship-entry-update)
+  - [Viewing internship list](#viewing-internship-list-list)
+- [FAQ](#faq)
+- [Command Summary](#command-summary)
 
 ## Quick Start
 
@@ -19,9 +24,6 @@ manage hundreds of applications.
 1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
 ## Features 
-
-{Give detailed description of each feature}
-
 
 ### Adding an internship entry: `add`
 Add a new internship with company, role, deadline and pay details
@@ -33,10 +35,11 @@ add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_DETAILS
 
 Example:
 ```
-add company/Google role/Software Engineer deadline/2025-09-17 pay/SGD 100,000
+add company/Google role/Software Engineer deadline/2025-09-17 pay/100000
 ```
-This command adds an internship at Google for the role of Software Engineer with a deadline of 17 September 2025, and a monthly salary of 100,000 SGD.
+This command adds an internship at Google for the role of Software Engineer with a deadline of 17 September 2025, and a monthly salary of $100000.
 
+---
 
 ### Removing an internship entry: `remove`
 Remove an existing internship entry from the internship list
@@ -53,6 +56,7 @@ remove 2
 
 This command removes the internship entry at index 2 from the list.
 
+---
 
 ### Updating an internship entry: update
 Makes an update to the internship application
@@ -72,6 +76,7 @@ update 1 status/Accepted
 
 This command updates the status of the internship at index 1 to "Accepted".
 
+---
 
 ### Viewing internship list: list
 To view the list of all internship entries, use the list command
@@ -88,6 +93,7 @@ list
 
 This command displays all internships currently logged into the system.
 
+---
 
 ## FAQ
 
