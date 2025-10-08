@@ -48,9 +48,9 @@ public class DateFormatter {
         }
 
         int maxDay = switch (month) {
-            case 2 -> (isLeapYear(year)) ? 29 : 28;
-            case 4, 6, 9, 11 -> 30;
-            default -> 31;
+        case 2 -> (isLeapYear(year)) ? 29 : 28;
+        case 4, 6, 9, 11 -> 30;
+        default -> 31;
         };
         return day <= maxDay;
     }
