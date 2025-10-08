@@ -2,15 +2,15 @@ package internity.core;
 
 public class Internship {
     private String company;
+    private String role;
     private Date deadline;
-    private int salary;
-    private boolean isCompleted;
+    private int pay;
 
-    public Internship(String company, Date deadline, int salary) {
+    public Internship(String company, String role, Date deadline, int pay) {
         this.company = company;
+        this.role = role;
         this.deadline = deadline;
-        this.salary = salary;
-        isCompleted = false;
+        this.pay = pay;
     }
 
     public String getCompany() {
@@ -21,6 +21,14 @@ public class Internship {
         this.company = company;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Date getDeadline() {
         return deadline;
     }
@@ -29,19 +37,11 @@ public class Internship {
         this.deadline = deadline;
     }
 
-    public int getSalary() {
-        return salary;
+    public int getPay() {
+        return pay;
     }
 
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    public boolean isCompleted() {
-        return isCompleted;
-    }
-
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
+    public void setPay(int pay) {
+        this.pay = pay;
     }
 }
