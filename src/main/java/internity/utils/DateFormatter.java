@@ -32,4 +32,25 @@ public class DateFormatter {
             throw new InternityException("Date must contain only numbers (expected dd/MM/yyyy)");
         }
     }
+
+    private static boolean isValidDate(int day, int month, int year) {
+        if (month < 1 || month > 12) {
+            return false;
+        }
+
+        if (day < 1) {
+            return false;
+        }
+
+        int maxDay = switch (month) {
+            case 2 -> (isLeapYear(year)) ? 29 : 28;
+            case 4, 6, 9, 11 -> 30;
+            default -> 31;
+        };
+        return day <= maxDay;
+    }
+
+    private static boolean isLeapYear(int year) {
+        return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
+    }
 }
