@@ -20,4 +20,8 @@ public class InternityException extends Exception {
     public static InternityException unknownCommand(String message) {
         return new InternityException("Unknown command: " + message);
     }
+
+    public static InternityException invalidDateFormat() {
+        return new InternityException("Invalid date format. Expected dd/MM/yyyy (e.g., 08/10/2025)");
+    }
 }
