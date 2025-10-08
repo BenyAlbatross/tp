@@ -27,6 +27,11 @@ public class DateFormatter {
             int day = Integer.parseInt(parts[0]);
             int month = Integer.parseInt(parts[1]);
             int year = Integer.parseInt(parts[2]);
+
+            if (!isValidDate(day, month, year)) {
+                throw new InternityException("Invalid date: " + String.format("%02d/%02d/%04d", day, month, year));
+            }
+
             return new Date(day, month, year);
         } catch (NumberFormatException e) {
             throw new InternityException("Date must contain only numbers (expected dd/MM/yyyy)");
