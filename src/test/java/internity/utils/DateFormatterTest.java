@@ -1,0 +1,22 @@
+package internity.utils;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import internity.core.Date;
+import internity.core.InternityException;
+
+class DateFormatterTest {
+
+    @Test
+    void parse_validDate_dateObjectCreated() throws InternityException {
+        String input = "08/10/2025";
+        Date parsedDate = DateFormatter.parse(input);
+
+        assertNotNull(parsedDate, "Resulting Date object should not be null");
+        assertEquals(8, parsedDate.getDay(), "Day should match input");
+        assertEquals(10, parsedDate.getMonth(), "Month should match input");
+        assertEquals(2025, parsedDate.getYear(), "Year should match input");
+    }
+}
