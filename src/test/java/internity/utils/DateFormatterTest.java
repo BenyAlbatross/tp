@@ -79,4 +79,30 @@ class DateFormatterTest {
 
         assertEquals("Input cannot be null or blank", thrown.getMessage());
     }
+
+    @Test
+    void parse_impossibleDates_throwsException() {
+        String[] inputs = {
+                "31/02/2025", // February has max 28 days in 2025, so date is invalid
+                "29/02/2023", // 2023 is not a leap year, so Feb 29 is invalid
+                "99/99/2025", // Month 99 and day 99 are invalid
+                "00/01/2025", // Day 0 is invalid
+                "01/00/2025", // Month 0 is invalid
+                "32/01/2025"  // January has max 31 days, so date is invalid
+        };
+
+        for (String input : inputs) {
+            InternityException thrown = assertThrows(
+                    InternityException.class,
+                    () -> DateFormatter.parse(input),
+                    "Expected parse() to throw for input: " + input
+            );
+
+            assertEquals(
+                    "Invalid date: " + input,
+                    thrown.getMessage(),
+                    "Message mismatch for input: " + input
+            );
+        }
+    }
 }
