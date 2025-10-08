@@ -18,7 +18,7 @@ public class DateFormatter {
             throw InternityException.invalidDateFormat();
         }
 
-        String[] parts = dateString.split("/");
+        String[] parts = trimmed.split("/");
 
         if (parts.length != 3) {
             throw InternityException.invalidDateFormat();
@@ -29,7 +29,7 @@ public class DateFormatter {
             int year = Integer.parseInt(parts[2]);
 
             if (!isValidDate(day, month, year)) {
-                throw new InternityException("Invalid date: " + String.format("%02d/%02d/%04d", day, month, year));
+                throw new InternityException("Invalid date: " + trimmed);
             }
 
             return new Date(day, month, year);
