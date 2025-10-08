@@ -28,5 +28,55 @@ class DateFormatterTest {
                 () -> DateFormatter.parse(input),
                 "Expected parse() to throw exception, but it did not"
         );
+
+        assertEquals(
+                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                thrown.getMessage()
+        );
+    }
+
+    @Test
+    void parse_nonNumericalInput_throwsException() {
+        String input = "ab/cd/efgh";
+
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(input),
+                "Expected parse() to throw exception, but it did not"
+        );
+
+        assertEquals(
+                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                thrown.getMessage()
+        );
+    }
+
+    @Test
+    void parse_mixedAlphaNumericalInput_throwsException() {
+        String input = "12/xx/2025";
+
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(input),
+                "Expected parse() to throw exception, but it did not"
+        );
+
+        assertEquals(
+                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                thrown.getMessage()
+        );
+    }
+
+    @Test
+    void parse_blankInput_throwsException() {
+        String input = " ";
+
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(input),
+                "Expected parse() to throw exception, but it did not"
+        );
+
+        assertEquals("Input cannot be null or blank", thrown.getMessage());
     }
 }
