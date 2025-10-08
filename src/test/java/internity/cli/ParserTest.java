@@ -14,9 +14,10 @@ class ParserTest {
     @Test
     void parseInput_unknownCommand_throwException() {
         Parser parser = new Parser();
-        InternityException exception = assertThrows(InternityException.class, () -> {
-            parser.parseInput("Killer Queen");
-        });
+        InternityException exception = assertThrows(
+                InternityException.class,
+                () -> parser.parseInput("Killer Queen")
+        );
         assertEquals("Unknown command: killer", exception.getMessage());
     }
 
