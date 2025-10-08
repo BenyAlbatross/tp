@@ -1,14 +1,12 @@
 package internity.core;
 
-import java.time.LocalDate;
-
 public class Internship {
     private String company;
-    private LocalDate deadline;
+    private Date deadline;
     private int salary;
     private boolean isCompleted;
 
-    public Internship(String company, LocalDate deadline, int salary) {
+    public Internship(String company, Date deadline, int salary) {
         this.company = company;
         this.deadline = deadline;
         this.salary = salary;
@@ -23,11 +21,11 @@ public class Internship {
         this.company = company;
     }
 
-    public LocalDate getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
