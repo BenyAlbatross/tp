@@ -51,7 +51,7 @@ public class DateFormatter {
 
         String trimmed = dateString.trim();
 
-        // Check for an absolute dd/MM/yyyy format
+        // Check for an absolute dd-MM-yyyy format
         if (!trimmed.matches("\\d{2}-\\d{2}-\\d{4}")) {
             throw InternityException.invalidDateFormat();
         }
