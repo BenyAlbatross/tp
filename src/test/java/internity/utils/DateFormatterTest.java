@@ -13,7 +13,7 @@ class DateFormatterTest {
 
     @Test
     void parse_validDateFormat_dateObjectCreated() throws InternityException {
-        String input = "08/10/2025";
+        String input = "08-10-2025";
         Date parsedDate = DateFormatter.parse(input);
 
         assertNotNull(parsedDate, "Resulting Date object should not be null");
@@ -32,14 +32,14 @@ class DateFormatterTest {
         );
 
         assertEquals(
-                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                "Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)",
                 thrown.getMessage()
         );
     }
 
     @Test
     void parse_nonNumericalInput_throwsException() {
-        String input = "ab/cd/efgh";
+        String input = "ab-cd-efgh";
 
         InternityException thrown = assertThrows(
                 InternityException.class,
@@ -48,14 +48,14 @@ class DateFormatterTest {
         );
 
         assertEquals(
-                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                "Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)",
                 thrown.getMessage()
         );
     }
 
     @Test
     void parse_mixedAlphaNumericalInput_throwsException() {
-        String input = "12/xx/2025";
+        String input = "12-xx-2025";
 
         InternityException thrown = assertThrows(
                 InternityException.class,
@@ -64,7 +64,7 @@ class DateFormatterTest {
         );
 
         assertEquals(
-                "Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)",
+                "Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)",
                 thrown.getMessage()
         );
     }
@@ -85,12 +85,12 @@ class DateFormatterTest {
     @Test
     void parse_impossibleDates_throwsException() {
         String[] inputs = {
-            "31/02/2025", // February has max 28 days in 2025, so date is invalid
-            "29/02/2023", // 2023 is not a leap year, so Feb 29 is invalid
-            "99/99/2025", // Month 99 and day 99 are invalid
-            "00/01/2025", // Day 0 is invalid
-            "01/00/2025", // Month 0 is invalid
-            "32/01/2025"  // January has max 31 days, so date is invalid
+            "31-02-2025", // February has max 28 days in 2025, so date is invalid
+            "29-02-2023", // 2023 is not a leap year, so Feb 29 is invalid
+            "99-99-2025", // Month 99 and day 99 are invalid
+            "00-01-2025", // Day 0 is invalid
+            "01-00-2025", // Month 0 is invalid
+            "32-01-2025"  // January has max 31 days, so date is invalid
         };
 
         for (String input : inputs) {

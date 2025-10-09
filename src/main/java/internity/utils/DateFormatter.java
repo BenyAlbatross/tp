@@ -7,7 +7,7 @@ import internity.core.InternityException;
  * Utility class for parsing and validating date strings into {@link Date} objects.
  * <p>
  *     This class provides methods to convert string representations of the date in a strict
- *     {@code dd/MM/yyyy} format into a {@link Date} object. It also validates the input to ensure that
+ *     {@code dd-MM-yyyy} format into a {@link Date} object. It also validates the input to ensure that
  *     the provided date values correspond to actual valid calendar dates, including leap year cases.
  * </p>
  * <p>
@@ -21,13 +21,13 @@ public class DateFormatter {
     private DateFormatter() {}
 
     /**
-     * Parses a string representation of a date in the format {@code dd/MM/yyyy} into a
+     * Parses a string representation of a date in the format {@code dd-MM-yyyy} into a
      * {@link Date} object.
      *
      * <p>Valid date format conditions:</p>
      * <ul>
      *     <li>The input must not be {@code null} or blank.</li>
-     *     <li>The input must be in a {@code dd/MM/yyyy} format:
+     *     <li>The input must be in a {@code dd-MM-yyyy} format:
      *     <ul>
      *         <li>{@code dd} is a two-digit day (01-31)</li>
      *         <li>{@code MM} is a two-digit month (01-12)</li>
@@ -35,12 +35,12 @@ public class DateFormatter {
      *     </ul>
      *     </li>
      *     <li>
-     *         The date must represent a valid calendar date (e.g. 09/10/2025 is valid,
-     *         99/99/2025 is invalid).
+     *         The date must represent a valid calendar date (e.g. 09-10-2025 is valid,
+     *         99-99-2025 is invalid).
      *     </li>
      * </ul>
      *
-     * @param dateString the date string to parse, expected in {@code dd/MM/yyyy} format
+     * @param dateString the date string to parse, expected in {@code dd-MM-yyyy} format
      * @return a {@link Date} object representing the parsed date
      * @throws InternityException if the input is {@code null}, blank, has an invalid format or invalid date
      */
@@ -52,11 +52,11 @@ public class DateFormatter {
         String trimmed = dateString.trim();
 
         // Check for an absolute dd/MM/yyyy format
-        if (!trimmed.matches("\\d{2}/\\d{2}/\\d{4}")) {
+        if (!trimmed.matches("\\d{2}-\\d{2}-\\d{4}")) {
             throw InternityException.invalidDateFormat();
         }
 
-        String[] parts = trimmed.split("/");
+        String[] parts = trimmed.split("-");
 
         if (parts.length != 3) {
             throw InternityException.invalidDateFormat();
@@ -72,7 +72,7 @@ public class DateFormatter {
 
             return new Date(day, month, year);
         } catch (NumberFormatException e) {
-            throw new InternityException("Date must contain only numbers (expected dd/MM/yyyy)");
+            throw new InternityException("Date must contain only numbers (expected dd-MM-yyyy)");
         }
     }
 

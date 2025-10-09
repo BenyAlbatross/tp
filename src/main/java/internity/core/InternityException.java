@@ -22,6 +22,6 @@ public class InternityException extends Exception {
     }
 
     public static InternityException invalidDateFormat() {
-        return new InternityException("Invalid date format. Expected dd/MM/yyyy (e.g. 08/10/2025)");
+        return new InternityException("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)");
     }
 }
