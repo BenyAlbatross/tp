@@ -45,20 +45,9 @@ public class Parser {
         case "exit":
             return new ExitCommand();
         case "update":
-            return parseUpdateCommand(args);
+            return new UpdateCommand(internshipList, args);
         default:
             throw InternityException.unknownCommand(command);
-        }
-    }
-
-    private Command parseUpdateCommand(String args) throws InternityException {
-        try {
-            String[] splitArgs = args.split("\\s+status/");
-            int index = Integer.parseInt(splitArgs[0].trim()) - 1; 
-            String newStatus = splitArgs[1].trim();
-            return new UpdateCommand(internshipList, index, newStatus);
-        } catch (Exception e) {
-            throw new InternityException("Invalid update command format. Use: update INDEX status/NEW_STATUS");
         }
     }
 }
