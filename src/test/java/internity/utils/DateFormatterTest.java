@@ -24,7 +24,7 @@ class DateFormatterTest {
 
     @Test
     void parse_invalidDateFormat_throwsException() {
-        String input = "2025/10/08";
+        String input = "2025-10-08";
         InternityException thrown = assertThrows(
                 InternityException.class,
                 () -> DateFormatter.parse(input),
