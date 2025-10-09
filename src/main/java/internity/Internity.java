@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 import internity.cli.Parser;
 import internity.commands.Command;
-import internity.ui.Ui;
+import internity.core.InternshipList;
+import internity.ui.Ui; 
 
 public class Internity {
     public static void initInternity() {
@@ -13,7 +14,8 @@ public class Internity {
         Ui.printGreeting(in.nextLine());
         Ui.printHorizontalLine();
 
-        Parser parser = new Parser();
+        InternshipList internshipList = new InternshipList();
+        Parser parser = new Parser(internshipList);
         boolean isExit = false;
 
         while (!isExit && in.hasNextLine()) {

@@ -5,12 +5,14 @@ public class Internship {
     private String role;
     private Date deadline;
     private int pay;
+    private String status;
 
     public Internship(String company, String role, Date deadline, int pay) {
         this.company = company;
         this.role = role;
         this.deadline = deadline;
         this.pay = pay;
+        this.status = "Pending";
     }
 
     public String getCompany() {
@@ -43,5 +45,13 @@ public class Internship {
 
     public void setPay(int pay) {
         this.pay = pay;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
