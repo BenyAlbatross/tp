@@ -15,7 +15,7 @@ public class Internity {
         Ui.printHorizontalLine();
 
         InternshipList internshipList = new InternshipList();
-        Parser parser = new Parser(internshipList);
+        Parser parser = new Parser();
         boolean isExit = false;
 
         while (!isExit && in.hasNextLine()) {

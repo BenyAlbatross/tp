@@ -17,6 +17,7 @@ class DeleteCommandTest {
 
     @BeforeEach
     void setUp() {
+        InternshipList.clear();
         // Add some test internships
         InternshipList.add(new Internship("Google", "SWE Intern", new Date(1, 1, 2025), 5000));
         InternshipList.add(new Internship("Meta", "Backend Intern", new Date(15, 2, 2025), 6000));

@@ -52,4 +52,8 @@ public class InternshipList {
         System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
         return true;
     }
+
+    public static void clear() {
+        List.clear();
+    }
 }
