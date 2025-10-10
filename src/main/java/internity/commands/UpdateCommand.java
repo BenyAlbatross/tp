@@ -29,11 +29,9 @@ public class UpdateCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        boolean success = InternshipList.updateStatus(index, newStatus);
-        if (success) {
-            Ui.printUpdateInternship();
-        }
+    public void execute() throws InternityException {
+        InternshipList.updateStatus(index, newStatus);
+        Ui.printUpdateInternship();
     }
 
     @Override

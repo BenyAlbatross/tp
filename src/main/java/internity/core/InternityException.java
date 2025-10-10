@@ -28,4 +28,8 @@ public class InternityException extends Exception {
     public static InternityException invalidDeleteCommand() {
         return new InternityException("Invalid delete command. Usage: delete INDEX");
     }
+
+    public static InternityException invalidInternshipIndex() {
+        return new InternityException("Invalid internship index.");
+    }
 }

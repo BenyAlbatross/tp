@@ -12,10 +12,9 @@ import internity.core.Internship;
 import internity.core.InternshipList;
 
 class UpdateCommandTest {
-    private InternshipList internshipList;
-
     @BeforeEach
     void setUp() {
+        InternshipList.clear();
         InternshipList.add(new Internship("Google", "SWE Intern", new Date(15, 11, 2025), 8000));
     }
 
@@ -29,7 +28,7 @@ class UpdateCommandTest {
     @Test
     void execute_invalidIndex_doesNotUpdateStatus() throws InternityException {
         UpdateCommand command = new UpdateCommand("5 status/Rejected");
-        command.execute();
+        assertThrows(InternityException.class, command::execute);
         assertEquals("Pending", InternshipList.get(0).getStatus());
     }
 

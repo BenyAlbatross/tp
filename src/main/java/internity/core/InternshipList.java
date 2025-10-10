@@ -42,15 +42,13 @@ public class InternshipList {
         System.out.println("<PRINT ALL INTERNSHIPS>");
     }
 
-    public static boolean updateStatus(int index, String newStatus) {
+    public static void updateStatus(int index, String newStatus) throws InternityException {
         if (index < 0 || index >= List.size()) {
-            System.out.println("Invalid internship index.");
-            return false;
+            throw InternityException.invalidInternshipIndex();
         }
         Internship internship = List.get(index);
         internship.setStatus(newStatus);
         System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
-        return true;
     }
 
     public static void clear() {
