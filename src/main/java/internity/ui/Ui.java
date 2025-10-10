@@ -33,7 +33,11 @@ public class Ui {
 
     public static void printAddInternship() {}
 
-    public static void printRemoveInternship() {}
+    public static void printRemoveInternship(String item, int totalItems) {
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + item);
+        System.out.println("Now you have " + totalItems + " items in the list.");
+    }
 
     public static void printUpdateInternship() {
         System.out.println("Internship status updated successfully!");
