@@ -6,7 +6,7 @@ import internity.core.InternityException;
 
 /**
  * Parses raw user input into executable {@link Command} objects. <br>
- * The {@code Parser} is responsible for identifying the command keyword,
+ * The {@code CommandParser} is responsible for identifying the command keyword,
  * validating the input and constructing the instance of the
  * corresponding command.
  *
@@ -15,7 +15,7 @@ import internity.core.InternityException;
  *      <li>{@code exit} - exits the program</li>
  * </ul>
  */
-public class Parser {
+public class CommandParser {
     /**
      * Parses the given input string and returns the corresponding {@link Command}. <br>
      * The first token (before the first space) is treated as the command keyword.
