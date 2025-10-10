@@ -24,7 +24,10 @@ public class InternshipList {
     }
 
     // get an internship by index
-    public Internship get(int index){
+    public Internship get(int index) throws InternityException {
+        if (index < 0 || index >= List.size()) {
+            throw new InternityException("Invalid task number: " + (index + 1));
+        }
         return List.get(index);
     }
 
