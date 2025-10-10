@@ -31,11 +31,14 @@ public class InternshipList {
         System.out.println("<PRINT ALL INTERNSHIPS>");
     }
 
-    // update internship by index
-    public void update(int index) {
-        // ADD CODE HERE
-        Internship updateThis = List.get(index);
-        System.out.println("UPDATED INTERNSHIP WITH INDEX: "+ index);
+    public boolean updateStatus(int index, String newStatus) {
+        if (index < 0 || index >= List.size()) {
+            System.out.println("Invalid internship index.");
+            return false;
+        }
+        Internship internship = List.get(index);
+        internship.setStatus(newStatus);
+        System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
+        return true;
     }
-
 }

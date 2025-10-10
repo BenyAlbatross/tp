@@ -35,5 +35,8 @@ public class Ui {
 
     public static void printRemoveInternship() {}
 
-    public static void printUpdateInternship() {}
+    public static void printUpdateInternship() {
+        System.out.println("Internship status updated successfully!");
+    }
+
 }

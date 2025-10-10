@@ -3,6 +3,8 @@ package internity.cli;
 import internity.commands.ExitCommand;
 import internity.commands.Command;
 import internity.core.InternityException;
+import internity.commands.UpdateCommand;
+import internity.core.InternshipList;
 
 /**
  * Parses raw user input into executable {@link Command} objects. <br>
@@ -24,6 +26,12 @@ public class Parser {
      * @return a {@link Command} corresponding to the input
      * @throws InternityException if input is null or blank or unknown command is entered
      */
+    private final InternshipList internshipList;
+
+    public Parser(InternshipList internshipList) {
+        this.internshipList = internshipList;
+    }
+
     public Command parseInput(String input) throws InternityException {
         if (input == null || input.isBlank()) {
             throw InternityException.invalidInput();
@@ -36,6 +44,8 @@ public class Parser {
         switch (command) {
         case "exit":
             return new ExitCommand();
+        case "update":
+            return new UpdateCommand(internshipList, args);
         default:
             throw InternityException.unknownCommand(command);
         }
