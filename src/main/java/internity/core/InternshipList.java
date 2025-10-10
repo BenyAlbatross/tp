@@ -16,13 +16,21 @@ public class InternshipList {
     }
 
     // delete
-    public void delete(Internship item) {
-        List.remove(item);
+    public void delete(int index) throws InternityException {
+        if (index < 0 || index >= List.size()) {
+            throw new InternityException("Invalid task number: " + (index + 1));
+        }
+        List.remove(index);
     }
 
     // get an internship by index
     public Internship get(int index){
         return List.get(index);
+    }
+
+    // get size
+    public int size() {
+        return List.size();
     }
 
     // list all
