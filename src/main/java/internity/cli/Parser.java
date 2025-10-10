@@ -1,10 +1,8 @@
 package internity.cli;
 
-import internity.commands.ExitCommand;
+import internity.commands.CommandFactory;
 import internity.commands.Command;
 import internity.core.InternityException;
-import internity.commands.UpdateCommand;
-import internity.core.InternshipList;
 
 /**
  * Parses raw user input into executable {@link Command} objects. <br>
@@ -32,16 +30,10 @@ public class Parser {
         }
 
         String[] parts = input.trim().split("\\s+", 2);
-        String command = parts[0].toLowerCase();
+        String commandWord = parts[0].toLowerCase();
         String args = parts.length > 1 ? parts[1] : "";
 
-        switch (command) {
-        case "exit":
-            return new ExitCommand();
-        case "update":
-            return new UpdateCommand(args);
-        default:
-            throw InternityException.unknownCommand(command);
-        }
+        CommandFactory commandFactory = new CommandFactory();
+        return commandFactory.createCommand(commandWord, args);
     }
 }
