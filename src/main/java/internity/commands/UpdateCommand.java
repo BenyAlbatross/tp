@@ -11,7 +11,6 @@ import internity.ui.Ui;
  * update INDEX status/NEW_STATUS
  */
 public class UpdateCommand extends Command {
-    private final InternshipList internshipList;
     private final int index;
     private final String newStatus;
 
@@ -19,8 +18,7 @@ public class UpdateCommand extends Command {
      * Constructs an UpdateCommand from a raw argument string.
      * Example: "1 status/Accepted"
      */
-    public UpdateCommand(InternshipList internshipList, String args) throws InternityException {
-        this.internshipList = internshipList;
+    public UpdateCommand(String args) throws InternityException {
         try {
             String[] splitArgs = args.split("\\s+status/");
             this.index = Integer.parseInt(splitArgs[0].trim()) - 1;
@@ -32,7 +30,7 @@ public class UpdateCommand extends Command {
 
     @Override
     public void execute() {
-        boolean success = internshipList.updateStatus(index, newStatus);
+        boolean success = InternshipList.updateStatus(index, newStatus);
         if (success) {
             Ui.printUpdateInternship();
         }

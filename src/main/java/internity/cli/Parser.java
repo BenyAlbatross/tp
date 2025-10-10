@@ -18,13 +18,6 @@ import internity.core.InternshipList;
  * </ul>
  */
 public class Parser {
-
-    private final InternshipList internshipList;
-
-    public Parser(InternshipList internshipList) {
-        this.internshipList = internshipList;
-    }
-
     /**
      * Parses the given input string and returns the corresponding {@link Command}. <br>
      * The first token (before the first space) is treated as the command keyword.
@@ -46,7 +39,7 @@ public class Parser {
         case "exit":
             return new ExitCommand();
         case "update":
-            return new UpdateCommand(internshipList, args);
+            return new UpdateCommand(args);
         default:
             throw InternityException.unknownCommand(command);
         }
