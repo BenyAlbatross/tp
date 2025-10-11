@@ -2,13 +2,16 @@ package internity.commands;
 
 import internity.core.Date;
 import internity.core.InternityException;
+import internity.core.Internship;
+import internity.core.InternshipList;
+import internity.ui.Ui;
 import internity.utils.DateFormatter;
 
 public class AddCommand extends Command {
     private String company;
     private String role;
     private Date deadline;
-    private String pay;
+    private int pay;
 
     public AddCommand(String args) throws InternityException {
         extractArgs(args);
@@ -28,7 +31,7 @@ public class AddCommand extends Command {
                     case "company" -> company = value;
                     case "role" -> role = value;
                     case "deadline" -> deadline = DateFormatter.parse(value);
-                    case "pay" -> pay = value;
+                    case "pay" -> pay = Integer.parseInt(value);
                     default -> {
                         throw new InternityException("Error");
                     }
@@ -40,7 +43,11 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute() throws InternityException {}
+    public void execute() throws InternityException {
+        Internship internship = new Internship(company, role, deadline, pay);
+        InternshipList.add(internship);
+        Ui.printAddInternship();
+    }
 
     @Override
     public boolean isExit() {
