@@ -38,7 +38,7 @@ public class AddCommand extends Command {
                 }
             }
         } catch (Exception e) {
-            throw new InternityException("Error");
+            throw InternityException.invalidAddCommand();
         }
     }
 
