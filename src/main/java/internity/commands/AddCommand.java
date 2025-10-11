@@ -46,7 +46,7 @@ public class AddCommand extends Command {
     public void execute() throws InternityException {
         Internship internship = new Internship(company, role, deadline, pay);
         InternshipList.add(internship);
-        Ui.printAddInternship();
+        Ui.printAddInternship(internship);
     }
 
     @Override
