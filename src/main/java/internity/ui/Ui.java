@@ -37,7 +37,7 @@ public class Ui {
         System.out.println("Noted. I've added this internship:");
         System.out.println("  "
                 + internship.getCompany() + " - " + internship.getRole()
-                + ". Pay:" + internship.getPay()
+                + " | Pay: " + internship.getPay()
                 + " | Deadline: " + internship.getDeadline()
         );
     }

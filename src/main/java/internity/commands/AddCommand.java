@@ -71,9 +71,7 @@ public class AddCommand extends Command {
                     case "role" -> role = value;
                     case "deadline" -> deadline = DateFormatter.parse(value);
                     case "pay" -> pay = Integer.parseInt(value);
-                    default -> {
-                        throw InternityException.invalidAddCommand();
-                    }
+                    default -> throw InternityException.invalidAddCommand();
                 }
             }
         } catch (Exception e) {

@@ -27,7 +27,7 @@ public class InternityException extends Exception {
 
     public static InternityException invalidAddCommand() {
         return new InternityException("Invalid add command. Usage: add company/COMPANY_NAME" +
-                "role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT");
+                " role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT");
     }
 
     public static InternityException invalidDeleteCommand() {
