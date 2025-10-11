@@ -8,23 +8,22 @@ import org.junit.jupiter.api.Test;
 import internity.commands.Command;
 import internity.commands.ExitCommand;
 import internity.core.InternityException;
-import internity.core.InternshipList;
 
-class ParserTest {
+class CommandParserTest {
     @Test
     void parseInput_unknownCommand_throwException() {
-        Parser parser = new Parser(new InternshipList());
+        CommandParser commandParser = new CommandParser();
         InternityException exception = assertThrows(
                 InternityException.class,
-                () -> parser.parseInput("Killer Queen")
+                () -> commandParser.parseInput("Killer Queen")
         );
         assertEquals("Unknown command: killer", exception.getMessage());
     }
 
     @Test
     void parseInput_exit_returnsExitCommand() throws InternityException {
-        Parser parser = new Parser(new InternshipList());
-        Command command = parser.parseInput("exit");
+        CommandParser commandParser = new CommandParser();
+        Command command = commandParser.parseInput("exit");
         assertInstanceOf(ExitCommand.class, command);
     }
 }

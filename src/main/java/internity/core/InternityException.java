@@ -24,4 +24,12 @@ public class InternityException extends Exception {
     public static InternityException invalidDateFormat() {
         return new InternityException("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)");
     }
+
+    public static InternityException invalidDeleteCommand() {
+        return new InternityException("Invalid delete command. Usage: delete INDEX");
+    }
+
+    public static InternityException invalidInternshipIndex() {
+        return new InternityException("Invalid internship index.");
+    }
 }

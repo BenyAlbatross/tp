@@ -6,25 +6,23 @@ import internity.core.InternshipList;
 import internity.ui.Ui;
 
 public class DeleteCommand extends Command {
-    private final InternshipList internshipList;
     private final int index;
 
-    public DeleteCommand(InternshipList internshipList, int index) {
-        this.internshipList = internshipList;
+    public DeleteCommand(int index) {
         this.index = index;
     }
 
     @Override
     public void execute() throws InternityException {
         // Get the internship before deleting to display its info
-        Internship internship = internshipList.get(index);
+        Internship internship = InternshipList.get(index);
         String internshipInfo = internship.getCompany() + " - " + internship.getRole();
 
         // Delete the internship
-        internshipList.delete(index);
+        InternshipList.delete(index);
 
         // Get the new size after deletion
-        int totalItems = internshipList.size();
+        int totalItems = InternshipList.size();
 
         // Print the removal message
         Ui.printRemoveInternship(internshipInfo, totalItems);

@@ -2,7 +2,7 @@ package internity;
 
 import java.util.Scanner;
 
-import internity.cli.Parser;
+import internity.cli.CommandParser;
 import internity.commands.Command;
 import internity.core.InternshipList;
 import internity.ui.Ui; 
@@ -15,14 +15,14 @@ public class Internity {
         Ui.printHorizontalLine();
 
         InternshipList internshipList = new InternshipList();
-        Parser parser = new Parser(internshipList);
+        CommandParser commandParser = new CommandParser();
         boolean isExit = false;
 
         while (!isExit && in.hasNextLine()) {
             String input = in.nextLine();
             Ui.printHorizontalLine();
             try {
-                Command command = parser.parseInput(input);
+                Command command = commandParser.parseInput(input);
                 command.execute();
                 isExit = command.isExit();
             } catch (Exception e) {

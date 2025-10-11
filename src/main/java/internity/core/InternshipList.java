@@ -3,20 +3,20 @@ package internity.core;
 import java.util.ArrayList;
 
 public class InternshipList {
-    private final ArrayList<Internship> List;
+    private static final ArrayList<Internship> List = new ArrayList<>();
 
     // constructor
     public InternshipList() {
-        List = new ArrayList<>();
+
     }
 
     // add
-    public void add(Internship item) {
+    public static void add(Internship item) {
         List.add(item);
     }
 
     // delete
-    public void delete(int index) throws InternityException {
+    public static void delete(int index) throws InternityException {
         if (index < 0 || index >= List.size()) {
             throw new InternityException("Invalid task number: " + (index + 1));
         }
@@ -24,7 +24,7 @@ public class InternshipList {
     }
 
     // get an internship by index
-    public Internship get(int index) throws InternityException {
+    public static Internship get(int index) throws InternityException {
         if (index < 0 || index >= List.size()) {
             throw new InternityException("Invalid task number: " + (index + 1));
         }
@@ -32,24 +32,26 @@ public class InternshipList {
     }
 
     // get size
-    public int size() {
+    public static int size() {
         return List.size();
     }
 
     // list all
-    public void listAll() {
+    public static void listAll() {
         // ADD CODE HERE
         System.out.println("<PRINT ALL INTERNSHIPS>");
     }
 
-    public boolean updateStatus(int index, String newStatus) {
+    public static void updateStatus(int index, String newStatus) throws InternityException {
         if (index < 0 || index >= List.size()) {
-            System.out.println("Invalid internship index.");
-            return false;
+            throw InternityException.invalidInternshipIndex();
         }
         Internship internship = List.get(index);
         internship.setStatus(newStatus);
         System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
-        return true;
+    }
+
+    public static void clear() {
+        List.clear();
     }
 }

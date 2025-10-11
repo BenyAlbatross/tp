@@ -12,38 +12,36 @@ import internity.core.Internship;
 import internity.core.InternshipList;
 
 class UpdateCommandTest {
-    private InternshipList internshipList;
-
     @BeforeEach
     void setUp() {
-        internshipList = new InternshipList();
-        internshipList.add(new Internship("Google", "SWE Intern", new Date(15, 11, 2025), 8000));
+        InternshipList.clear();
+        InternshipList.add(new Internship("Google", "SWE Intern", new Date(15, 11, 2025), 8000));
     }
 
     @Test
     void execute_validArgs_updatesStatusSuccessfully() throws InternityException {
-        UpdateCommand command = new UpdateCommand(internshipList, "1 status/Accepted");
+        UpdateCommand command = new UpdateCommand("1 status/Accepted");
         command.execute();
-        assertEquals("Accepted", internshipList.get(0).getStatus());
+        assertEquals("Accepted", InternshipList.get(0).getStatus());
     }
 
     @Test
     void execute_invalidIndex_doesNotUpdateStatus() throws InternityException {
-        UpdateCommand command = new UpdateCommand(internshipList, "5 status/Rejected");
-        command.execute();
-        assertEquals("Pending", internshipList.get(0).getStatus());
+        UpdateCommand command = new UpdateCommand("5 status/Rejected");
+        assertThrows(InternityException.class, command::execute);
+        assertEquals("Pending", InternshipList.get(0).getStatus());
     }
 
     @Test
     void constructor_invalidFormat_throwsException() {
         assertThrows(InternityException.class, () ->
-            new UpdateCommand(internshipList, "1 Accepted")
+            new UpdateCommand("1 Accepted")
         );
     }
 
     @Test
     void isExit_always_returnsFalse() throws InternityException {
-        UpdateCommand command = new UpdateCommand(internshipList, "1 status/Accepted");
+        UpdateCommand command = new UpdateCommand("1 status/Accepted");
         assertFalse(command.isExit());
     }
 }
