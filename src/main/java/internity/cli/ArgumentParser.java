@@ -14,10 +14,6 @@ public final class ArgumentParser {
         try {
             int oneBasedIndex = Integer.parseInt(args.trim());
 
-            if (oneBasedIndex <= 0) {
-                throw new InternityException("Index must be a positive integer.");
-            }
-
             int zeroBasedIndex = oneBasedIndex - 1;
 
             return new DeleteCommand(zeroBasedIndex);
