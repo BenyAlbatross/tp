@@ -67,11 +67,11 @@ public class AddCommand extends Command {
                 String value = part.contains("/") ? part.substring(part.indexOf("/") + 1).trim() : "";
 
                 switch (key) {
-                    case "company" -> company = value;
-                    case "role" -> role = value;
-                    case "deadline" -> deadline = DateFormatter.parse(value);
-                    case "pay" -> pay = Integer.parseInt(value);
-                    default -> throw InternityException.invalidAddCommand();
+                case "company" -> company = value;
+                case "role" -> role = value;
+                case "deadline" -> deadline = DateFormatter.parse(value);
+                case "pay" -> pay = Integer.parseInt(value);
+                default -> throw InternityException.invalidAddCommand();
                 }
             }
         } catch (Exception e) {
