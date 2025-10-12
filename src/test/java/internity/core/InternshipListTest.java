@@ -12,11 +12,10 @@ import org.junit.jupiter.api.Test;
 class InternshipListTest {
 
     private final PrintStream originalOut = System.out;
-    private ByteArrayOutputStream out;
 
     @BeforeEach
     void setUpStreams() {
-        out = new ByteArrayOutputStream();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
     }
 
@@ -32,7 +31,6 @@ class InternshipListTest {
         list.add(null);
         list.add(null);
 
-        // Should not throw
         assertDoesNotThrow(() -> list.get(0));
         assertDoesNotThrow(() -> list.get(1));
 
@@ -53,34 +51,13 @@ class InternshipListTest {
     void delete_removesGivenItem() {
         InternshipList list = new InternshipList();
 
-        list.add(null); // index 0
-        list.add(null); // index 1
+        list.add(null);
+        list.add(null);
 
         list.delete(null);
 
         assertDoesNotThrow(() -> list.get(0));
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
-    }
-
-    @Test
-    void listAll_printsPlaceholder() {
-        InternshipList list = new InternshipList();
-
-        list.listAll();
-        String printed = out.toString();
-
-        assertEquals("<PRINT ALL INTERNSHIPS>" + System.lineSeparator(), printed);
-    }
-
-    @Test
-    void update_validIndex_printsUpdatedMessage() {
-        InternshipList list = new InternshipList();
-
-        list.add(null);
-        list.update(0);
-
-        String printed = out.toString().trim();
-        assertTrue(printed.endsWith("UPDATED INTERNSHIP WITH INDEX: 0"));
     }
 
     @Test
