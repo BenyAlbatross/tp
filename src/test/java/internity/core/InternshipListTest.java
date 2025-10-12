@@ -25,45 +25,37 @@ class InternshipListTest {
     }
 
     @Test
-    void add_thenGet_returnsItemAtIndex() {
-        InternshipList list = new InternshipList();
+    void add_thenGet_returnsItemAtIndex() throws InternityException {
+        InternshipList.add(null);
+        InternshipList.add(null);
 
-        list.add(null);
-        list.add(null);
+        assertDoesNotThrow(() -> InternshipList.get(0));
+        assertDoesNotThrow(() -> InternshipList.get(1));
 
-        assertDoesNotThrow(() -> list.get(0));
-        assertDoesNotThrow(() -> list.get(1));
-
-        assertNull(list.get(0));
-        assertNull(list.get(1));
+        assertNull(InternshipList.get(0));
+        assertNull(InternshipList.get(1));
     }
 
     @Test
     void get_invalidIndex_throwsIndexOutOfBoundsException() {
-        InternshipList list = new InternshipList();
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
-        list.add(null);
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
+        InternshipList.clear();
+
+        assertThrows(InternityException.class, () -> InternshipList.get(0));
+        InternshipList.add(null);
+        assertThrows(InternityException.class, () -> InternshipList.get(1));
+        assertThrows(InternityException.class, () -> InternshipList.get(-1));
     }
 
     @Test
-    void delete_removesGivenItem() {
-        InternshipList list = new InternshipList();
+    void delete_removesGivenItem() throws InternityException {
+        InternshipList.clear();
 
-        list.add(null);
-        list.add(null);
+        InternshipList.add(null);
+        InternshipList.add(null);
 
-        list.delete(null);
+        InternshipList.delete(0);
 
-        assertDoesNotThrow(() -> list.get(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
-    }
-
-    @Test
-    void update_invalidIndex_throwsIndexOutOfBoundsException() {
-        InternshipList list = new InternshipList();
-        assertThrows(IndexOutOfBoundsException.class, () -> list.update(0));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.update(-1));
+        assertDoesNotThrow(() -> InternshipList.get(0));
+        assertThrows(InternityException.class, () -> InternshipList.get(1));
     }
 }
