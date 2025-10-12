@@ -3,33 +3,49 @@ package internity.core;
 import java.util.ArrayList;
 
 public class InternshipList {
-    private final ArrayList<Internship> List;
+    private static final ArrayList<Internship> List = new ArrayList<>();
 
     public InternshipList() {
-        List = new ArrayList<>();
+
     }
 
-    public void add(Internship item) {
+    public static void add(Internship item) {
         List.add(item);
     }
 
-    public void delete(Internship item) {
-        List.remove(item);
+    public static void delete(int index) throws InternityException {
+        if (index < 0 || index >= List.size()) {
+            throw new InternityException("Invalid task number: " + (index + 1));
+        }
+        List.remove(index);
     }
 
-    public Internship get(int index){
+    public static Internship get(int index) throws InternityException {
+        if (index < 0 || index >= List.size()) {
+            throw new InternityException("Invalid task number: " + (index + 1));
+        }
         return List.get(index);
     }
 
-    public void listAll() {
+    public static int size() {
+        return List.size();
+    }
+
+    public static void listAll() {
         // ADD CODE HERE
         System.out.println("<PRINT ALL INTERNSHIPS>");
     }
 
-    public void update(int index) {
-        // ADD CODE HERE
-        Internship updateThis = List.get(index);
-        System.out.println("UPDATED INTERNSHIP WITH INDEX: "+ index);
+    public static void updateStatus(int index, String newStatus) throws InternityException {
+        if (index < 0 || index >= List.size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship internship = List.get(index);
+        internship.setStatus(newStatus);
+        System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
     }
 
+    public static void clear() {
+        List.clear();
+    }
 }

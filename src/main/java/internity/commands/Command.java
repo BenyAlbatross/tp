@@ -1,5 +1,7 @@
 package internity.commands;
 
+import internity.core.InternityException;
+
 /**
  * Represents an abstract command in the system. <br>
  * Each user instruction (e.g. {@code add}, {@code delete}, {@code list})
@@ -19,7 +21,7 @@ public abstract class Command {
     /**
      * Executes the action associated with this command.
      */
-    public abstract void execute();
+    public abstract void execute() throws InternityException;
 
     /**
      * Determines whether this command signals program termination.
