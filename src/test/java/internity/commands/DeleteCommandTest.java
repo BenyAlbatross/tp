@@ -46,7 +46,7 @@ class DeleteCommandTest {
 
         // Act & Assert
         InternityException exception = assertThrows(InternityException.class, command::execute);
-        assertEquals("Invalid task number: 0", exception.getMessage());
+        assertEquals("Invalid internship index: 0", exception.getMessage());
     }
 
     @Test
@@ -56,7 +56,7 @@ class DeleteCommandTest {
 
         // Act & Assert
         InternityException exception = assertThrows(InternityException.class, command::execute);
-        assertEquals("Invalid task number: 11", exception.getMessage());
+        assertEquals("Invalid internship index: 11", exception.getMessage());
     }
 
     @Test
