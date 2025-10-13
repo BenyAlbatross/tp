@@ -5,7 +5,6 @@ import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
 import internity.ui.Ui;
-import internity.utils.DateFormatter;
 
 /**
  * Represents a command that adds a new {@link Internship} entry to the {@link InternshipList}.

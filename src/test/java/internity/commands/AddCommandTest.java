@@ -25,9 +25,9 @@ class AddCommandTest {
      * and adds a new internship to the InternshipList.
      */
     @Test
-    void execute_validInput_addsInternshipSuccessfully() throws InternityException, InternityException {
-        String input = "add company/Google role/Software Engineer deadline/01-12-2025 pay/120000";
-        AddCommand command = ArgumentParser.parseAddCommandArgs(input);
+    void execute_validInput_addsInternshipSuccessfully() throws InternityException {
+        String args = "company/Google role/Software Engineer deadline/01-12-2025 pay/120000";
+        AddCommand command = ArgumentParser.parseAddCommandArgs(args);
         command.execute();
 
         // Validate that one internship was added
@@ -45,9 +45,9 @@ class AddCommandTest {
      */
     @Test
     void execute_missingField_throwsException() {
-        String input = "add company/Google role/Software Engineer pay/1000"; // missing deadline
+        String args = "company/Google role/Software Engineer pay/1000"; // missing deadline
 
-        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(input),
+        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(args),
                 "Expected InternityException when deadline field is missing");
     }
 
@@ -55,10 +55,10 @@ class AddCommandTest {
      * Tests that the command throws an exception for invalid pay values.
      */
     @Test
-    void execute_invalidPay_throwsException() throws InternityException {
-        String input = "add company/Amazon role/Data Analyst deadline/01-12-2025 pay/notANumber";
+    void execute_invalidPay_throwsException() {
+        String args = "company/Amazon role/Data Analyst deadline/01-12-2025 pay/notANumber";
 
-        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(input),
+        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(args),
                 "Expected InternityException for non-numeric pay");
     }
 
@@ -67,8 +67,8 @@ class AddCommandTest {
      */
     @Test
     void isExit_returnsFalse() throws InternityException {
-        String input = "add company/Test role/Tester deadline/01-01-2026 pay/1000";
-        AddCommand command = ArgumentParser.parseAddCommandArgs(input);
+        String args = "add company/Test role/Tester deadline/01-01-2026 pay/1000";
+        AddCommand command = ArgumentParser.parseAddCommandArgs(args);
         assertFalse(command.isExit(), "AddCommand should not terminate the application");
     }
 }
