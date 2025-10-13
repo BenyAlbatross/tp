@@ -37,4 +37,8 @@ public class InternityException extends Exception {
     public static InternityException invalidInternshipIndex() {
         return new InternityException("Invalid internship index.");
     }
+
+    public static InternityException invalidListCommand() {
+        return new InternityException("Invalid list command. Usage: list");
+    }
 }

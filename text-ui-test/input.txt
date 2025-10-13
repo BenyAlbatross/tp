@@ -2,4 +2,33 @@ Homeless SoC Student
 HELLO
 hElLo
 HELLO WORLD
+add company/Google role/Janitor deadline/10-10-2025 pay/100
+list
+add company/Meta role/Dishwasher deadline/01-01-2039 pay/1
+list
+add company/Meta role/Full Stack Engineer deadline/01-01-2090 pay/10000
+list
+add company/Speedwagon Foundation role/Researcher deadline/99-99-2030 pay/100
+list
+add company/ role/ deadline/ pay/
+list
+add company/role/deadline/pay
+list
+update 1 status/Sacked
+list
+update 2 status/Laid off
+list
+update 3 status/No response
+list
+delete 0
+list
+delete -111
+list
+delete 100000
+list
+delete 1
+list
+delete 2
+list
+delete 3
 exit
