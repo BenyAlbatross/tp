@@ -13,7 +13,7 @@ public class CommandFactory {
         case "update":
             return ArgumentParser.parseUpdateCommandArgs(args);
         case "list":
-            return ArgumentParser.parseListCommandArgs(args);
+            return new ListCommand();
         case "exit":
             return new ExitCommand();
         default:
