@@ -8,28 +8,29 @@ import internity.core.InternityException;
 import internity.utils.DateFormatter;
 
 public final class ArgumentParser {
-    private ArgumentParser() {} // prevent instantiation
+    private ArgumentParser() {
+    } // prevent instantiation
 
     public static AddCommand parseAddCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
             throw InternityException.invalidAddCommand();
         }
 
-        String company;
-        String role;
-        Date deadline;
-        int pay;
+        String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
 
-        try {
-            String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-            company = parts[0].substring(parts[0].indexOf("/") + 1).trim();
-            role = parts[1].substring(parts[1].indexOf("/") + 1).trim();
-            deadline = DateFormatter.parse(parts[2].substring(parts[2].indexOf("/") + 1).trim());
-            pay = Integer.parseInt(parts[3].substring(parts[3].indexOf("/") + 1).trim());
-            return new AddCommand(company, role, deadline, pay);
-        } catch (Exception e) {
+        if (parts.length != 4 ||
+                !parts[0].startsWith("company/") ||
+                !parts[1].startsWith("role/") ||
+                !parts[2].startsWith("deadline/") ||
+                !parts[3].startsWith("pay/")) {
             throw InternityException.invalidAddCommand();
         }
+
+        String company = parts[0].substring("company/".length()).trim();
+        String role = parts[1].substring("role/".length()).trim();
+        Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
+        int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
+        return new AddCommand(company, role, deadline, pay);
     }
 
     public static DeleteCommand parseDeleteCommandArgs(String args) throws InternityException {
