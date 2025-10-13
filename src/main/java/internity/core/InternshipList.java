@@ -17,14 +17,14 @@ public class InternshipList {
 
     public static void delete(int index) throws InternityException {
         if (index < 0 || index >= List.size()) {
-            throw new InternityException("Invalid task number: " + (index + 1));
+            throw new InternityException("Invalid internship index: " + (index + 1));
         }
         List.remove(index);
     }
 
     public static Internship get(int index) throws InternityException {
         if (index < 0 || index >= List.size()) {
-            throw new InternityException("Invalid task number: " + (index + 1));
+            throw new InternityException("Invalid internship index: " + (index + 1));
         }
         return List.get(index);
     }
