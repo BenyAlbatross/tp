@@ -31,6 +31,9 @@ public final class ArgumentParser {
             String role = parts[1].substring("role/".length()).trim();
             Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
             int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
+            if (company.isEmpty() || role.isEmpty() || pay < 0) {
+                throw InternityException.invalidAddCommand();
+            }
             return new AddCommand(company, role, deadline, pay);
         } catch (Exception e){
             throw InternityException.invalidAddCommand();
