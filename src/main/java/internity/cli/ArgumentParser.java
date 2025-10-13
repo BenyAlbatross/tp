@@ -35,7 +35,7 @@ public final class ArgumentParser {
                 throw InternityException.invalidAddCommand();
             }
             return new AddCommand(company, role, deadline, pay);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw InternityException.invalidAddCommand();
         }
     }
