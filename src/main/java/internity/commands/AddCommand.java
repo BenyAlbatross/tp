@@ -12,11 +12,11 @@ import internity.utils.DateFormatter;
  * <p>
  * The command parses a user input string in the following format:
  * <pre>
- *     add company/COMPANY_NAME role/ROLE_NAME deadline/YYYY-MM-DD pay/PAY_AMOUNT
+ *     add company/COMPANY_NAME role/ROLE_NAME deadline/DD-MM-YYYY pay/PAY_AMOUNT
  * </pre>
  * Example:
  * <pre>
- *     add company/Google role/Software Engineer deadline/2025-09-17 pay/120000
+ *     add company/Google role/Software Engineer deadline/17-09-2025 pay/120000
  * </pre>
  * </p>
  *
@@ -31,52 +31,18 @@ public class AddCommand extends Command {
     private int pay;
 
     /**
-     * Constructs an {@code AddCommand} and extracts and parses arguments
-     * from the provided user input string.
+     * Constructs an {@code AddCommand} with the specified internship details.
      *
-     * @param args the raw user input containing internship details
-     * @throws InternityException if the command format is invalid or a parsing error occurs
+     * @param company  the name of the company offering the internship
+     * @param role     the internship role or position
+     * @param deadline the application deadline for the internship
+     * @param pay      the monthly pay or stipend for the internship
      */
-    public AddCommand(String args) throws InternityException {
-        extractArgs(args);
-    }
-
-    /**
-     * Extracts field values from the user input string using predefined prefixes:
-     * {@code company/}, {@code role/}, {@code deadline/}, {@code pay/}.
-     * <p>
-     * The method splits the input string using a lookahead regular expression to detect
-     * the start of each field, then assigns values to corresponding instance variables.
-     * </p>
-     *
-     * <p><b>Example Input:</b><br>
-     * {@code company/Google role/Software Engineer deadline/01-12-2025 pay/120000}
-     * </p>
-     *
-     * @param args the user input string containing internship details
-     * @throws InternityException if any field is missing, invalid, or cannot be parsed
-     */
-    private void extractArgs(String args) throws InternityException {
-        try {
-            String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-
-            for (String part : parts) {
-                part = part.trim();
-
-                String key = part.contains("/") ? part.substring(0, part.indexOf("/")) : "";
-                String value = part.contains("/") ? part.substring(part.indexOf("/") + 1).trim() : "";
-
-                switch (key) {
-                case "company" -> company = value;
-                case "role" -> role = value;
-                case "deadline" -> deadline = DateFormatter.parse(value);
-                case "pay" -> pay = Integer.parseInt(value);
-                default -> throw InternityException.invalidAddCommand();
-                }
-            }
-        } catch (Exception e) {
-            throw InternityException.invalidAddCommand();
-        }
+    public AddCommand(String company, String role, Date deadline, int pay) {
+        this.company = company;
+        this.role = role;
+        this.deadline = deadline;
+        this.pay = pay;
     }
 
     /**

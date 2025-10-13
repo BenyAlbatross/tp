@@ -3,6 +3,8 @@ package internity.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import internity.cli.ArgumentParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,7 @@ class AddCommandTest {
     @Test
     void execute_validInput_addsInternshipSuccessfully() throws InternityException, InternityException {
         String input = "add company/Google role/Software Engineer deadline/01-12-2025 pay/120000";
-        AddCommand command = new AddCommand(input);
+        AddCommand command = ArgumentParser.parseAddCommandArgs(input);
         command.execute();
 
         // Validate that one internship was added
@@ -45,7 +47,7 @@ class AddCommandTest {
     void execute_missingField_throwsException() {
         String input = "add company/Google role/Software Engineer pay/1000"; // missing deadline
 
-        assertThrows(InternityException.class, () -> new AddCommand(input),
+        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(input),
                 "Expected InternityException when deadline field is missing");
     }
 
@@ -53,10 +55,10 @@ class AddCommandTest {
      * Tests that the command throws an exception for invalid pay values.
      */
     @Test
-    void execute_invalidPay_throwsException() {
+    void execute_invalidPay_throwsException() throws InternityException {
         String input = "add company/Amazon role/Data Analyst deadline/01-12-2025 pay/notANumber";
 
-        assertThrows(InternityException.class, () -> new AddCommand(input),
+        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(input),
                 "Expected InternityException for non-numeric pay");
     }
 
@@ -65,7 +67,8 @@ class AddCommandTest {
      */
     @Test
     void isExit_returnsFalse() throws InternityException {
-        AddCommand command = new AddCommand("add company/Test role/Tester deadline/01-01-2026 pay/1000");
+        String input = "add company/Test role/Tester deadline/01-01-2026 pay/1000";
+        AddCommand command = ArgumentParser.parseAddCommandArgs(input);
         assertFalse(command.isExit(), "AddCommand should not terminate the application");
     }
 }
