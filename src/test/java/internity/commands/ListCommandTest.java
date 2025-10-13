@@ -34,8 +34,8 @@ class ListCommandTest {
     @Test
     void execute_whenNoEntries_printsNoInternshipsFound() throws InternityException {
         InternshipList.clear();
-        ListCommand ListCommand = new ListCommand();
-        ListCommand.execute();
+        ListCommand listCommand = new ListCommand();
+        listCommand.execute();
 
         assertEquals("No internships found. Please add an internship first.", outContent.toString());
     }
@@ -43,15 +43,15 @@ class ListCommandTest {
     @Test
     void execute_withEntry_doesNotPrintNoInternshipsFound() throws InternityException {
         InternshipList.add(null); // dummy entry
-        ListCommand ListCommand = new ListCommand();
-        ListCommand.execute();
+        ListCommand listCommand = new ListCommand();
+        listCommand.execute();
 
         assertFalse(outContent.toString().contains("No internships found. Please add an internship first."));
     }
 
     @Test
     void execute_doesNotThrow() {
-        ListCommand ListCommand = new ListCommand();
-        assertDoesNotThrow(ListCommand::execute);
+        ListCommand listCommand = new ListCommand();
+        assertDoesNotThrow(listCommand::execute);
     }
 }
