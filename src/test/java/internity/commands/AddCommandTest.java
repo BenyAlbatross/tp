@@ -36,7 +36,7 @@ class AddCommandTest {
         Internship added = InternshipList.get(0);
         assertEquals("Google", added.getCompany());
         assertEquals("Software Engineer", added.getRole());
-        assertEquals(DateFormatter.parse("01-12-2025"), added.getDeadline());
+        assertEquals(DateFormatter.parse("01-12-2025").toString(), added.getDeadline().toString());
         assertEquals(120000, added.getPay());
     }
 
@@ -67,7 +67,7 @@ class AddCommandTest {
      */
     @Test
     void isExit_returnsFalse() throws InternityException {
-        String args = "add company/Test role/Tester deadline/01-01-2026 pay/1000";
+        String args = "company/Test role/Tester deadline/01-01-2026 pay/1000";
         AddCommand command = ArgumentParser.parseAddCommandArgs(args);
         assertFalse(command.isExit(), "AddCommand should not terminate the application");
     }
