@@ -7,10 +7,10 @@ import internity.core.Internship;
  * Handles printing messages.
  */
 public class Ui {
-    static final String line = "____________________________________________________________\n";
+    static final String LINE = "____________________________________________________________\n";
 
     public static void printHorizontalLine() {
-        System.out.print(line);
+        System.out.print(LINE);
     }
 
     public static void printWelcomeMessage() {
