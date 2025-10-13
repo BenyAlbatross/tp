@@ -2,6 +2,7 @@ package internity.cli;
 
 import internity.commands.AddCommand;
 import internity.commands.DeleteCommand;
+import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
 import internity.core.Date;
 import internity.core.InternityException;
@@ -67,5 +68,9 @@ public final class ArgumentParser {
             throw new InternityException("Invalid update command format. Use: update INDEX status/NEW_STATUS");
         }
         return new UpdateCommand(zeroBasedIndex, newStatus);
+    }
+
+    public static ListCommand parseListCommandArgs(String args) throws InternityException {
+        return new ListCommand();
     }
 }
