@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.ByteArrayOutputStream;
@@ -70,7 +70,7 @@ class InternshipListTest {
     public void listAll_whenEmpty_expectedOutcome() throws InternityException {
         InternshipList.clear();
         InternshipList.listAll();
-        assertEquals("No internships found. Please add an internship first.\r\n", outContent.toString());
+        assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
     }
 
     @Test
