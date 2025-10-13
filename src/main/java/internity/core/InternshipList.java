@@ -33,7 +33,6 @@ public class InternshipList {
 
     // list all
     public static void listAll() throws InternityException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         if (InternshipList.isEmpty()) {
             System.out.println("No internships found. Please add an internship first.");
