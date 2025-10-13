@@ -10,7 +10,7 @@ import internity.core.InternshipList;
  * Command format:
  * {@code list}
  */
-public class listCommand extends Command {
+public class ListCommand extends Command {
     /**
      * Executes the {@code list} command.
      * <p>
