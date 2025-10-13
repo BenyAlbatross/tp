@@ -1,5 +1,7 @@
 package internity.core;
 
+import internity.ui.Ui;
+
 import java.util.ArrayList;
 
 public class InternshipList {
@@ -39,8 +41,9 @@ public class InternshipList {
             return;
         }
 
-        System.out.printf("%-5s %-15s %-15s %-15s %-10s %-10s%n", "No.", "Company", "Role", "Deadline", "Pay", "Status");
-        System.out.println("---------------------------------------------------------------");
+        System.out.printf("%-5s %-15s %-15s %-15s %-10s %-10s%n",
+                "No.", "Company", "Role", "Deadline", "Pay", "Status");
+        Ui.printHorizontalLine();
         for (int i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
             System.out.printf("%-5d %-15s %-15s %-15s %-10d %-10s%n",
