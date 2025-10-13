@@ -16,21 +16,25 @@ public final class ArgumentParser {
             throw InternityException.invalidAddCommand();
         }
 
-        String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
+        try {
+            String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
 
-        if (parts.length != 4 ||
-                !parts[0].startsWith("company/") ||
-                !parts[1].startsWith("role/") ||
-                !parts[2].startsWith("deadline/") ||
-                !parts[3].startsWith("pay/")) {
+            if (parts.length != 4 ||
+                    !parts[0].startsWith("company/") ||
+                    !parts[1].startsWith("role/") ||
+                    !parts[2].startsWith("deadline/") ||
+                    !parts[3].startsWith("pay/")) {
+                throw InternityException.invalidAddCommand();
+            }
+
+            String company = parts[0].substring("company/".length()).trim();
+            String role = parts[1].substring("role/".length()).trim();
+            Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
+            int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
+            return new AddCommand(company, role, deadline, pay);
+        } catch (Exception e){
             throw InternityException.invalidAddCommand();
         }
-
-        String company = parts[0].substring("company/".length()).trim();
-        String role = parts[1].substring("role/".length()).trim();
-        Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
-        int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
-        return new AddCommand(company, role, deadline, pay);
     }
 
     public static DeleteCommand parseDeleteCommandArgs(String args) throws InternityException {
