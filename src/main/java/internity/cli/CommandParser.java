@@ -1,5 +1,8 @@
 package internity.cli;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import internity.commands.CommandFactory;
 import internity.commands.Command;
 import internity.core.InternityException;
@@ -16,6 +19,12 @@ import internity.core.InternityException;
  * </ul>
  */
 public class CommandParser {
+    private static final Logger logger = Logger.getLogger(CommandParser.class.getName());
+
+    static {
+        logger.setLevel(Level.WARNING);
+    }
+
     /**
      * Parses the given input string and returns the corresponding {@link Command}. <br>
      * The first token (before the first space) is treated as the command keyword.
@@ -36,14 +45,24 @@ public class CommandParser {
         String commandWord = parts[0].toLowerCase();
         String args = parts.length > 1 ? parts[1] : "";
 
+        logger.fine(() -> "Parsed command: \"" + commandWord + "\" with args: \"" + args + "\"");
+
         assert !commandWord.isBlank() : "Command keyword must not be blank";
         assert args != null : "Args should never be null (may be empty string)";
 
         CommandFactory commandFactory = new CommandFactory();
         Command command = commandFactory.createCommand(commandWord, args);
 
+        logger.fine(() -> "Parsed command: \"" + commandWord + "\" with args: \"" + args + "\"");
+
         assert command != null : "CommandFactory should never return null command";
 
+        if (command == null) {
+            logger.severe("CommandFactory returned null for command: " + commandWord);
+            throw InternityException.unknownCommand(commandWord);
+        }
+
+        logger.info(() -> "Successfully created command: " + command.getClass().getSimpleName());
         return command;
     }
 }
