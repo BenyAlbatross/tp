@@ -3,6 +3,8 @@ package internity.commands;
 import internity.core.InternityException;
 import internity.core.InternshipList;
 
+import java.util.logging.Logger;
+
 /**
  * Represents a command that lists all internship applications
  * as a formatted table
@@ -11,6 +13,7 @@ import internity.core.InternshipList;
  * {@code list}
  */
 public class ListCommand extends Command {
+    private static final Logger logger = Logger.getLogger(ListCommand.class.getName());
     /**
      * Executes the {@code list} command.
      * <p>
@@ -19,8 +22,9 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute() throws InternityException {
+        logger.info("Executing list command");
         InternshipList.listAll();
-        assert true : "List command should not fail";
+        logger.info("List command executed successfully.");
     }
 
     @Override
