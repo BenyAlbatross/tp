@@ -4,7 +4,10 @@ import internity.ui.Ui;
 
 import java.util.ArrayList;
 
+import java.util.logging.Logger;
+
 public class InternshipList {
+    private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
 
     public InternshipList() {
@@ -35,8 +38,10 @@ public class InternshipList {
 
     // list all
     public static void listAll() throws InternityException {
+        logger.info("Listing all internships");
 
         if (InternshipList.isEmpty()) {
+            logger.warning("No internships found to list");
             System.out.println("No internships found. Please add an internship first.");
             assert (size() == 0) : "Internship list should be empty";
             return;
@@ -49,6 +54,7 @@ public class InternshipList {
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
+            logger.fine("Listing internship at index: " + i);
             System.out.printf("%-5d %-15s %-15s %-15s %-10d %-10s%n",
                     i + 1,
                     internship.getCompany(),
@@ -58,6 +64,7 @@ public class InternshipList {
                     internship.getStatus()
             );
         }
+        logger.info("Finished listing internships. Total: " + i);
         assert (i == size()) : "All internships should be listed";
     }
 
