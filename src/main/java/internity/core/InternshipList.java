@@ -38,13 +38,16 @@ public class InternshipList {
 
         if (InternshipList.isEmpty()) {
             System.out.println("No internships found. Please add an internship first.");
+            assert (size() == 0) : "Internship list should be empty";
             return;
         }
 
+        assert (size() > 0) : "Internship list should not be empty";
         System.out.printf("%-5s %-15s %-15s %-15s %-10s %-10s%n",
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();
-        for (int i = 0; i < InternshipList.size(); i++) {
+        int i;
+        for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
             System.out.printf("%-5d %-15s %-15s %-15s %-10d %-10s%n",
                     i + 1,
@@ -55,6 +58,7 @@ public class InternshipList {
                     internship.getStatus()
             );
         }
+        assert (i == size()) : "All internships should be listed";
     }
 
     private static boolean isEmpty() {

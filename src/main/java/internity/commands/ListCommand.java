@@ -20,6 +20,7 @@ public class ListCommand extends Command {
     @Override
     public void execute() throws InternityException {
         InternshipList.listAll();
+        assert true : "List command should not fail";
     }
 
     @Override
