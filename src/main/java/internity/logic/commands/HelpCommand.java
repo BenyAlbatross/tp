@@ -5,6 +5,13 @@ import internity.ui.Ui;
 
 import java.util.logging.Logger;
 
+/**
+ * Represents a command that lists all available commands.
+ * as an ordered list
+ * <br>
+ * Command format:
+ * {@code help}
+ */
 public class HelpCommand extends Command {
 
     private static final Logger logger = Logger.getLogger(HelpCommand.class.getName());
