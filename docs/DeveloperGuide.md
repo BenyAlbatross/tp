@@ -28,7 +28,7 @@ components. It also follows the Command Pattern for handling user actions. This 
 clearly, allowing for modular, maintainable and extensible code.
 
 The **Architecture Diagram** below explains the high-level design of the Internity application.\
-![Architecture Diagram](diagrams/ArchitectureOverview.png)\
+![Architecture Diagram](diagrams/ArchitectureOverview.png)
 
 The diagram below shows a simplified **Class Diagram** of all of Internity's classes and their relationships.
 ![Internity Class Diagram](diagrams/InternityCD.png)
@@ -639,6 +639,7 @@ status breakdowns.
 | v2.0    | user     | find internships based on the company or role                          | easily view my applications to specific companies or positions I'm interested in |
 | v2.0    | user     | set or change my username                                              | personalize my internship tracker experience                                     |
 | v2.0    | user     | view a condensed dashboard                                             | to see the current status of my applications                                     |
+| v2.0    | new user | I can view an overview of the list of commands                         | so that I can access the possible commands more conveniently                     |
 
 
 ## Non-Functional Requirements
@@ -653,7 +654,7 @@ should be able to accomplish most of the tasks faster using commands than using 
 
 
 ## Glossary
-**Internship**\
+**Internship**
 A temporary work experience offered by a company or organization that allows a student or early-career individual
 to gain practical skills, industry knowledge and professional exposure in a specific field. Internships may be paid
 or unpaid, part-time or full-time, and can occur during or after academic study.
