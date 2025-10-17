@@ -12,6 +12,7 @@ import internity.logic.commands.HelpCommand;
 import internity.logic.commands.ListCommand;
 import internity.logic.commands.UpdateCommand;
 import internity.logic.commands.UsernameCommand;
+import internity.logic.commands.FindCommand;
 import internity.logic.commands.Command;
 
 import internity.core.InternityException;
