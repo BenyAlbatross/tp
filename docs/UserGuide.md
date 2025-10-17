@@ -68,7 +68,7 @@ Example:
 delete 2
 ```
 
-This command delete the internship application at index 2 from the list.
+This command deletes the internship application at index 2 from the list.
 
 ---
 
