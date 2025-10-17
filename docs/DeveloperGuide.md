@@ -162,7 +162,7 @@ The following sequence diagram illustrates how the Logic Component processes an 
      - `update` needs an index and fields to update.
      - `find` needs a search keyword.
 2. Commands that **do not require** arguments
-   - `exit`, `dashboard`
+   - `exit`, `dashboard`, `help`
    - These commands operate independently of data supplied by the user.
    - `CommandFactory` directly constructs the corresponding `Command` object (e.g. `ExitCommand` or `DashboardCommand`) without invoking `ArgumentParser`.
 
