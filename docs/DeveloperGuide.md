@@ -20,10 +20,16 @@
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ...                                                          | So that I can ...                                   |
+| ------- | -------- | ---------------------------------------------------------------------- | --------------------------------------------------- |
+| v1.0    | new user | add a new internship with company, role, and deadline details          | keep all opportunities organized in one place       |
+| v1.0    | user     | set the status of my application (applied, interview, offer, rejected) | easily see my progress with each internship         |
+| v1.0    | user     | see a list of all my internships                                       | easily view the opportunities I’m tracking          |
+| v1.0    | user     | remove an internship entry                                             | keep the list relevant and up to date               |
+| v2.0    | user     | see my internships sorted by upcoming deadlines                        | prioritize applications that are due soon           |
+| v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions |
+| v2.0    | user     | see an overall countdown for upcoming interviews                       | manage my time effectively and be prepared          |
+
 
 ## Non-Functional Requirements
 
