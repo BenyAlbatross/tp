@@ -4,15 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import internity.logic.commands.AddCommand;
-import internity.logic.commands.Command;
-import internity.logic.commands.DashboardCommand;
-import internity.logic.commands.DeleteCommand;
-import internity.logic.commands.ExitCommand;
-import internity.logic.commands.FindCommand;
-import internity.logic.commands.ListCommand;
-import internity.logic.commands.UpdateCommand;
-import internity.logic.commands.UsernameCommand;
+import internity.logic.commands.*;
 import internity.core.InternityException;
 
 import org.junit.jupiter.api.Test;
@@ -68,6 +60,18 @@ class CommandFactoryTest {
     void createCommand_dashboardWithBlankArgs_returnsDashboardCommand() throws InternityException {
         Command command = factory.createCommand("dashboard", "   ");
         assertInstanceOf(DashboardCommand.class, command);
+    }
+
+    @Test
+    void createCommand_help_returnsHelpCommand() throws InternityException {
+        Command command = factory.createCommand("help", "");
+        assertInstanceOf(HelpCommand.class, command);
+    }
+
+    @Test
+    void createCommand_helpWithBlankArgs_returnsHelpCommand() throws InternityException {
+        Command command = factory.createCommand("help", "   ");
+        assertInstanceOf(HelpCommand.class, command);
     }
 
     @Test
