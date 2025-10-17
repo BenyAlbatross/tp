@@ -4,7 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import internity.logic.commands.*;
+import internity.logic.commands.Command;
+import internity.logic.commands.ExitCommand;
+import internity.logic.commands.ListCommand;
+import internity.logic.commands.AddCommand;
+import internity.logic.commands.DeleteCommand;
+import internity.logic.commands.UpdateCommand;
+import internity.logic.commands.UsernameCommand;
+import internity.logic.commands.DashboardCommand;
+import internity.logic.commands.HelpCommand;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
