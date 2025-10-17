@@ -9,14 +9,14 @@
     - [Storage Component](#storage-component)
     - [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-4. [Documentation](#documentation)
-5. [Product Scope](#product-scope)
-    - [Target User Profile](#target-user-profile)
-    - [Value Proposition](#value-proposition)
-6. [User Stories](#user-stories)
-7. [Non-Functional Requirements](#non-functional-requirements)
-8. [Glossary](#glossary)
-9. [Instructions for Manual Testing](#instructions-for-manual-testing)
+4. [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
+5. [Appendix: Requirements](#appendix-requirements)
+   - [Product Scope](#product-scope)
+   - [User Stories](#user-stories)
+   - [Use Cases](#use-cases)
+   - [Non-Functional Requirements](#non-functional-requirements)
+   - [Glossary](#glossary)
+6. [Instructions for Manual Testing](#instructions-for-manual-testing)
 
 
 
@@ -65,9 +65,12 @@ Below is a simplified interaction for the `delete 1` command:
 
 ## Implementation
 
-## Documentation
+## Documentation, logging, testing, configuration, dev-ops
+
+## Appendix: Requirements
 
 ## Product scope
+
 ### Target user profile
 
 {Describe the target user profile}
@@ -87,6 +90,8 @@ Below is a simplified interaction for the `delete 1` command:
 | v2.0    | user     | see my internships sorted by upcoming deadlines                        | prioritize applications that are due soon           |
 | v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions |
 | v2.0    | user     | see an overall countdown for upcoming interviews                       | manage my time effectively and be prepared          |
+
+## Use Cases
 
 ## Non-Functional Requirements
 
