@@ -9,6 +9,7 @@ import internity.logic.commands.FindCommand;
 import internity.logic.commands.ListCommand;
 import internity.logic.commands.UpdateCommand;
 import internity.logic.commands.UsernameCommand;
+import internity.logic.commands.HelpCommand;
 import internity.core.InternityException;
 
 /**
@@ -29,6 +30,7 @@ import internity.core.InternityException;
  *   <li>{@link UpdateCommand}</li>
  *   <li>{@link ListCommand}</li>
  *   <li>{@link UsernameCommand}</li>
+ *   <li>{@link HelpCommand}</li>
  *   <li>{@link ExitCommand}</li>
  * </ul>
  */
@@ -63,6 +65,8 @@ public class CommandFactory {
             return ArgumentParser.parseUsernameCommandArgs(args);
         case "dashboard":
             return new DashboardCommand();
+        case "help":
+            return new HelpCommand();
         case "exit":
             return new ExitCommand();
         default:

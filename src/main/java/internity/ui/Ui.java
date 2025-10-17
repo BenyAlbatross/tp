@@ -135,7 +135,6 @@ public class Ui {
     }
 
     public static void printHelp() {
-        printHorizontalLine();
         System.out.println("Here are the available commands:");
         System.out.println("1. add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT");
         System.out.println("   - Adds a new internship application.");
@@ -147,10 +146,13 @@ public class Ui {
         System.out.println("   - Finds and lists all internship applications matching the keyword.");
         System.out.println("5. update INDEX status/STATUS");
         System.out.println("   - Updates the status of the internship application at the specified index.");
-        System.out.println("6. help");
+        System.out.println("6. username USERNAME");
+        System.out.println("   - Sets your username for personalised greetings.");
+        System.out.println("7. dashboard");
+        System.out.println("   - Displays statistics about your internship applications.");
+        System.out.println("8. help");
         System.out.println("   - Displays this help message.");
-        System.out.println("7. exit");
+        System.out.println("9. exit");
         System.out.println("   - Exits the Internity chatbot.");
-        printHorizontalLine();
     }
 }
