@@ -135,24 +135,21 @@ public class Ui {
     }
 
     public static void printHelp() {
-        System.out.println("Here are the available commands:");
-        System.out.println("1. add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT");
-        System.out.println("   - Adds a new internship application.");
-        System.out.println("2. delete INDEX");
-        System.out.println("   - Deletes the internship application at the specified index.");
-        System.out.println("3. list [sort/asc|sort/desc]");
-        System.out.println("   - Lists all internship applications, optionally sorted by deadline.");
-        System.out.println("4. find KEYWORD");
-        System.out.println("   - Finds and lists all internship applications matching the keyword.");
-        System.out.println("5. update INDEX status/STATUS");
-        System.out.println("   - Updates the status of the internship application at the specified index.");
-        System.out.println("6. username USERNAME");
-        System.out.println("   - Sets your username for personalised greetings.");
-        System.out.println("7. dashboard");
-        System.out.println("   - Displays statistics about your internship applications.");
-        System.out.println("8. help");
-        System.out.println("   - Displays this help message.");
-        System.out.println("9. exit");
-        System.out.println("   - Exits the Internity chatbot.");
+        String commandList = """
+                Here are the available commands:
+
+                  • add       : Add a new internship application with company, role, deadline, and pay.
+                  • delete    : Remove an internship application at the specified index.
+                  • list      : Display all internship applications, optionally sorted by deadline.
+                  • find      : Search and list internship applications matching a keyword.
+                  • update    : Update the status of an internship application at the specified index.
+                  • username  : Set your username for personalised greetings.
+                  • dashboard : View statistics about your internship applications.
+                  • help      : Display this list again. Your guide to managing internships.
+                  • exit      : Terminate this session. Your progress will be saved.
+
+                For verbose instructions, refer to the user guide.
+                """;
+        System.out.println(commandList);
     }
 }
