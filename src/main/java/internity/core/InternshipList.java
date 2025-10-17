@@ -9,9 +9,45 @@ import java.util.logging.Logger;
 public class InternshipList {
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
+    private static Storage storage;
 
     public InternshipList() {
 
+    }
+
+    /**
+     * Sets the storage instance for auto-saving.
+     *
+     * @param storageInstance The storage instance to use for persistence.
+     */
+    public static void setStorage(Storage storageInstance) {
+        storage = storageInstance;
+    }
+
+    /**
+     * Loads internships from storage.
+     *
+     * @throws InternityException If there is an error loading from storage.
+     */
+    public static void loadFromStorage() throws InternityException {
+        if (storage == null) {
+            return;
+        }
+        ArrayList<Internship> loadedInternships = storage.load();
+        List.clear();
+        List.addAll(loadedInternships);
+    }
+
+    /**
+     * Saves internships to storage.
+     *
+     * @throws InternityException If there is an error saving to storage.
+     */
+    public static void saveToStorage() throws InternityException {
+        if (storage == null) {
+            return;
+        }
+        storage.save(List);
     }
 
     public static void add(Internship item) {
