@@ -1,13 +1,71 @@
 # Developer Guide
 
+1. [Acknowledgements](#acknowledgements)
+2. [Design](#design)
+    - [Architecture](#Architecture)
+    - [UI Component](#ui-component)
+    - [Logic Component](#logic-component)
+    - [Model Component](#model-component)
+    - [Storage Component](#storage-component)
+    - [Common Classes](#common-classes)
+3. [Implementation](#implementation)
+4. [Documentation](#documentation)
+5. [Product Scope](#product-scope)
+    - [Target User Profile](#target-user-profile)
+    - [Value Proposition](#value-proposition)
+6. [User Stories](#user-stories)
+7. [Non-Functional Requirements](#non-functional-requirements)
+8. [Glossary](#glossary)
+9. [Instructions for Manual Testing](#instructions-for-manual-testing)
+
+
+
 ## Acknowledgements
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design & implementation
+## Design
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
+### Architecture
+
+### UI Component
+
+### Logic Component
+
+#### Overview
+The Logic component is responsible for:
+- Parsing user input commands.
+- Creating the appropriate `Command` object.
+- Executing that command to modify the Model or interact with the UI.
+
+#### How it Works
+1. User input (e.g. `add company/Google role/SWE deadline/10-10-2025 pay/1000`) is received by CommandParser.
+2. The `CommandParser`:
+   - Validates that the input is not empty or malformed.
+   - Splits the input into a command keyword and arguments.
+   - Passes them into the `CommandFactory`.
+3. The `CommandFactory`:
+   - Matches the keyword to a corresponding `Command` subclass (e.g. `AddCommand`).
+   - Uses the `ArgumentParser` to interpret argument strings.
+   - Returns a fully constructed `Command` object.
+4. The `Command` object executes its logic (e.g. adds a new internship to `InternshipList`).
+5. The result of the execution is printed ot the console via the `Ui`.
+
+#### Sequence Diagram
+Below is a simplified interaction for the `delete 1` command:
+<insert uml diagram>
+
+### Model Component
+
+### Storage Component
+
+### Common Classes
+
+## Implementation
+
+## Documentation
 
 ## Product scope
 ### Target user profile
