@@ -84,6 +84,17 @@ public class Storage {
     private Internship parseInternshipFromFile(String line) {
         assert line != null : "Line to parse cannot be null";
 
+        // Indices for pipe delimited format
+        final int IDX_COMPANY = 0;
+        final int IDX_ROLE = 1;
+        final int IDX_DEADLINE = 2;
+        final int IDX_PAY = 3;
+        final int IDX_STATUS = 4;
+
+        final int IDX_DAY = 0;
+        final int IDX_MONTH = 1;
+        final int IDX_YEAR = 2;
+
         String[] parts = line.split("\\|");
 
         // Trim all parts
@@ -96,11 +107,11 @@ public class Storage {
         }
 
         try {
-            String company = parts[0];
-            String role = parts[1];
-            String deadlineStr = parts[2];
-            int pay = Integer.parseInt(parts[3]);
-            String status = parts[4];
+            String company = parts[IDX_COMPANY];
+            String role = parts[IDX_ROLE];
+            String deadlineStr = parts[IDX_DEADLINE];
+            int pay = Integer.parseInt(parts[IDX_PAY]);
+            String status = parts[IDX_STATUS];
 
             // Parse the date (format: DD-MM-YYYY)
             String[] dateParts = deadlineStr.split("-");
@@ -108,9 +119,9 @@ public class Storage {
                 return null; // Invalid date format
             }
 
-            int day = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]);
-            int year = Integer.parseInt(dateParts[2]);
+            int day = Integer.parseInt(dateParts[IDX_DAY]);
+            int month = Integer.parseInt(dateParts[IDX_MONTH]);
+            int year = Integer.parseInt(dateParts[IDX_YEAR]);
             Date deadline = new Date(day, month, year);
 
             Internship internship = new Internship(company, role, deadline, pay);
