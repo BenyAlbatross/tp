@@ -68,7 +68,7 @@ class InternshipListTest {
     @Test
     public void listAll_whenEmpty_expectedOutcome() throws InternityException {
         InternshipList.clear();
-        InternshipList.listAll();
+        InternshipList.listAll(0);
         assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
     }
 
@@ -77,7 +77,7 @@ class InternshipListTest {
         InternshipList.clear();
         Internship internship = new Internship("Company A", "Developer", new Date(1,1,2025), 5000);
         InternshipList.add(internship);
-        InternshipList.listAll();
+        InternshipList.listAll(0);
 
         String output = outContent.toString();
         assertFalse(output.contains("No internships found. Please add an internship first."));
