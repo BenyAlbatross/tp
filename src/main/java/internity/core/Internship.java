@@ -1,6 +1,9 @@
 package internity.core;
 
-public class Internship {
+import java.util.Comparator;
+
+public class Internship implements Comparable<Internship> {
+    public static Comparator<? super Internship> SortByDeadline;
     private String company;
     private String role;
     private Date deadline;
@@ -53,5 +56,16 @@ public class Internship {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public int compareTo(Internship o) {
+        return this.deadline.compareTo(o.getDeadline());
+    }
+
+    public static class SortByDeadline implements Comparator<Internship> {
+        public int compare(Internship a, Internship b) {
+            return a.getDeadline().compareTo(b.getDeadline());
+        }
     }
 }

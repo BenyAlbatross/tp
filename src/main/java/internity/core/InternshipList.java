@@ -4,6 +4,7 @@ import internity.ui.Ui;
 
 import java.util.ArrayList;
 
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 public class InternshipList {
@@ -72,8 +73,16 @@ public class InternshipList {
         return List.size();
     }
 
+    public static void sortInternships(int order) {
+        if (order == -1) {
+            List.sort(Comparator.comparing(Internship::getDeadline).reversed());
+        } else if (order == 1) {
+            List.sort(Comparator.comparing(Internship::getDeadline));
+        }
+    }
+
     // list all
-    public static void listAll() throws InternityException {
+    public static void listAll(int order) throws InternityException {
         logger.info("Listing all internships");
 
         if (InternshipList.isEmpty()) {
@@ -84,6 +93,9 @@ public class InternshipList {
         }
 
         assert (size() > 0) : "Internship list should not be empty";
+
+        sortInternships(order);
+
         System.out.printf("%-5s %-15s %-15s %-15s %-10s %-10s%n",
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();
