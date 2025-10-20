@@ -10,10 +10,17 @@ import java.util.logging.Logger;
  * as a formatted table
  * <br>
  * Command format:
- * {@code list}
+ * {@code list [sort/asc|sort/desc]}
  */
 public class ListCommand extends Command {
     private static final Logger logger = Logger.getLogger(ListCommand.class.getName());
+    int order;
+
+    public ListCommand(int n) {
+        super();
+        order = n;
+    }
+
     /**
      * Executes the {@code list} command.
      * <p>
@@ -23,7 +30,7 @@ public class ListCommand extends Command {
     @Override
     public void execute() throws InternityException {
         logger.info("Executing list command");
-        InternshipList.listAll();
+        InternshipList.listAll(order);
         logger.info("List command executed successfully.");
     }
 
