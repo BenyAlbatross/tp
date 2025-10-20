@@ -1,5 +1,6 @@
 package internity.core;
 
+import internity.commands.ListCommand;
 import internity.ui.Ui;
 
 import java.util.ArrayList;
@@ -80,16 +81,16 @@ public class InternshipList {
         return List.size();
     }
 
-    public static void sortInternships(int order) {
-        if (order == -1) {
+    public static void sortInternships(ListCommand.orderType order) {
+        if (order == ListCommand.orderType.DESCENDING) {
             List.sort(Comparator.comparing(Internship::getDeadline).reversed());
-        } else if (order == 1) {
+        } else if (order == ListCommand.orderType.ASCENDING) {
             List.sort(Comparator.comparing(Internship::getDeadline));
         }
     }
 
     // list all
-    public static void listAll(int order) throws InternityException {
+    public static void listAll(ListCommand.orderType order) throws InternityException {
         logger.info("Listing all internships");
 
 

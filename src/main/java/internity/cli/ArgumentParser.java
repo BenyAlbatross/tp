@@ -82,7 +82,7 @@ public final class ArgumentParser {
 
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
-            return new ListCommand(0); // Default order
+            return new ListCommand(ListCommand.orderType.DEFAULT); // Default order
         }
 
         if (!args.startsWith("sort/")) {
@@ -96,9 +96,9 @@ public final class ArgumentParser {
 
         String order = splitArgs[0].substring("sort/".length()).trim();
         if (order.equals("asc")) {
-            return new ListCommand(1);
+            return new ListCommand(ListCommand.orderType.ASCENDING);
         } else if (order.equals("desc")) {
-            return new ListCommand(-1);
+            return new ListCommand(ListCommand.orderType.DESCENDING);
         } else {
             throw InternityException.invalidListCommand();
         }

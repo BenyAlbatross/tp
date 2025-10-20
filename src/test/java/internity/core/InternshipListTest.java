@@ -3,6 +3,7 @@ package internity.core;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import internity.commands.ListCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class InternshipListTest {
 
     @Test
     public void listAll_whenEmpty_expectedOutcome() throws InternityException {
-        InternshipList.listAll(0);
+        InternshipList.listAll(ListCommand.orderType.DEFAULT);
         assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
     }
 
@@ -73,7 +74,7 @@ class InternshipListTest {
     public void listAll_withEntry_doesNotOutputNoInternshipsFound() throws Exception {
         Internship internship = new Internship("Company A", "Developer", new Date(1,1,2025), 5000);
         InternshipList.add(internship);
-        InternshipList.listAll(0);
+        InternshipList.listAll(ListCommand.orderType.DEFAULT);
 
         String output = outContent.toString();
         assertFalse(output.contains("No internships found. Please add an internship first."));
@@ -87,7 +88,7 @@ class InternshipListTest {
         InternshipList.add(newer);
         InternshipList.add(older);
 
-        InternshipList.sortInternships(1); // ascending
+        InternshipList.sortInternships(ListCommand.orderType.ASCENDING); // ascending
 
         assertEquals("OlderCo", InternshipList.get(0).getCompany());
         assertEquals("NewerCo", InternshipList.get(1).getCompany());
@@ -101,7 +102,7 @@ class InternshipListTest {
         InternshipList.add(older);
         InternshipList.add(newer);
 
-        InternshipList.sortInternships(-1); // descending
+        InternshipList.sortInternships(ListCommand.orderType.DESCENDING); // descending
 
         assertEquals("NewerCo", InternshipList.get(0).getCompany());
         assertEquals("OlderCo", InternshipList.get(1).getCompany());

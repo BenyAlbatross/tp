@@ -13,12 +13,17 @@ import java.util.logging.Logger;
  * {@code list [sort/asc|sort/desc]}
  */
 public class ListCommand extends Command {
-    private static final Logger logger = Logger.getLogger(ListCommand.class.getName());
-    int order;
+    public enum orderType {
+        DEFAULT,
+        ASCENDING,
+        DESCENDING
+    }
 
-    public ListCommand(int n) {
-        super();
-        order = n;
+    private static final Logger logger = Logger.getLogger(ListCommand.class.getName());
+    orderType order;
+
+    public ListCommand(orderType o) {
+        order = o;
     }
 
     /**
