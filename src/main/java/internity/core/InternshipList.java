@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class InternshipList {
-    private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
-    private static final ArrayList<Internship> List = new ArrayList<>();
-
     public static final int INDEX_MAXLEN= 5;
     public static final int COMPANY_MAXLEN = 15;
     public static final int ROLE_MAXLEN = 30;
     public static final int DEADLINE_MAXLEN = 15;
     public static final int PAY_MAXLEN = 10;
     public static final int STATUS_MAXLEN = 10;
+
+    private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
+    private static final ArrayList<Internship> List = new ArrayList<>();
 
     public InternshipList() {
 
