@@ -97,7 +97,9 @@ public class UpdateCommand extends Command {
             updated = true;
         }
         if (!updated) {
-            throw new InternityException("Provide at least one field to update: company/, role/, deadline/, pay/, status/");
+            throw new InternityException(
+                "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
+            );
         }
 
         Ui.printUpdateInternship();

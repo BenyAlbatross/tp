@@ -85,11 +85,15 @@ public final class ArgumentParser {
         try {
             zeroBasedIndex = Integer.parseInt(indexToken) - 1; // 0-based
         } catch (NumberFormatException e) {
-            throw new InternityException("Invalid index. Use a positive integer, for example: update 1 company/Google");
+            throw new InternityException(
+                "Invalid index. Use a positive integer, for example: update 1 company/Google"
+            );
         }
 
         if (tagged.isBlank()) {
-            throw new InternityException("Provide at least one field to update: company/, role/, deadline/, pay/, status/");
+            throw new InternityException(
+                "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
+            );
         }
 
         String[] parts = tagged.split("\\s+(?=company/|role/|deadline/|pay/|status/)");
@@ -132,7 +136,10 @@ public final class ArgumentParser {
                         throw new InternityException("status/ cannot be empty");
                     }
                 } else {
-                    throw new InternityException("Unknown update field in \"" + p + "\". Allowed: company, role, deadline, pay, status");
+                    throw new InternityException(
+                            "Unknown update field in \"" + p
+                            + "\". Allowed: company, role, deadline, pay, status"
+                    );
                 }
             }
         } catch (NumberFormatException e) {
@@ -140,7 +147,9 @@ public final class ArgumentParser {
         }
 
         if (company == null && role == null && deadline == null && pay == null && status == null) {
-            throw new InternityException("Provide at least one field to update: company/, role/, deadline/, pay/, status/");
+            throw new InternityException(
+                    "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
+            );
         }
 
         return new UpdateCommand(zeroBasedIndex, company, role, deadline, pay, status);
