@@ -48,8 +48,10 @@ public class InternshipList {
         logger.info("Listing all internships");
 
 
-        String format = "%" + indexMaxLen  + "d %-" + companyMaxLen + "s %-" + roleMaxLen
+        String formatHeader = "%" + indexMaxLen  + "s %-" + companyMaxLen + "s %-" + roleMaxLen
                 + "s %-" + deadlineMaxLen + "s %-" + payMaxLen + "s %-" + statusMaxLen + "s%n";
+        String formatContent = "%" + indexMaxLen  + "d %-" + companyMaxLen + "s %-" + roleMaxLen
+                + "s %-" + deadlineMaxLen + "s %-" + payMaxLen + "d %-" + statusMaxLen + "s%n";
 
 
         if (InternshipList.isEmpty()) {
@@ -60,25 +62,20 @@ public class InternshipList {
         }
 
         assert (size() > 0) : "Internship list should not be empty";
-        System.out.printf(format,
+        System.out.printf(formatHeader,
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
             logger.fine("Listing internship at index: " + i);
-            System.out.printf(format,
+            System.out.printf(formatContent,
                     i + 1,
-                    internship.getCompany()
-                            .substring(0, Math.min(internship.getCompany().length(), 15)),
-                    internship.getRole()
-                            .substring(0, Math.min(internship.getRole().length(), 30)),
-                    internship.getDeadline().toString()
-                            .substring(0, Math.min(internship.getDeadline().toString().length(), 15)),
-                    String.valueOf(internship.getPay())
-                            .substring(0, Math.min(String.valueOf(internship.getPay()).length(), 10)),
+                    internship.getCompany(),
+                    internship.getRole(),
+                    internship.getDeadline().toString(),
+                    internship.getPay(),
                     internship.getStatus()
-                            .substring(0, Math.min(internship.getStatus().length(), 10))
             );
         }
         logger.info("Finished listing internships. Total: " + i);

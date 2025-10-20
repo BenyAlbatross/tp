@@ -6,6 +6,7 @@ import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
 import internity.core.Date;
 import internity.core.InternityException;
+import internity.core.InternshipList;
 import internity.utils.DateFormatter;
 
 public final class ArgumentParser {
@@ -32,9 +33,18 @@ public final class ArgumentParser {
             String role = parts[1].substring("role/".length()).trim();
             Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
             int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
+
+            // throw exception on empty input
             if (company.isEmpty() || role.isEmpty() || pay < 0) {
                 throw InternityException.invalidAddCommand();
             }
+
+            // throw exception on exceeding max length
+            if (company.length() > InternshipList.companyMaxLen ||
+                    role.length() > InternshipList.roleMaxLen) {
+                throw InternityException.invalidAddCommand();
+            }
+
             return new AddCommand(company, role, deadline, pay);
         } catch (Exception e) {
             throw InternityException.invalidAddCommand();
