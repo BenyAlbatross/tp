@@ -8,6 +8,13 @@ import java.util.Comparator;
 import java.util.logging.Logger;
 
 public class InternshipList {
+    public static final int INDEX_MAXLEN= 5;
+    public static final int COMPANY_MAXLEN = 15;
+    public static final int ROLE_MAXLEN = 30;
+    public static final int DEADLINE_MAXLEN = 15;
+    public static final int PAY_MAXLEN = 10;
+    public static final int STATUS_MAXLEN = 10;
+
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
     private static Storage storage;
@@ -85,6 +92,13 @@ public class InternshipList {
     public static void listAll(int order) throws InternityException {
         logger.info("Listing all internships");
 
+
+        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
+        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
+
+
         if (InternshipList.isEmpty()) {
             logger.warning("No internships found to list");
             System.out.println("No internships found. Please add an internship first.");
@@ -93,17 +107,15 @@ public class InternshipList {
         }
 
         assert (size() > 0) : "Internship list should not be empty";
-
         sortInternships(order);
-
-        System.out.printf("%-5s %-15s %-15s %-15s %-10s %-10s%n",
+        System.out.printf(formatHeader,
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
             logger.fine("Listing internship at index: " + i);
-            System.out.printf("%-5d %-15s %-15s %-15s %-10d %-10s%n",
+            System.out.printf(formatContent,
                     i + 1,
                     internship.getCompany(),
                     internship.getRole(),
