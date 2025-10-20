@@ -52,4 +52,8 @@ public class Ui {
         System.out.println("Internship status updated successfully!");
     }
 
+    public static void printSetUsername(String username) {
+        System.out.println("Username set to " + username);
+    }
+
 }

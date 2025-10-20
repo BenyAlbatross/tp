@@ -41,4 +41,8 @@ public class InternityException extends Exception {
     public static InternityException invalidListCommand() {
         return new InternityException("Invalid list command. Usage: list");
     }
+
+    public static InternityException invalidUsernameCommand() {
+        return new InternityException("Invalid username command. Usage: username USERNAME");
+    }
 }
