@@ -2,13 +2,16 @@ package internity.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Calendar;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -78,9 +81,6 @@ class InternshipListTest {
 
     @Test
     public void sortInternships_sortAscending_expectedOutcome() throws InternityException {
-        Date d1 = new Date(1, 6, 2024);
-        Date d2 = new Date(1, 1, 2025);
-
         Internship older = new Internship("OlderCo", "Dev", new Date(1, 6, 2024), 0);
         Internship newer = new Internship("NewerCo", "Dev", new Date(1, 1, 2025), 0);
 
@@ -95,11 +95,8 @@ class InternshipListTest {
 
     @Test
     public void sortInternships_sortDescending_expectedOutcome() throws InternityException {
-        Date d1 = new Date(1, 6, 2024);
-        Date d2 = new Date(1, 1, 2025);
-
-        Internship older = new Internship("OlderCo", "Dev", d1, 0);
-        Internship newer = new Internship("NewerCo", "Dev", d2, 0);
+        Internship older = new Internship("OlderCo", "Dev", new Date(1, 6, 2024), 0);
+        Internship newer = new Internship("NewerCo", "Dev", new Date(1, 1, 2025), 0);
 
         InternshipList.add(older);
         InternshipList.add(newer);
