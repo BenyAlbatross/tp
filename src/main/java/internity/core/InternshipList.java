@@ -10,12 +10,12 @@ public class InternshipList {
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
 
-    public static final int indexMaxLen = 5;
-    public static final int companyMaxLen = 15;
-    public static final int roleMaxLen = 30;
-    public static final int deadlineMaxLen = 15;
-    public static final int payMaxLen = 10;
-    public static final int statusMaxLen = 10;
+    public static final int INDEX_MAXLEN= 5;
+    public static final int COMPANY_MAXLEN = 15;
+    public static final int ROLE_MAXLEN = 30;
+    public static final int DEADLINE_MAXLEN = 15;
+    public static final int PAY_MAXLEN = 10;
+    public static final int STATUS_MAXLEN = 10;
 
     public InternshipList() {
 
@@ -48,10 +48,10 @@ public class InternshipList {
         logger.info("Listing all internships");
 
 
-        String formatHeader = "%" + indexMaxLen  + "s %-" + companyMaxLen + "s %-" + roleMaxLen
-                + "s %-" + deadlineMaxLen + "s %-" + payMaxLen + "s %-" + statusMaxLen + "s%n";
-        String formatContent = "%" + indexMaxLen  + "d %-" + companyMaxLen + "s %-" + roleMaxLen
-                + "s %-" + deadlineMaxLen + "s %-" + payMaxLen + "d %-" + statusMaxLen + "s%n";
+        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
+        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
 
 
         if (InternshipList.isEmpty()) {

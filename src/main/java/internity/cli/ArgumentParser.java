@@ -40,8 +40,8 @@ public final class ArgumentParser {
             }
 
             // throw exception on exceeding max length
-            if (company.length() > InternshipList.companyMaxLen ||
-                    role.length() > InternshipList.roleMaxLen) {
+            if (company.length() > InternshipList.COMPANY_MAXLEN ||
+                    role.length() > InternshipList.ROLE_MAXLEN) {
                 throw InternityException.invalidAddCommand();
             }
 
