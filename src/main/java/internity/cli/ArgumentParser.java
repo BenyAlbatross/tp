@@ -68,17 +68,84 @@ public final class ArgumentParser {
     }
 
     public static UpdateCommand parseUpdateCommandArgs(String args) throws InternityException {
-        String newStatus;
+        if (args == null || args.isBlank()) {
+            throw new InternityException("Invalid update command format. Use: update INDEX field/VALUE ...");
+        }
+
+        String trimmed = args.trim();
+
+        int firstSpace = trimmed.indexOf(' ');
+        if (firstSpace < 0) {
+            throw new InternityException("Invalid update command format. Use: update INDEX field/VALUE ...");
+        }
+        String indexToken = trimmed.substring(0, firstSpace).trim();
+        String tagged = trimmed.substring(firstSpace + 1).trim();
+
         int zeroBasedIndex;
         try {
-            String[] splitArgs = args.split("\\s+status/");
-            zeroBasedIndex = Integer.parseInt(splitArgs[0].trim()) - 1;
-            newStatus = splitArgs[1].trim();
-        } catch (Exception e) {
-            throw new InternityException("Invalid update command format. Use: update INDEX status/NEW_STATUS");
+            zeroBasedIndex = Integer.parseInt(indexToken) - 1; // 0-based
+        } catch (NumberFormatException e) {
+            throw new InternityException("Invalid index. Use a positive integer, for example: update 1 company/Google");
         }
-        return new UpdateCommand(zeroBasedIndex, newStatus);
+
+        if (tagged.isBlank()) {
+            throw new InternityException("Provide at least one field to update: company/, role/, deadline/, pay/, status/");
+        }
+
+        String[] parts = tagged.split("\\s+(?=company/|role/|deadline/|pay/|status/)");
+
+        String company = null;
+        String role = null;
+        Date deadline = null;
+        Integer pay = null;
+        String status = null;
+
+        try {
+            for (String part : parts) {
+                String p = part.trim();
+                if (p.isEmpty()){
+                    continue;
+                }
+                if (p.startsWith("company/")) {
+                    company = p.substring("company/".length()).trim();
+                    if (company.isEmpty()) {
+                        throw new InternityException("company/ cannot be empty");
+                    }
+                } else if (p.startsWith("role/")) {
+                    role = p.substring("role/".length()).trim();
+                    if (role.isEmpty()) {
+                        throw new InternityException("role/ cannot be empty");
+                    }
+                } else if (p.startsWith("deadline/")) {
+                    String d = p.substring("deadline/".length()).trim();
+                    deadline = DateFormatter.parse(d); // validates dd-MM-yyyy
+                } else if (p.startsWith("pay/")) {
+                    String payStr = p.substring("pay/".length()).trim();
+                    int payVal = Integer.parseInt(payStr);
+                    if (payVal < 0) {
+                        throw new NumberFormatException();
+                    }
+                    pay = payVal;
+                } else if (p.startsWith("status/")) {
+                    status = p.substring("status/".length()).trim();
+                    if (status.isEmpty()) {
+                        throw new InternityException("status/ cannot be empty");
+                    }
+                } else {
+                    throw new InternityException("Unknown update field in \"" + p + "\". Allowed: company, role, deadline, pay, status");
+                }
+            }
+        } catch (NumberFormatException e) {
+            throw new InternityException("Invalid pay. Use a whole number (example: pay/8000)");
+        }
+
+        if (company == null && role == null && deadline == null && pay == null && status == null) {
+            throw new InternityException("Provide at least one field to update: company/, role/, deadline/, pay/, status/");
+        }
+
+        return new UpdateCommand(zeroBasedIndex, company, role, deadline, pay, status);
     }
+
 
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
         return new ListCommand();

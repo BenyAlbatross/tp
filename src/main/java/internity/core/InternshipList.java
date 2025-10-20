@@ -1,10 +1,9 @@
 package internity.core;
 
-import internity.ui.Ui;
-
 import java.util.ArrayList;
-
 import java.util.logging.Logger;
+
+import internity.ui.Ui;
 
 public class InternshipList {
     public static final int INDEX_MAXLEN= 5;
@@ -128,6 +127,42 @@ public class InternshipList {
         Internship internship = List.get(index);
         internship.setStatus(newStatus);
         System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
+    }
+
+    public static void updateCompany(int index, String newCompany) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setCompany(newCompany);
+        System.out.println("Updated internship " + (index + 1) + " company to: " + newCompany);
+    }
+
+    public static void updateRole(int index, String newRole) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setRole(newRole);
+        System.out.println("Updated internship " + (index + 1) + " role to: " + newRole);
+    }
+
+    public static void updateDeadline(int index, Date newDeadline) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setDeadline(newDeadline);
+        System.out.println("Updated internship " + (index + 1) + " deadline to: " + newDeadline);
+    }
+
+    public static void updatePay(int index, int newPay) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setPay(newPay);
+        System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
     }
 
     public static void clear() {
