@@ -18,9 +18,7 @@ public class InternshipList {
     private static final ArrayList<Internship> List = new ArrayList<>();
     private static Storage storage;
 
-    public InternshipList() {
-
-    }
+    private InternshipList() {}
 
     /**
      * Sets the storage instance for auto-saving.
