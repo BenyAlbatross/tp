@@ -3,7 +3,7 @@ package internity.core;
 import java.util.Comparator;
 
 public class Internship implements Comparable<Internship> {
-    public static Comparator<? super Internship> SortByDeadline;
+    public static Comparator<Internship> SortByDeadline;
     private String company;
     private String role;
     private Date deadline;
