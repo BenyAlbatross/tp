@@ -10,12 +10,12 @@ public class InternshipList {
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
 
-    public final int indexMaxLen = 5;
+    public static final int indexMaxLen = 5;
     public static final int companyMaxLen = 15;
     public static final int roleMaxLen = 30;
-    public final int deadlineMaxLen = 15;
+    public static final int deadlineMaxLen = 15;
     public static final int payMaxLen = 10;
-    public final int statusMaxLen = 10;
+    public static final int statusMaxLen = 10;
 
     public InternshipList() {
 
