@@ -10,6 +10,7 @@ public class InternshipList {
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> List = new ArrayList<>();
     private static Storage storage;
+    private static String username;
 
     public InternshipList() {
 
@@ -120,5 +121,13 @@ public class InternshipList {
 
     public static void clear() {
         List.clear();
+    }
+
+    public static void setUsername(String username) {
+        InternshipList.username = username;
+    }
+
+    public static String getUsername() {
+        return username;
     }
 }
