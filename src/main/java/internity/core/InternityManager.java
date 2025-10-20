@@ -19,7 +19,9 @@ public class InternityManager {
     public void start() {
         loadData();
         Ui.printWelcomeMessage();
-        Ui.printGreeting(scanner.nextLine());
+        String username = scanner.nextLine();
+        Ui.printGreeting(username);
+        InternshipList.setUsername(username);
         Ui.printHorizontalLine();
 
         boolean isExit = false;
