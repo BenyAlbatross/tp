@@ -4,6 +4,7 @@ import internity.commands.AddCommand;
 import internity.commands.DeleteCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
+import internity.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.utils.DateFormatter;
@@ -72,5 +73,12 @@ public final class ArgumentParser {
 
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
         return new ListCommand();
+    }
+
+    public static UsernameCommand parseUsernameCommandArgs(String args) throws InternityException {
+        if (args == null || args.isBlank()) {
+            throw InternityException.invalidUsernameCommand();
+        }
+        return new UsernameCommand(args);
     }
 }
