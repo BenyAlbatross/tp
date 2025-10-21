@@ -39,7 +39,7 @@ public class InternityException extends Exception {
     }
 
     public static InternityException invalidListCommand() {
-        return new InternityException("Invalid list command. Usage: list");
+        return new InternityException("Invalid list command. Usage: list [sort/asc|sort/desc]");
     }
 
     public static InternityException invalidUpdateFormat() {
