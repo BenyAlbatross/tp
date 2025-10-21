@@ -70,7 +70,7 @@ public final class ArgumentParser {
     public static UpdateCommand parseUpdateCommandArgs(String args) throws InternityException {
         String trimmed = requireArgs(args);
         String[] idxAndTagged = splitIndexAndTagged(trimmed);
-        int index = parseZeroBasedIndex(idxAndTagged[0]);
+        int index = parseOneBasedIndex(idxAndTagged[0]);
         String tagged = requireTagged(idxAndTagged[1]);
 
         String[] parts = tagged.split("\\s+(?=company/|role/|deadline/|pay/|status/)");
@@ -174,7 +174,7 @@ public final class ArgumentParser {
         return new String[] { indexToken, tagged };
     }
 
-    private static int parseZeroBasedIndex(String indexToken) throws InternityException {
+    private static int parseOneBasedIndex(String indexToken) throws InternityException {
         try {
             return Integer.parseInt(indexToken) - 1;
         } catch (NumberFormatException e) {
