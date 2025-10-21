@@ -1,9 +1,11 @@
 package internity.core;
 
+import internity.commands.ListCommand;
 import internity.ui.Ui;
 
 import java.util.ArrayList;
 
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 public class InternshipList {
@@ -77,8 +79,16 @@ public class InternshipList {
         return List.size();
     }
 
+    public static void sortInternships(ListCommand.orderType order) {
+        if (order == ListCommand.orderType.DESCENDING) {
+            List.sort(Comparator.comparing(Internship::getDeadline).reversed());
+        } else if (order == ListCommand.orderType.ASCENDING) {
+            List.sort(Comparator.comparing(Internship::getDeadline));
+        }
+    }
+
     // list all
-    public static void listAll() throws InternityException {
+    public static void listAll(ListCommand.orderType order) throws InternityException {
         logger.info("Listing all internships");
 
 
@@ -96,6 +106,7 @@ public class InternshipList {
         }
 
         assert (size() > 0) : "Internship list should not be empty";
+        sortInternships(order);
         System.out.printf(formatHeader,
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();

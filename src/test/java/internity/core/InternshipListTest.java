@@ -1,17 +1,19 @@
 package internity.core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import internity.commands.ListCommand;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class InternshipListTest {
@@ -20,9 +22,10 @@ class InternshipListTest {
     private ByteArrayOutputStream outContent;
 
     @BeforeEach
-    void setUpStreams() {
+    void setUp() {
         outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+        InternshipList.clear();
     }
 
     @AfterEach
@@ -44,8 +47,6 @@ class InternshipListTest {
 
     @Test
     void get_invalidIndex_throwsIndexOutOfBoundsException() {
-        InternshipList.clear();
-
         assertThrows(InternityException.class, () -> InternshipList.get(0));
         InternshipList.add(null);
         assertThrows(InternityException.class, () -> InternshipList.get(1));
@@ -54,8 +55,6 @@ class InternshipListTest {
 
     @Test
     void delete_removesGivenItem() throws InternityException {
-        InternshipList.clear();
-
         InternshipList.add(null);
         InternshipList.add(null);
 
@@ -67,19 +66,45 @@ class InternshipListTest {
 
     @Test
     public void listAll_whenEmpty_expectedOutcome() throws InternityException {
-        InternshipList.clear();
-        InternshipList.listAll();
+        InternshipList.listAll(ListCommand.orderType.DEFAULT);
         assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
     }
 
     @Test
     public void listAll_withEntry_doesNotOutputNoInternshipsFound() throws Exception {
-        InternshipList.clear();
         Internship internship = new Internship("Company A", "Developer", new Date(1,1,2025), 5000);
         InternshipList.add(internship);
-        InternshipList.listAll();
+        InternshipList.listAll(ListCommand.orderType.DEFAULT);
 
         String output = outContent.toString();
         assertFalse(output.contains("No internships found. Please add an internship first."));
+    }
+
+    @Test
+    public void sortInternships_sortAscending_expectedOutcome() throws InternityException {
+        Internship older = new Internship("OlderCo", "Dev", new Date(1, 6, 2024), 0);
+        Internship newer = new Internship("NewerCo", "Dev", new Date(1, 1, 2025), 0);
+
+        InternshipList.add(newer);
+        InternshipList.add(older);
+
+        InternshipList.sortInternships(ListCommand.orderType.ASCENDING); // ascending
+
+        assertEquals("OlderCo", InternshipList.get(0).getCompany());
+        assertEquals("NewerCo", InternshipList.get(1).getCompany());
+    }
+
+    @Test
+    public void sortInternships_sortDescending_expectedOutcome() throws InternityException {
+        Internship older = new Internship("OlderCo", "Dev", new Date(1, 6, 2024), 0);
+        Internship newer = new Internship("NewerCo", "Dev", new Date(1, 1, 2025), 0);
+
+        InternshipList.add(older);
+        InternshipList.add(newer);
+
+        InternshipList.sortInternships(ListCommand.orderType.DESCENDING); // descending
+
+        assertEquals("NewerCo", InternshipList.get(0).getCompany());
+        assertEquals("OlderCo", InternshipList.get(1).getCompany());
     }
 }
