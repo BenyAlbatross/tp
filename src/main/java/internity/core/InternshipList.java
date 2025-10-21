@@ -1,15 +1,14 @@
 package internity.core;
 
-import internity.commands.ListCommand;
-import internity.ui.Ui;
-
 import java.util.ArrayList;
-
 import java.util.Comparator;
 import java.util.logging.Logger;
 
+import internity.commands.ListCommand;
+import internity.ui.Ui;
+
 public class InternshipList {
-    public static final int INDEX_MAXLEN= 5;
+    public static final int INDEX_MAXLEN = 5;
     public static final int COMPANY_MAXLEN = 15;
     public static final int ROLE_MAXLEN = 30;
     public static final int DEADLINE_MAXLEN = 15;
@@ -133,12 +132,52 @@ public class InternshipList {
 
 
     public static void updateStatus(int index, String newStatus) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
+        if (newStatus == null || !Status.isValid(newStatus)) {
+            throw InternityException.invalidStatus(String.valueOf(newStatus));
+        }
+        final String normalized = Status.canonical(newStatus);
         Internship internship = List.get(index);
-        internship.setStatus(newStatus);
-        System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
+        internship.setStatus(normalized);
+        System.out.println("Updated internship " + (index + 1) + " status to: " + normalized);
+    }
+
+    public static void updateCompany(int index, String newCompany) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setCompany(newCompany);
+        System.out.println("Updated internship " + (index + 1) + " company to: " + newCompany);
+    }
+
+    public static void updateRole(int index, String newRole) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setRole(newRole);
+        System.out.println("Updated internship " + (index + 1) + " role to: " + newRole);
+    }
+
+    public static void updateDeadline(int index, Date newDeadline) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setDeadline(newDeadline);
+        System.out.println("Updated internship " + (index + 1) + " deadline to: " + newDeadline);
+    }
+
+    public static void updatePay(int index, int newPay) throws InternityException {
+        if (index < 0 || index >= size()) {
+            throw InternityException.invalidInternshipIndex();
+        }
+        Internship it = List.get(index);
+        it.setPay(newPay);
+        System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
     }
 
     public static void clear() {

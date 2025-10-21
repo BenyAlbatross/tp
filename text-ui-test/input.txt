@@ -14,11 +14,11 @@ add company/ role/ deadline/ pay/
 list
 add company/role/deadline/pay
 list
-update 1 status/Sacked
+update 1 status/Rejected
 list
-update 2 status/Laid off
+update 2 status/Rejected
 list
-update 3 status/No response
+update 3 status/Pending
 list
 delete 0
 list
