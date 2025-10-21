@@ -73,6 +73,7 @@ public class Internship implements Comparable<Internship> {
     public String toString() {
         return "  " + getCompany() + " - " + getRole()
                 + " | Deadline: " + getDeadline()
-                + " | Pay: " + getPay();
+                + " | Pay: " + getPay()
+                + " | Status: " + getStatus();
     }
 }
