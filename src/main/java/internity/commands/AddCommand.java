@@ -26,12 +26,12 @@ import java.util.logging.Logger;
  * </p>
  */
 public class AddCommand extends Command {
+    private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
+
     private final String company;
     private final String role;
     private final Date deadline;
     private final int pay;
-
-    private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
 
     /**
      * Constructs an {@code AddCommand} with the specified internship details.
@@ -63,7 +63,7 @@ public class AddCommand extends Command {
         Internship internship = new Internship(company, role, deadline, pay);
         InternshipList.add(internship);
         Ui.printAddInternship(internship);
-    logger.info("Add command executed successfully.");
+        logger.info("Add command executed successfully.");
     }
 
     /**
