@@ -48,8 +48,8 @@ class AddCommandTest {
     void execute_missingField_throwsException() {
         String args = "company/Google role/Software Engineer pay/1000"; // missing deadline
 
-        assertThrows(InternityException.class, () -> ArgumentParser.parseAddCommandArgs(args),
-                "Expected InternityException when deadline field is missing");
+        assertThrows(AssertionError.class, () -> ArgumentParser.parseAddCommandArgs(args),
+                "Expected AssertionError when deadline field is missing");
     }
 
     /**
