@@ -20,7 +20,7 @@ import internity.ui.Ui;
  * </p>
  *
  * <p>
- * Each provided field will be validated and updated in the corresponding internship entry.
+ * Each provided field will be validated and isUpdated in the corresponding internship entry.
  * </p>
  */
 public class UpdateCommand extends Command {
@@ -34,7 +34,7 @@ public class UpdateCommand extends Command {
     /**
      * Constructs an {@code UpdateCommand} that updates one or more internship fields.
      *
-     * @param index    the index of the internship to be updated (0-based)
+     * @param index    the index of the internship to be isUpdated (0-based)
      * @param company  the new company name, or {@code null} if unchanged
      * @param role     the new role, or {@code null} if unchanged
      * @param deadline the new application deadline, or {@code null} if unchanged
@@ -53,7 +53,7 @@ public class UpdateCommand extends Command {
     /**
      * Constructs a simplified {@code UpdateCommand} that only updates the internship status.
      *
-     * @param index     the index of the internship to be updated (0-based)
+     * @param index     the index of the internship to be isUpdated (0-based)
      * @param newStatus the new internship status
      */
     public UpdateCommand(int index, String newStatus) {
@@ -75,28 +75,28 @@ public class UpdateCommand extends Command {
      */
     @Override
     public void execute() throws InternityException {
-        boolean updated = false; 
+        boolean isUpdated = false; 
         if (company != null) {
             InternshipList.updateCompany(index, company);
-            updated = true;
+            isUpdated = true;
         }
         if (role != null) {
             InternshipList.updateRole(index, role);
-            updated = true;
+            isUpdated = true;
         }
         if (deadline != null) {
             InternshipList.updateDeadline(index, deadline);
-            updated = true;
+            isUpdated = true;
         }
         if (pay != null) {
             InternshipList.updatePay(index, pay);
-            updated = true;
+            isUpdated = true;
         }
         if (status != null) {
             InternshipList.updateStatus(index, status);
-            updated = true;
+            isUpdated = true;
         }
-        if (!updated) {
+        if (!isUpdated) {
             throw new InternityException(
                 "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
             );

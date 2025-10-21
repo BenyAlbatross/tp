@@ -57,14 +57,14 @@ class UpdateCommandTest {
     @Test
     void execute_multipleFields_updatesAllSuccessfully() throws InternityException {
         Date newDeadline = new Date(1, 12, 2025);
-        UpdateCommand command = new UpdateCommand(0, "Meta", "AI Research Intern", newDeadline, 12000, "Offered");
+        UpdateCommand command = new UpdateCommand(0, "Meta", "AI Research Intern", newDeadline, 12000, "Offer");
         command.execute();
         Internship updated = InternshipList.get(0);
         assertEquals("Meta", updated.getCompany());
         assertEquals("AI Research Intern", updated.getRole());
         assertEquals("01-12-2025", updated.getDeadline().toString());
         assertEquals(12000, updated.getPay());
-        assertEquals("Offered", updated.getStatus());
+        assertEquals("Offer", updated.getStatus());
     }
 
     @Test

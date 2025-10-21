@@ -68,36 +68,12 @@ public final class ArgumentParser {
     }
 
     public static UpdateCommand parseUpdateCommandArgs(String args) throws InternityException {
-        if (args == null || args.isBlank()) {
-            throw new InternityException("Invalid update command format. Use: update INDEX field/VALUE ...");
-        }
-
-        String trimmed = args.trim();
-
-        int firstSpace = trimmed.indexOf(' ');
-        if (firstSpace < 0) {
-            throw new InternityException("Invalid update command format. Use: update INDEX field/VALUE ...");
-        }
-        String indexToken = trimmed.substring(0, firstSpace).trim();
-        String tagged = trimmed.substring(firstSpace + 1).trim();
-
-        int zeroBasedIndex;
-        try {
-            zeroBasedIndex = Integer.parseInt(indexToken) - 1; // 0-based
-        } catch (NumberFormatException e) {
-            throw new InternityException(
-                "Invalid index. Use a positive integer, for example: update 1 company/Google"
-            );
-        }
-
-        if (tagged.isBlank()) {
-            throw new InternityException(
-                "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
-            );
-        }
+        String trimmed = requireArgs(args);
+        String[] idxAndTagged = splitIndexAndTagged(trimmed);
+        int index = parseZeroBasedIndex(idxAndTagged[0]);
+        String tagged = requireTagged(idxAndTagged[1]);
 
         String[] parts = tagged.split("\\s+(?=company/|role/|deadline/|pay/|status/)");
-
         String company = null;
         String role = null;
         Date deadline = null;
@@ -107,56 +83,87 @@ public final class ArgumentParser {
         try {
             for (String part : parts) {
                 String p = part.trim();
-                if (p.isEmpty()){
+                if (p.isEmpty()) {
                     continue;
                 }
                 if (p.startsWith("company/")) {
-                    company = p.substring("company/".length()).trim();
+                    company = valueAfterTag(p, "company/");
                     if (company.isEmpty()) {
-                        throw new InternityException("company/ cannot be empty");
+                        throw InternityException.emptyField("company/");
                     }
                 } else if (p.startsWith("role/")) {
-                    role = p.substring("role/".length()).trim();
+                    role = valueAfterTag(p, "role/");
                     if (role.isEmpty()) {
-                        throw new InternityException("role/ cannot be empty");
+                        throw InternityException.emptyField("role/");
                     }
                 } else if (p.startsWith("deadline/")) {
-                    String d = p.substring("deadline/".length()).trim();
-                    deadline = DateFormatter.parse(d); // validates dd-MM-yyyy
+                    String d = valueAfterTag(p, "deadline/");
+                    deadline = DateFormatter.parse(d);
                 } else if (p.startsWith("pay/")) {
-                    String payStr = p.substring("pay/".length()).trim();
+                    String payStr = valueAfterTag(p, "pay/");
                     int payVal = Integer.parseInt(payStr);
                     if (payVal < 0) {
                         throw new NumberFormatException();
                     }
                     pay = payVal;
                 } else if (p.startsWith("status/")) {
-                    status = p.substring("status/".length()).trim();
+                    status = valueAfterTag(p, "status/");
                     if (status.isEmpty()) {
-                        throw new InternityException("status/ cannot be empty");
+                        throw InternityException.emptyField("status/");
                     }
                 } else {
-                    throw new InternityException(
-                            "Unknown update field in \"" + p
-                            + "\". Allowed: company, role, deadline, pay, status"
-                    );
+                    throw InternityException.unknownUpdateField(p);
                 }
             }
         } catch (NumberFormatException e) {
-            throw new InternityException("Invalid pay. Use a whole number (example: pay/8000)");
+            throw InternityException.invalidPayFormat();
         }
 
         if (company == null && role == null && deadline == null && pay == null && status == null) {
-            throw new InternityException(
-                    "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
-            );
+            throw InternityException.noUpdateFieldsProvided();
         }
 
-        return new UpdateCommand(zeroBasedIndex, company, role, deadline, pay, status);
+        return new UpdateCommand(index, company, role, deadline, pay, status);
     }
-
 
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
         return new ListCommand();
     }
+
+    private static String requireArgs(String args) throws InternityException {
+        if (args == null || args.isBlank()) {
+            throw InternityException.invalidUpdateFormat();
+        }
+        return args.trim();
+    }
+
+    private static String requireTagged(String tagged) throws InternityException {
+        if (tagged.isBlank()) {
+            throw InternityException.noUpdateFieldsProvided();
+        }
+        return tagged;
+    }
+
+    private static String[] splitIndexAndTagged(String trimmed) throws InternityException {
+        int firstSpace = trimmed.indexOf(' ');
+        if (firstSpace < 0) {
+            throw InternityException.invalidUpdateFormat();
+        }
+        String indexToken = trimmed.substring(0, firstSpace).trim();
+        String tagged = trimmed.substring(firstSpace + 1).trim();
+        return new String[] { indexToken, tagged };
+    }
+
+    private static int parseZeroBasedIndex(String indexToken) throws InternityException {
+        try {
+            return Integer.parseInt(indexToken) - 1;
+        } catch (NumberFormatException e) {
+            throw InternityException.invalidIndexForUpdate();
+        }
+    }
+
+    private static String valueAfterTag(String token, String tag) {
+        return token.substring(tag.length()).trim();
+    }
+
 }

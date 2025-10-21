@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import internity.ui.Ui;
 
 public class InternshipList {
-    public static final int INDEX_MAXLEN= 5;
+    public static final int INDEX_MAXLEN = 5;
     public static final int COMPANY_MAXLEN = 15;
     public static final int ROLE_MAXLEN = 30;
     public static final int DEADLINE_MAXLEN = 15;
@@ -121,12 +121,16 @@ public class InternshipList {
 
 
     public static void updateStatus(int index, String newStatus) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
+        if (newStatus == null || !Status.isValid(newStatus)) {
+            throw InternityException.invalidStatus(String.valueOf(newStatus));
+        }
+        final String normalized = Status.canonical(newStatus);
         Internship internship = List.get(index);
-        internship.setStatus(newStatus);
-        System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
+        internship.setStatus(normalized);
+        System.out.println("Updated internship " + (index + 1) + " status to: " + normalized);
     }
 
     public static void updateCompany(int index, String newCompany) throws InternityException {
