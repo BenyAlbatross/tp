@@ -13,15 +13,15 @@ import java.util.logging.Logger;
 
 /**
  * A utility class responsible for parsing command-line arguments for various commands
- * such as Add, Delete, Update and List.
+ * such as Add, Delete, Find, Update and List.
  */
 public final class ArgumentParser {
-    private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
-
     static final int IDX_COMPANY = 0;
     static final int IDX_ROLE = 1;
     static final int IDX_DEADLINE = 2;
     static final int IDX_PAY = 3;
+
+    private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
 
     /**
      * Private constructor to prevent instantiation of the ArgumentParser class.
