@@ -40,8 +40,9 @@ public final class ArgumentParser {
 
         try {
             String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-            assert parts.length == 4 : "AddCommand should have exactly 4 arguments.";
-            if (!parts[0].startsWith("company/") ||
+
+            if (parts.length != 4 ||
+                    !parts[0].startsWith("company/") ||
                     !parts[1].startsWith("role/") ||
                     !parts[2].startsWith("deadline/") ||
                     !parts[3].startsWith("pay/")) {
@@ -61,6 +62,7 @@ public final class ArgumentParser {
                 logger.severe("One or more arguments of Add command is empty or invalid.");
                 throw InternityException.invalidAddCommand();
             }
+
 
             // throw exception on exceeding max length
             if (company.length() > InternshipList.COMPANY_MAXLEN ||
