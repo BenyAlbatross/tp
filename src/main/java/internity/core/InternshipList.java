@@ -1,13 +1,10 @@
 package internity.core;
 
-import internity.commands.ListCommand;
-import internity.ui.Ui;
-
 import java.util.ArrayList;
-
 import java.util.Comparator;
 import java.util.logging.Logger;
 
+import internity.commands.ListCommand;
 import internity.ui.Ui;
 
 public class InternshipList {
