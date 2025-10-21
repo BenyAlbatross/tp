@@ -18,6 +18,11 @@ import java.util.logging.Logger;
 public final class ArgumentParser {
     private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
 
+    static final int IDX_COMPANY = 0;
+    static final int IDX_ROLE = 1;
+    static final int IDX_DEADLINE = 2;
+    static final int IDX_PAY = 3;
+
     /**
      * Private constructor to prevent instantiation of the ArgumentParser class.
      */
@@ -41,20 +46,20 @@ public final class ArgumentParser {
         try {
             String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
             if (parts.length != 4 ||
-                    !parts[0].startsWith("company/") ||
-                    !parts[1].startsWith("role/") ||
-                    !parts[2].startsWith("deadline/") ||
-                    !parts[3].startsWith("pay/")) {
+                    !parts[IDX_COMPANY].startsWith("company/") ||
+                    !parts[IDX_ROLE].startsWith("role/") ||
+                    !parts[IDX_DEADLINE].startsWith("deadline/") ||
+                    !parts[IDX_PAY].startsWith("pay/")) {
                 logger.severe("One or more arguments of Add command is in the wrong order.");
                 throw InternityException.invalidAddCommand();
             }
 
             logger.info("Successfully parsed 4 arguments of AddCommand.");
 
-            String company = parts[0].substring("company/".length()).trim();
-            String role = parts[1].substring("role/".length()).trim();
-            Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
-            int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
+            String company = parts[IDX_COMPANY].substring("company/".length()).trim();
+            String role = parts[IDX_ROLE].substring("role/".length()).trim();
+            Date deadline = DateFormatter.parse(parts[IDX_DEADLINE].substring("deadline/".length()).trim());
+            int pay = Integer.parseInt(parts[IDX_PAY].substring("pay/".length()).trim());
 
             // throw exception on empty input or invalid pay
             if (company.isEmpty() || role.isEmpty() || pay < 0) {
