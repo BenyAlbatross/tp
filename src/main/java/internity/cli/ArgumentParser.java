@@ -106,8 +106,12 @@ public final class ArgumentParser {
      *
      * @param args arguments for {@link FindCommand}
      * @return an instance of {@link FindCommand} constructed from the parsed arguments.
+     * @throws InternityException if the arguments are missing.
      */
-    public static FindCommand parseFindCommandArgs(String args) {
+    public static FindCommand parseFindCommandArgs(String args) throws InternityException {
+        if (args == null || args.isBlank()) {
+            throw InternityException.invalidFindCommand();
+        }
         return new FindCommand(args);
     }
 

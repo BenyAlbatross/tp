@@ -77,20 +77,6 @@ class FindCommandTest {
     }
 
     /**
-     * Tests that FindCommand throws an exception when the keyword is empty.
-     */
-    @Test
-    void execute_emptyKeyword_throwsException() {
-        // Arrange
-        String keyword = "";
-        FindCommand command = new FindCommand(keyword);
-
-        // Act & Assert
-        assertThrows(InternityException.class, command::execute,
-                "Expected InternityException when keyword is empty");
-    }
-
-    /**
      * Tests that FindCommand does not terminate the application.
      */
     @Test
