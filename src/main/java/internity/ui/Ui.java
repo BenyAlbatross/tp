@@ -37,11 +37,7 @@ public class Ui {
 
     public static void printAddInternship(Internship internship) {
         System.out.println("Noted. I've added this internship:");
-        System.out.println("  "
-                + internship.getCompany() + " - " + internship.getRole()
-                + " | Deadline: " + internship.getDeadline()
-                + " | Pay: " + internship.getPay()
-        );
+        System.out.println(internship.toString());
     }
 
     public static void printRemoveInternship(String item, int totalItems) {
@@ -58,7 +54,8 @@ public class Ui {
         System.out.println("These are the matching internships in your list:");
         for (int i = 0; i < list.size(); i++) {
             System.out.print("  " + (i + 1) + ".");
-            System.out.println(list.get(i).toString());
+            Internship internship = list.get(i);
+            System.out.println(internship.toString());
         }
     }
 }

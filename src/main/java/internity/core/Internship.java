@@ -68,4 +68,11 @@ public class Internship implements Comparable<Internship> {
             return a.getDeadline().compareTo(b.getDeadline());
         }
     }
+
+    @Override
+    public String toString() {
+        return "  " + getCompany() + " - " + getRole()
+                + " | Deadline: " + getDeadline()
+                + " | Pay: " + getPay();
+    }
 }
