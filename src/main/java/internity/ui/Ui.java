@@ -2,6 +2,8 @@ package internity.ui;
 
 import internity.core.Internship;
 
+import java.util.ArrayList;
+
 /**
  * The Ui Class provides user interface methods for the Internity chatbot.
  * Handles printing messages.
@@ -52,4 +54,11 @@ public class Ui {
         System.out.println("Internship status updated successfully!");
     }
 
+    public static void printFindInternship(ArrayList<Internship> list) {
+        System.out.println("These are the matching internships in your list:");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print("  " + (i + 1) + ".");
+            System.out.println(list.get(i).toString());
+        }
+    }
 }

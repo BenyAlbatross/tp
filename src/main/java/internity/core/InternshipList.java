@@ -155,7 +155,7 @@ public class InternshipList {
             return;
         }
 
-        Ui.printFindCommand(matchingInternships);
+        Ui.printFindInternship(matchingInternships);
     }
 
     public static void clear() {

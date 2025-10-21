@@ -1,19 +1,16 @@
 package internity.commands;
 
-import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
 import internity.ui.Ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class FindCommand extends Command {
     private static final Logger logger = Logger.getLogger(FindCommand.class.getName());
 
-    private String keyword;
+    private final String keyword;
 
     /**
      * Constructs an {@code AddCommand} with the specified internship details.
@@ -27,23 +24,6 @@ public class FindCommand extends Command {
         this.keyword = keyword;
     }
 
-    private void findInternship() {
-        ArrayList<Internship> matchingInternships = InternshipList.List.stream()
-                .filter(task -> task.getDescription().toLowerCase().contains(input.toLowerCase()))
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        if (matchingTasks.isEmpty()) {
-            System.out.println("No matching tasks found.");
-            return;
-        }
-
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < matchingTasks.size(); i++) {
-            System.out.print("  " + (i + 1) + ".");
-            System.out.println(matchingTasks.get(i).toString());
-        }
-    }
-
     /**
      * Executes the add command by creating a new {@link Internship} object and
      * adding it to the global static {@link InternshipList}.
@@ -55,13 +35,9 @@ public class FindCommand extends Command {
      */
     @Override
     public void execute() throws InternityException {
-        findInternship();
-    }
-        logger.info("Executing add command");
-        Internship internship = new Internship(company, role, deadline, pay);
-        InternshipList.add(internship);
-        Ui.printAddInternship(internship);
-        logger.info("Add command executed successfully.");
+        logger.info("Executing find command");
+        InternshipList.findInternship(keyword);
+        logger.info("Find command executed successfully.");
     }
 
     /**
@@ -73,3 +49,4 @@ public class FindCommand extends Command {
     public boolean isExit() {
         return false;
     }
+}
