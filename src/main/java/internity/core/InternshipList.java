@@ -7,9 +7,10 @@ import java.util.ArrayList;
 
 import java.util.Comparator;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class InternshipList {
-    public static final int INDEX_MAXLEN= 5;
+    public static final int INDEX_MAXLEN = 5;
     public static final int COMPANY_MAXLEN = 15;
     public static final int ROLE_MAXLEN = 30;
     public static final int DEADLINE_MAXLEN = 15;
@@ -20,7 +21,8 @@ public class InternshipList {
     private static final ArrayList<Internship> List = new ArrayList<>();
     private static Storage storage;
 
-    private InternshipList() {}
+    private InternshipList() {
+    }
 
     /**
      * Sets the storage instance for auto-saving.
@@ -92,9 +94,9 @@ public class InternshipList {
         logger.info("Listing all internships");
 
 
-        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatContent = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
 
 
@@ -139,6 +141,21 @@ public class InternshipList {
         Internship internship = List.get(index);
         internship.setStatus(newStatus);
         System.out.println("Updated internship " + (index + 1) + " status to: " + newStatus);
+    }
+
+    public static void findInternship(String keyword) {
+        ArrayList<Internship> matchingInternships = List.stream()
+                .filter(internship ->
+                        internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
+                                internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (matchingInternships.isEmpty()) {
+            System.out.println("No internships with this Company or Role found.");
+            return;
+        }
+
+        Ui.printFindCommand(matchingInternships);
     }
 
     public static void clear() {
