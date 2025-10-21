@@ -9,7 +9,11 @@ import internity.core.InternityException;
 import internity.core.InternshipList;
 import internity.utils.DateFormatter;
 
+import java.util.logging.Logger;
+
 public final class ArgumentParser {
+    private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
+
     private ArgumentParser() {
     } // prevent instantiation
 
@@ -18,16 +22,20 @@ public final class ArgumentParser {
             throw InternityException.invalidAddCommand();
         }
 
+        assert !args.isBlank() : "Arguments cannot be blank after validation";
+
         try {
             String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-
-            if (parts.length != 4 ||
-                    !parts[0].startsWith("company/") ||
+            assert parts.length == 4 : "AddCommand should have exactly 4 arguments.";
+            if (!parts[0].startsWith("company/") ||
                     !parts[1].startsWith("role/") ||
                     !parts[2].startsWith("deadline/") ||
                     !parts[3].startsWith("pay/")) {
+                logger.severe("One or more arguments of Add command is in the wrong order.");
                 throw InternityException.invalidAddCommand();
             }
+
+            logger.info("Successfully parsed 4 arguments of AddCommand.");
 
             String company = parts[0].substring("company/".length()).trim();
             String role = parts[1].substring("role/".length()).trim();
@@ -36,17 +44,20 @@ public final class ArgumentParser {
 
             // throw exception on empty input
             if (company.isEmpty() || role.isEmpty() || pay < 0) {
+                logger.severe("One or more arguments of Add command is empty or invalid.");
                 throw InternityException.invalidAddCommand();
             }
 
             // throw exception on exceeding max length
             if (company.length() > InternshipList.COMPANY_MAXLEN ||
                     role.length() > InternshipList.ROLE_MAXLEN) {
+                logger.severe("One or more arguments exceeded max length.");
                 throw InternityException.invalidAddCommand();
             }
 
             return new AddCommand(company, role, deadline, pay);
         } catch (Exception e) {
+            logger.severe("Error executing Add Command");
             throw InternityException.invalidAddCommand();
         }
     }
