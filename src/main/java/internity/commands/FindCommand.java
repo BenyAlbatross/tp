@@ -7,31 +7,45 @@ import internity.ui.Ui;
 
 import java.util.logging.Logger;
 
+/**
+ * Represents a command that allows the user to find internships with
+ * matching company or role names based on a keyword.
+ *
+ * <p>
+ * The command parses a user input string in the following format:
+ * <pre>
+ *     find KEYWORD
+ * </pre>
+ * Example:
+ * <pre>
+ *     find Google
+ *     find Software Engineer
+ * </pre>
+ * </p>
+ */
 public class FindCommand extends Command {
     private static final Logger logger = Logger.getLogger(FindCommand.class.getName());
 
     private final String keyword;
 
     /**
-     * Constructs an {@code AddCommand} with the specified internship details.
+     * Constructs a {@code FindCommand} with the specified keyword to search for internships.
      *
-     * @param company  the name of the company offering the internship
-     * @param role     the internship role or position
-     * @param deadline the application deadline for the internship
-     * @param pay      the monthly pay or stipend for the internship
+     * @param keyword the keyword used to search for matching internships.
      */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }
 
     /**
-     * Executes the add command by creating a new {@link Internship} object and
-     * adding it to the global static {@link InternshipList}.
+     * Executes the find command by searching for internships in the {@link InternshipList}
+     * that match the provided keyword.
      * <p>
-     * Once added, the {@link Ui} class is used to show a confirmation message.
+     * The command uses the {@link InternshipList} to filter
+     * the internships based on the given keyword.
      * </p>
      *
-     * @throws InternityException if an error occurs.
+     * @throws InternityException if an error occurs while executing the find command.
      */
     @Override
     public void execute() throws InternityException {
