@@ -40,7 +40,6 @@ public final class ArgumentParser {
 
         try {
             String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-
             if (parts.length != 4 ||
                     !parts[0].startsWith("company/") ||
                     !parts[1].startsWith("role/") ||
@@ -57,12 +56,11 @@ public final class ArgumentParser {
             Date deadline = DateFormatter.parse(parts[2].substring("deadline/".length()).trim());
             int pay = Integer.parseInt(parts[3].substring("pay/".length()).trim());
 
-            // throw exception on empty input
+            // throw exception on empty input or invalid pay
             if (company.isEmpty() || role.isEmpty() || pay < 0) {
                 logger.severe("One or more arguments of Add command is empty or invalid.");
                 throw InternityException.invalidAddCommand();
             }
-
 
             // throw exception on exceeding max length
             if (company.length() > InternshipList.COMPANY_MAXLEN ||
@@ -126,7 +124,7 @@ public final class ArgumentParser {
      *
      * @param args arguments for {@link ListCommand}
      * @return an instance of ListCommand constructed from the parsed arguments.
-     *         Returns a default ListCommand if no arguments are provided.
+     * Returns a default ListCommand if no arguments are provided.
      * @throws InternityException if the arguments are missing or invalid.
      */
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
