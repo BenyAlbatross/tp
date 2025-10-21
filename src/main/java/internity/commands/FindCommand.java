@@ -1,9 +1,7 @@
 package internity.commands;
 
 import internity.core.InternityException;
-import internity.core.Internship;
 import internity.core.InternshipList;
-import internity.ui.Ui;
 
 import java.util.logging.Logger;
 
