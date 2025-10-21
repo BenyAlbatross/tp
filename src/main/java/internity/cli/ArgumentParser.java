@@ -1,6 +1,10 @@
 package internity.cli;
 
-import internity.commands.*;
+import internity.commands.AddCommand;
+import internity.commands.DeleteCommand;
+import internity.commands.FindCommand;
+import internity.commands.ListCommand;
+import internity.commands.UpdateCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.InternshipList;
@@ -13,12 +17,12 @@ import java.util.logging.Logger;
  * such as Add, Delete, Update and List.
  */
 public final class ArgumentParser {
-    private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
-
     static final int IDX_COMPANY = 0;
     static final int IDX_ROLE = 1;
     static final int IDX_DEADLINE = 2;
     static final int IDX_PAY = 3;
+
+    private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
 
     /**
      * Private constructor to prevent instantiation of the ArgumentParser class.
