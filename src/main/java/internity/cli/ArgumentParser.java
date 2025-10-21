@@ -1,9 +1,6 @@
 package internity.cli;
 
-import internity.commands.AddCommand;
-import internity.commands.DeleteCommand;
-import internity.commands.ListCommand;
-import internity.commands.UpdateCommand;
+import internity.commands.*;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.InternshipList;
@@ -102,6 +99,16 @@ public final class ArgumentParser {
         } catch (NumberFormatException e) {
             throw InternityException.invalidInternshipIndex();
         }
+    }
+
+    /**
+     * Parses the arguments for Find Command to create a {@link FindCommand} instance.
+     *
+     * @param args arguments for {@link FindCommand}
+     * @return an instance of {@link FindCommand} constructed from the parsed arguments.
+     */
+    public static FindCommand parseFindCommandArgs(String args) {
+        return new FindCommand(args);
     }
 
     /**
