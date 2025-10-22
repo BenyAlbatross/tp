@@ -16,10 +16,11 @@ import java.util.logging.Logger;
  * such as Add, Delete, Find, Update and List.
  */
 public final class ArgumentParser {
-    static final int IDX_COMPANY = 0;
-    static final int IDX_ROLE = 1;
-    static final int IDX_DEADLINE = 2;
-    static final int IDX_PAY = 3;
+    private static final int ADD_COMMAND_PARTS = 4;
+    private static final int IDX_COMPANY = 0;
+    private static final int IDX_ROLE = 1;
+    private static final int IDX_DEADLINE = 2;
+    private static final int IDX_PAY = 3;
 
     private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
 
@@ -45,7 +46,7 @@ public final class ArgumentParser {
 
         try {
             String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
-            if (parts.length != 4 ||
+            if (parts.length != ADD_COMMAND_PARTS ||
                     !parts[IDX_COMPANY].startsWith("company/") ||
                     !parts[IDX_ROLE].startsWith("role/") ||
                     !parts[IDX_DEADLINE].startsWith("deadline/") ||
@@ -76,7 +77,7 @@ public final class ArgumentParser {
 
             return new AddCommand(company, role, deadline, pay);
         } catch (Exception e) {
-            logger.severe("Error executing Add Command");
+            logger.severe("Error executing Add Command: " + e.getMessage());
             throw InternityException.invalidAddCommand();
         }
     }
