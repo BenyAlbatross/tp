@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import internity.utils.DateFormatter;
+
 /**
  * Handles loading and saving internships to a file for persistent storage.
  * The storage format is a pipe-delimited text file where each line represents one internship.
@@ -24,6 +26,14 @@ public class Storage {
     static {
         logger.setLevel(Level.WARNING);
     }
+
+    // Indices for pipe delimited format
+    private static final int IDX_COMPANY = 0;
+    private static final int IDX_ROLE = 1;
+    private static final int IDX_DEADLINE = 2;
+    private static final int IDX_PAY = 3;
+    private static final int IDX_STATUS = 4;
+    private static final int LEN_REQUIRED_FIELDS = 5;
 
     private final Path filePath;
 
@@ -58,12 +68,9 @@ public class Storage {
             int lineNumber = 0;
             while ((line = br.readLine()) != null) {
                 lineNumber++;
-                Internship internship = parseInternshipFromFile(line);
-                if (internship != null) {
-                    internships.add(internship);
-                } else {
-                    logger.warning("Skipped corrupted line " + lineNumber + ": " + line);
-                    System.out.println("Warning: Skipped corrupted line in storage file: " + line);
+                String errorMessage = parseInternshipFromFile(line, internships);
+                if (errorMessage != null) {
+                    System.err.println(errorMessage);
                 }
             }
         } catch (IOException e) {
@@ -79,21 +86,11 @@ public class Storage {
      * Parses a single line from the storage file into an Internship object.
      *
      * @param line The line to parse.
-     * @return The parsed Internship, or null if the line is corrupted.
+     * @param internships The list to add the parsed internship to.
+     * @return Error message if parsing failed, null if successful.
      */
-    private Internship parseInternshipFromFile(String line) {
+    private String parseInternshipFromFile(String line, ArrayList<Internship> internships) {
         assert line != null : "Line to parse cannot be null";
-
-        // Indices for pipe delimited format
-        final int IDX_COMPANY = 0;
-        final int IDX_ROLE = 1;
-        final int IDX_DEADLINE = 2;
-        final int IDX_PAY = 3;
-        final int IDX_STATUS = 4;
-
-        final int IDX_DAY = 0;
-        final int IDX_MONTH = 1;
-        final int IDX_YEAR = 2;
 
         String[] parts = line.split("\\|");
 
@@ -102,35 +99,80 @@ public class Storage {
             parts[i] = parts[i].trim();
         }
 
-        if (parts.length < 5) {
-            return null; // Corrupted line - line has fewer than 5 fields
+        // Validate field count
+        if (parts.length != LEN_REQUIRED_FIELDS) {
+            return "Warning: Skipped line with invalid number of fields: " + line;
         }
 
+        // Parse and validate all fields in one place
+        return parseAndValidateFields(parts, line, internships);
+    }
+
+    /**
+     * Parses and validates all fields of an internship entry from storage.
+     * This centralizes all parsing and validation logic for clarity and maintainability.
+     *
+     * Validation rules:
+     * - Company and role must not be empty
+     * - Pay must be a valid integer format
+     * - Pay must be non-negative
+     * - Deadline must be in valid DD-MM-YYYY format
+     * - Deadline must represent a valid calendar date (no Feb 31, etc.)
+     * - Status must be one of the valid status values
+     *
+     * @param parts The split and trimmed line parts.
+     * @param line The original line for error reporting.
+     * @param internships The list to add the parsed internship to.
+     * @return Error message if parsing/validation failed, null if successful.
+     */
+    private String parseAndValidateFields(String[] parts, String line, ArrayList<Internship> internships) {
+        String company = parts[IDX_COMPANY];
+        String role = parts[IDX_ROLE];
+        String deadlineStr = parts[IDX_DEADLINE];
+
+        // Validate non-empty company and role
+        if (company.isEmpty() || role.isEmpty()) {
+            logger.warning("Empty company or role in line: " + line);
+            return "Warning: Skipped line with empty company or role: " + line;
+        }
+
+        // Parse pay
+        int pay;
         try {
-            String company = parts[IDX_COMPANY];
-            String role = parts[IDX_ROLE];
-            String deadlineStr = parts[IDX_DEADLINE];
-            int pay = Integer.parseInt(parts[IDX_PAY]);
-            String status = parts[IDX_STATUS];
-
-            // Parse the date (format: DD-MM-YYYY)
-            String[] dateParts = deadlineStr.split("-");
-            if (dateParts.length != 3) {
-                return null; // Invalid date format
-            }
-
-            int day = Integer.parseInt(dateParts[IDX_DAY]);
-            int month = Integer.parseInt(dateParts[IDX_MONTH]);
-            int year = Integer.parseInt(dateParts[IDX_YEAR]);
-            Date deadline = new Date(day, month, year);
-
-            Internship internship = new Internship(company, role, deadline, pay);
-            internship.setStatus(status);
-
-            return internship;
+            pay = Integer.parseInt(parts[IDX_PAY]);
         } catch (NumberFormatException e) {
-            return null; // Invalid number format
+            logger.warning("Invalid pay format in line: " + line + " - " + e.getMessage());
+            return "Warning: Skipped line with invalid pay format: " + line;
         }
+
+        // Validate pay is non-negative
+        if (pay < 0) {
+            logger.warning("Negative pay in line: " + line + " - pay: " + pay);
+            return "Warning: Skipped line with negative pay amount: " + line;
+        }
+
+        String status = parts[IDX_STATUS];
+        // Validate status
+        if (!Internship.isValidStatus(status)) {
+            logger.warning("Invalid status in line: " + line + " - status: " + status);
+            return "Warning: Skipped line with invalid status: " + line;
+        }
+
+        // Parse and validate date
+        Date deadline;
+        try {
+            deadline = DateFormatter.parse(deadlineStr);
+        } catch (InternityException e) {
+            logger.warning("Invalid date in line: " + line + " - " + e.getMessage());
+            return "Warning: Skipped line - " + e.getMessage() + ": " + line;
+        }
+
+        // Create and add internship
+        Internship internship = new Internship(company, role, deadline, pay);
+        internship.setStatus(status);
+        internships.add(internship);
+
+        return null;
     }
 
     /**
@@ -148,7 +190,7 @@ public class Storage {
             // Create parent directories if they don't exist
             if (filePath.getParent() != null) {
                 Files.createDirectories(filePath.getParent());
-                logger.fine("Created parent directories for: " + filePath);
+                logger.warning("Created parent directories for: " + filePath);
             }
 
             try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filePath.toFile())))) {
