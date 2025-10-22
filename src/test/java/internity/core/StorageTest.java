@@ -24,22 +24,26 @@ class StorageTest {
     private Storage storage;
     private String testFilePath;
     private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
     private ByteArrayOutputStream outContent;
+    private ByteArrayOutputStream errContent;
 
     @BeforeEach
     void setUp() {
         testFilePath = tempDir.resolve("test_internships.txt").toString();
         storage = new Storage(testFilePath);
         outContent = new ByteArrayOutputStream();
+        errContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
     }
 
     @AfterEach
     void restoreStreams() {
         System.setOut(originalOut);
+        System.setErr(originalErr);
     }
 
-    // Test save() with empty list
     @Test
     void save_emptyList_createsEmptyFile() throws InternityException, IOException {
         ArrayList<Internship> internships = new ArrayList<>();
@@ -50,7 +54,6 @@ class StorageTest {
         assertEquals(0, lines.size());
     }
 
-    // Test save() with single internship
     @Test
     void save_singleInternship_writesCorrectFormat() throws InternityException, IOException {
         ArrayList<Internship> internships = new ArrayList<>();
@@ -64,7 +67,6 @@ class StorageTest {
         assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(0));
     }
 
-    // Test save() with multiple internships
     @Test
     void save_multipleInternships_writesAllEntries() throws InternityException, IOException {
         ArrayList<Internship> internships = new ArrayList<>();
@@ -81,7 +83,6 @@ class StorageTest {
         assertEquals("Amazon | DevOps | 01-05-2025 | 5500 | Pending", lines.get(2));
     }
 
-    // Test save() with custom status
     @Test
     void save_withCustomStatus_preservesStatus() throws InternityException, IOException {
         ArrayList<Internship> internships = new ArrayList<>();
@@ -114,7 +115,6 @@ class StorageTest {
         assertTrue(Files.exists(Path.of(nestedPath)));
     }
 
-    // Test load() from non-existent file
     @Test
     void load_nonExistentFile_returnsEmptyList() throws InternityException {
         String nonExistentPath = tempDir.resolve("does_not_exist.txt").toString();
@@ -125,7 +125,6 @@ class StorageTest {
         assertEquals(0, internships.size());
     }
 
-    // Test load() from empty file
     @Test
     void load_emptyFile_returnsEmptyList() throws InternityException, IOException {
         Files.createFile(Path.of(testFilePath));
@@ -135,7 +134,6 @@ class StorageTest {
         assertEquals(0, internships.size());
     }
 
-    // Test load() with valid single entry
     @Test
     void load_validSingleEntry_loadsCorrectly() throws InternityException, IOException {
         Files.writeString(Path.of(testFilePath), "Google | SWE | 15-03-2025 | 6000 | Pending\n");
@@ -149,7 +147,6 @@ class StorageTest {
         assertEquals("Pending", internships.get(0).getStatus());
     }
 
-    // Test load() with multiple valid entries
     @Test
     void load_multipleValidEntries_loadsAll() throws InternityException, IOException {
         String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
@@ -177,9 +174,8 @@ class StorageTest {
         assertEquals("Rejected", internships.get(2).getStatus());
     }
 
-    // Test load() with corrupted line - fewer than 5 fields
     @Test
-    void load_corruptedLineFewerFields_skipsCorruptedLine() throws InternityException, IOException {
+    void load_fewerFields_skipsLine() throws InternityException, IOException {
         String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025\n"  // Missing pay and status
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
@@ -190,12 +186,11 @@ class StorageTest {
         assertEquals(2, internships.size());
         assertEquals("Google", internships.get(0).getCompany());
         assertEquals("Amazon", internships.get(1).getCompany());
-        assertTrue(outContent.toString().contains("Warning: Skipped corrupted line"));
+        assertTrue(errContent.toString().contains("Warning: Skipped line with invalid number of fields:"));
     }
 
-    // Test load() with corrupted line - invalid pay format
     @Test
-    void load_corruptedLineInvalidPay_skipsCorruptedLine() throws InternityException, IOException {
+    void load_invalidPayFormat_skipsLine() throws InternityException, IOException {
         String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | NotANumber | Accepted\n"
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
@@ -204,12 +199,41 @@ class StorageTest {
         ArrayList<Internship> internships = storage.load();
 
         assertEquals(2, internships.size());
-        assertTrue(outContent.toString().contains("Warning: Skipped corrupted line"));
+        assertTrue(errContent.toString().contains("Warning: Skipped line with invalid pay format"));
     }
 
-    // Test load() with corrupted line - invalid date format
     @Test
-    void load_corruptedLineInvalidDate_skipsCorruptedLine() throws InternityException, IOException {
+    void load_negativePay_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 20-04-2025 | -1000 | Accepted\n"  // Negative pay
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line with negative pay amount"));
+    }
+
+    @Test
+    void load_invalidStatus_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 20-04-2025 | 7000 | InvalidStatus\n"  // Invalid status
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line with invalid status"));
+    }
+
+    @Test
+    void load_invalidDateFormat_skipsLine() throws InternityException, IOException {
         String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 2025/04/20 | 7000 | Accepted\n"  // Wrong date format
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
@@ -218,10 +242,102 @@ class StorageTest {
         ArrayList<Internship> internships = storage.load();
 
         assertEquals(2, internships.size());
-        assertTrue(outContent.toString().contains("Warning: Skipped corrupted line"));
+        String stderr = errContent.toString();
+        String expectedError = "Warning: Skipped line - Invalid date format. "
+                + "Expected dd-MM-yyyy (e.g. 08-10-2025):";
+        assertTrue(stderr.contains(expectedError));
     }
 
-    // Test save() and load() round trip
+    @Test
+    void load_impossibleDate_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 31-02-2025 | 7000 | Accepted\n"  // Feb 31 doesn't exist
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        String stderr = errContent.toString();
+        String expectedError = "Warning: Skipped line - Invalid date format. "
+                + "Expected dd-MM-yyyy (e.g. 08-10-2025):";
+        assertTrue(stderr.contains(expectedError));
+    }
+
+    @Test
+    void load_nonNumericDate_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 1a-03-2025 | 7000 | Accepted\n"  // Contains 'a' in day
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        String stderr = errContent.toString();
+        String expectedError = "Warning: Skipped line - Invalid date format. "
+                + "Expected dd-MM-yyyy (e.g. 08-10-2025):";
+        assertTrue(stderr.contains(expectedError));
+    }
+
+    @Test
+    void load_zeroPay_loadsCorrectly() throws InternityException, IOException {
+        String content = "Google | SWE Intern | 15-03-2025 | 0 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(1, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("SWE Intern", internships.get(0).getRole());
+        assertEquals(0, internships.get(0).getPay());
+        assertEquals("Pending", internships.get(0).getStatus());
+    }
+
+    @Test
+    void load_emptyCompany_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + " | Data Scientist | 20-04-2025 | 7000 | Accepted\n"  // Empty company
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line with empty company or role"));
+    }
+
+    @Test
+    void load_emptyRole_skipsLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta |  | 20-04-2025 | 7000 | Accepted\n"  // Empty role
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line with empty company or role"));
+    }
+
+    @Test
+    void load_extraFields_loadsFirstFiveFields() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending | Extra | MoreExtra\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertTrue(errContent.toString().contains("Warning: Skipped line with invalid number of fields"));
+    }
+
     @Test
     void saveAndLoad_roundTrip_preservesData() throws InternityException {
         ArrayList<Internship> originalInternships = new ArrayList<>();
@@ -241,7 +357,6 @@ class StorageTest {
         assertEquals("Accepted", loadedInternships.get(1).getStatus());
     }
 
-    // Test load() handles extra whitespace
     @Test
     void load_extraWhitespace_trimsCorrectly() throws InternityException, IOException {
         Files.writeString(Path.of(testFilePath), "  Google  |  SWE  |  15-03-2025  |  6000  |  Pending  \n");
@@ -253,17 +368,16 @@ class StorageTest {
         assertEquals("SWE", internships.get(0).getRole());
     }
 
-    // Test load() with multi-word fields
     @Test
     void load_multiWordFields_loadsCorrectly() throws InternityException, IOException {
         Files.writeString(Path.of(testFilePath),
-                "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Under Review\n");
+                "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Interviewing\n");
 
         ArrayList<Internship> internships = storage.load();
 
         assertEquals(1, internships.size());
         assertEquals("Jane Street", internships.get(0).getCompany());
         assertEquals("Quantitative Researcher", internships.get(0).getRole());
-        assertEquals("Under Review", internships.get(0).getStatus());
+        assertEquals("Interviewing", internships.get(0).getStatus());
     }
 }

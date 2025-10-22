@@ -101,7 +101,7 @@ class DateFormatterTest {
             );
 
             assertEquals(
-                    "Invalid date: " + input,
+                    "Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)",
                     thrown.getMessage(),
                     "Message mismatch for input: " + input
             );
