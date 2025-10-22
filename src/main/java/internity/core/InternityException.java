@@ -39,8 +39,49 @@ public class InternityException extends Exception {
     }
 
     public static InternityException invalidListCommand() {
-        return new InternityException("Invalid list command. Usage: list");
+        return new InternityException("Invalid list command. Usage: list [sort/asc|sort/desc]");
     }
+
+    public static InternityException invalidUpdateFormat() {
+        return new InternityException(
+                "Invalid update command format. Use: update INDEX field/VALUE ..."
+        );
+    }
+
+    public static InternityException noUpdateFieldsProvided() {
+        return new InternityException(
+                "Provide at least one field to update: company/, role/, deadline/, pay/, status/"
+        );
+    }
+
+    public static InternityException emptyField(String tag) {
+        return new InternityException(tag + " cannot be empty");
+    }
+
+    public static InternityException invalidIndexForUpdate() {
+        return new InternityException(
+                "Invalid index. Use a positive integer, for example: update 1 company/Google"
+        );
+    }
+
+    public static InternityException invalidPayFormat() {
+        return new InternityException("Invalid pay. Use a whole number (example: pay/8000)");
+    }
+
+    public static InternityException unknownUpdateField(String token) {
+        return new InternityException(
+                "Unknown update field in \"" + token
+                + "\". Allowed: company, role, deadline, pay, status"
+        );
+    }
+
+    public static InternityException invalidStatus(String value) {
+        return new InternityException(
+                "Invalid status \"" + value
+                + "\". Allowed: Pending, Interested, Applied, Interviewing, Offer, Accepted, Rejected"
+        );
+    }
+
 
     public static InternityException invalidUsernameCommand() {
         return new InternityException("Invalid username command. Usage: username USERNAME");
