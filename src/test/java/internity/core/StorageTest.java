@@ -212,18 +212,20 @@ class StorageTest {
         assertTrue(errContent.toString().contains("Warning: Skipped line with invalid pay amount"));
     }
 
-    // Test load() with corrupted line - invalid date format
+    // Test load() with corrupted line - negative pay
     @Test
-    void load_corruptedLineInvalidDate_skipsCorruptedLine() throws InternityException, IOException {
+    void load_corruptedLineNegativePay_skipsCorruptedLine() throws InternityException, IOException {
         String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
-                + "Meta | Data Scientist | 2025/04/20 | 7000 | Accepted\n"  // Wrong date format
+                + "Meta | Data Scientist | 20-04-2025 | -1000 | Accepted\n"  // Negative pay
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
         assertEquals(2, internships.size());
-        assertTrue(errContent.toString().contains("Warning: Skipped line with invalid date"));
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line with negative pay amount"));
     }
 
     // Test load() with corrupted line - invalid status
@@ -240,6 +242,55 @@ class StorageTest {
         assertEquals("Google", internships.get(0).getCompany());
         assertEquals("Amazon", internships.get(1).getCompany());
         assertTrue(errContent.toString().contains("Warning: Skipped line with invalid status"));
+    }
+
+    // Test load() with corrupted line - invalid date format
+    @Test
+    void load_corruptedLineInvalidDate_skipsCorruptedLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 2025/04/20 | 7000 | Accepted\n"  // Wrong date format
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertTrue(errContent.toString().contains("Warning: Skipped line"));
+        assertTrue(errContent.toString().contains("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)"));
+    }
+
+    // Test load() with corrupted line - impossible date (Feb 31)
+    @Test
+    void load_corruptedLineImpossibleDate_skipsCorruptedLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 31-02-2025 | 7000 | Accepted\n"  // Feb 31 doesn't exist
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line"));
+        assertTrue(errContent.toString().contains("Invalid date"));
+    }
+
+    // Test load() with corrupted line - date with non-numeric characters
+    @Test
+    void load_corruptedLineDateWithNonNumeric_skipsCorruptedLine() throws InternityException, IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+                + "Meta | Data Scientist | 1a-03-2025 | 7000 | Accepted\n"  // Contains 'a' in day
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(2, internships.size());
+        assertEquals("Google", internships.get(0).getCompany());
+        assertEquals("Amazon", internships.get(1).getCompany());
+        assertTrue(errContent.toString().contains("Warning: Skipped line"));
+        assertTrue(errContent.toString().contains("Invalid date: 1a-03-2025"));
     }
 
     // Test save() and load() round trip

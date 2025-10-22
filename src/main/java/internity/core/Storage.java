@@ -99,15 +99,46 @@ public class Storage {
             parts[i] = parts[i].trim();
         }
 
+        // Validate field count
         if (parts.length < LEN_REQUIRED_FIELDS) {
             return "Warning: Skipped line with insufficient fields: " + line;
         }
 
+        // Parse and validate all fields in one place
+        return parseAndValidateFields(parts, line, internships);
+    }
+
+    /**
+     * Parses and validates all fields of an internship entry from storage.
+     * This centralizes all parsing and validation logic for clarity and maintainability.
+     *
+     * Validation rules:
+     * - Pay must be a valid integer format
+     * - Pay must be non-negative
+     * - Deadline must be in valid DD-MM-YYYY format
+     * - Deadline must represent a valid calendar date (no Feb 31, etc.)
+     * - Status must be one of the valid status values
+     *
+     * @param parts The split and trimmed line parts.
+     * @param line The original line for error reporting.
+     * @param internships The list to add the parsed internship to.
+     * @return Error message if parsing/validation failed, null if successful.
+     */
+    private String parseAndValidateFields(String[] parts, String line, ArrayList<Internship> internships) {
         try {
             String company = parts[IDX_COMPANY];
             String role = parts[IDX_ROLE];
             String deadlineStr = parts[IDX_DEADLINE];
+
+            // Parse pay (can throw NumberFormatException)
             int pay = Integer.parseInt(parts[IDX_PAY]);
+
+            // Validate pay is non-negative
+            if (pay < 0) {
+                logger.fine("Negative pay in line: " + line + " - pay: " + pay);
+                return "Warning: Skipped line with negative pay amount: " + line;
+            }
+
             String status = parts[IDX_STATUS];
 
             // Validate status
@@ -116,9 +147,11 @@ public class Storage {
                 return "Warning: Skipped line with invalid status: " + line;
             }
 
+            // Parse and validate date (can throw InternityException)
             // DateFormatter validates date format and impossible dates (e.g., Feb 31)
             Date deadline = DateFormatter.parse(deadlineStr);
 
+            // Create and add internship
             Internship internship = new Internship(company, role, deadline, pay);
             internship.setStatus(status);
             internships.add(internship);
@@ -129,7 +162,7 @@ public class Storage {
             return "Warning: Skipped line with invalid pay amount: " + line;
         } catch (InternityException e) {
             logger.fine("Invalid date in line: " + line + " - " + e.getMessage());
-            return "Warning: Skipped line with invalid date: " + line;
+            return "Warning: Skipped line - " + e.getMessage() + ": " + line;
         }
     }
 
