@@ -4,10 +4,10 @@ import java.util.Set;
 import java.util.Comparator;
 
 public class Internship implements Comparable<Internship> {
+    public static Comparator<Internship> SortByDeadline;
     private static final Set<String> VALID_STATUSES = Set.of(
             "Pending", "Interested", "Applied", "Interviewing", "Offer", "Accepted", "Rejected"
     );
-    public static Comparator<Internship> SortByDeadline;
     private String company;
     private String role;
     private Date deadline;
