@@ -1,7 +1,6 @@
 package internity.cli;
 
 import internity.commands.AddCommand;
-import internity.commands.Command;
 import internity.commands.DeleteCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
