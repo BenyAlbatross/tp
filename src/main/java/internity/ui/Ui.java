@@ -20,9 +20,9 @@ public class Ui {
     public static final int PAY_MAXLEN = 10;
     public static final int STATUS_MAXLEN = 10;
 
-    static final String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+    static final String FORMAT_HEADER = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
             + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-    static final String formatContent = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+    static final String FORMAT_CONTENT = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
             + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
 
     /** Horizontal line used to visually separate sections in the console output. */
@@ -110,7 +110,7 @@ public class Ui {
     public static void printInternshipListHeader(String message) {
         System.out.println(message);
         Ui.printHorizontalLine();
-        System.out.printf(formatHeader,
+        System.out.printf(FORMAT_HEADER,
                 "No.", "Company", "Role", "Deadline", "Pay", "Status");
         Ui.printHorizontalLine();
     }
@@ -129,7 +129,7 @@ public class Ui {
      * @param internship the {@code Internship} object whose details are to be printed
      */
     public static void printInternshipListContent(int index, Internship internship) {
-        System.out.printf(formatContent,
+        System.out.printf(FORMAT_CONTENT,
                 index + 1,
                 internship.getCompany(),
                 internship.getRole(),
