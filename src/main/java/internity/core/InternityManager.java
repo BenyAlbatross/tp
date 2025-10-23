@@ -17,6 +17,7 @@ public class InternityManager {
     }
 
     public void start() {
+        System.setErr(System.out);
         loadData();
         Ui.printWelcomeMessage();
         configureUsername();
