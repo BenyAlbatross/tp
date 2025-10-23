@@ -68,7 +68,7 @@ class InternshipListTest {
     @Test
     public void listAll_whenEmpty_expectedOutcome() throws InternityException {
         InternshipList.listAll(ListCommand.OrderType.DEFAULT);
-        assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
+        assertTrue(outContent.toString().contains("Your internship list is currently empty."));
     }
 
     @Test
