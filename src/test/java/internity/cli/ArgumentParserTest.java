@@ -1,11 +1,15 @@
 package internity.cli;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import internity.commands.UpdateCommand;
+import internity.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
@@ -20,29 +24,69 @@ class ArgumentParserTest {
     }
 
     @Test
-    void parseUpdate_validSingleField_returnsCommand() throws InternityException {
+    void parseUpdateCommandArgs_validSingleField_returnsCommand() throws InternityException {
         UpdateCommand command = ArgumentParser.parseUpdateCommandArgs("1 company/Meta");
         assertNotNull(command);
     }
 
     @Test
-    void parseUpdate_multipleFields_returnsCommand() throws InternityException {
+    void parseUpdateCommandArgs_multipleFields_returnsCommand() throws InternityException {
         UpdateCommand command = ArgumentParser.parseUpdateCommandArgs("1 company/Meta role/AI Intern pay/9000");
         assertNotNull(command);
     }
 
     @Test
-    void parseUpdate_invalidIndex_throwsException() {
+    void parseUpdateCommandArgs_invalidIndex_throwsException() {
         assertThrows(InternityException.class, () -> ArgumentParser.parseUpdateCommandArgs("abc company/Meta"));
     }
 
     @Test
-    void parseUpdate_missingFieldTag_throwsException() {
+    void parseUpdateCommandArgs_missingFieldTag_throwsException() {
         assertThrows(InternityException.class, () -> ArgumentParser.parseUpdateCommandArgs("1 Meta"));
     }
 
     @Test
-    void parseUpdate_emptyCompany_throwsException() {
+    void parseUpdateCommandArgs_emptyCompany_throwsException() {
         assertThrows(InternityException.class, () -> ArgumentParser.parseUpdateCommandArgs("1 company/ "));
+    }
+
+    @Test
+    void parseUsernameCommandArgs_validArgs_shouldReturnUsernameCommand() throws Exception {
+        String validUsername = "Jesse Pinkman";
+        UsernameCommand command = ArgumentParser.parseUsernameCommandArgs(validUsername);
+        assertNotNull(command, "Returned UsernameCommand should not be null");
+    }
+
+    @Test
+    void parseUsernameCommandArgs_nullArgs_shouldThrowInternityException() {
+        InternityException exception = assertThrows(
+                InternityException.class,
+                () -> ArgumentParser.parseUsernameCommandArgs(null),
+                "Expected InternityException for null input"
+        );
+        assertTrue(exception.getMessage().toLowerCase().contains("invalid"),
+                "Exception message should indicate invalid username command");
+    }
+
+    @Test
+    void parseUsernameCommandArgs_blankArgs_shouldThrowInternityException() {
+        InternityException exception = assertThrows(
+                InternityException.class,
+                () -> ArgumentParser.parseUsernameCommandArgs("   "),
+                "Expected InternityException for blank input"
+        );
+        assertTrue(exception.getMessage().toLowerCase().contains("invalid"),
+                "Exception message should indicate invalid username command");
+    }
+
+    @Test
+    void parseUsernameCommandArgs_emptyString_shouldThrowInternityException() {
+        InternityException exception = assertThrows(
+                InternityException.class,
+                () -> ArgumentParser.parseUsernameCommandArgs(""),
+                "Expected InternityException for empty input"
+        );
+        assertTrue(exception.getMessage().toLowerCase().contains("invalid"),
+                "Exception message should indicate invalid username command");
     }
 }

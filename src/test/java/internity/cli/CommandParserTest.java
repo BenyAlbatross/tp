@@ -10,6 +10,7 @@ import internity.commands.DeleteCommand;
 import internity.commands.ExitCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
+import internity.commands.UsernameCommand;
 import internity.core.InternityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,12 @@ class CommandParserTest {
     void parseInput_updateCommand_returnsUpdateCommand() throws InternityException {
         Command command = commandParser.parseInput("update 1 status/Pending");
         assertInstanceOf(UpdateCommand.class, command);
+    }
+
+    @Test
+    void parseInput_usernameCommand_returnsUsernameCommand() throws InternityException {
+        Command command = commandParser.parseInput("username Badger");
+        assertInstanceOf(UsernameCommand.class, command);
     }
 
     @Test
