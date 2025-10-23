@@ -1,6 +1,9 @@
 package internity;
 
+import java.util.logging.Logger;
+
 import internity.core.InternityManager;
+import internity.utils.InternityLogger;
 
 /**
  * The main entry point for the <b>Internity</b> application.
@@ -24,6 +27,9 @@ public class Internity {
      * </p>
      */
     public static void initInternity() {
+        Logger logger = InternityLogger.getLogger();
+        logger.info("Internity starting...");
+
         InternityManager manager = new InternityManager(DEFAULT_STORAGE_PATH);
         manager.start();
     }
