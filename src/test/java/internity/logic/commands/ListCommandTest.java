@@ -40,7 +40,7 @@ class ListCommandTest {
         ListCommand listCommand = new ListCommand(ListCommand.OrderType.DEFAULT);
         listCommand.execute();
 
-        assertTrue(outContent.toString().contains("No internships found. Please add an internship first."));
+        assertTrue(outContent.toString().contains("Your internship list is currently empty."));
     }
 
     @Test
