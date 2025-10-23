@@ -10,7 +10,6 @@ import internity.logic.commands.UpdateCommand;
 import internity.logic.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
-import internity.core.InternshipList;
 import internity.ui.Ui;
 import internity.utils.DateFormatter;
 
@@ -68,7 +67,7 @@ public final class ArgumentParser {
      *     <li>Ensures none of the extracted values are empty or missing.</li>
      *     <li>Ensures the pay amount is a non-negative integer.</li>
      *     <li>Ensures that the length of the company and role strings does not exceed the
-     *         maximum allowed lengths defined in {@link InternshipList} constants
+     *         maximum allowed lengths defined in {@link Ui} constants
      *         ({@code COMPANY_MAXLEN} and {@code ROLE_MAXLEN}).</li>
      * </ul>
      * </p>
