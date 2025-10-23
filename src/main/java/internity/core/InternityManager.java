@@ -19,9 +19,7 @@ public class InternityManager {
     public void start() {
         loadData();
         Ui.printWelcomeMessage();
-        String username = scanner.nextLine();
-        Ui.printGreeting(username);
-        InternshipList.setUsername(username);
+        configureUsername();
         Ui.printHorizontalLine();
 
         boolean isExit = false;
@@ -57,5 +55,13 @@ public class InternityManager {
             System.out.println("Warning: Could not save data to storage.");
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    private void configureUsername() {
+        if (InternshipList.getUsername() == null) {
+            String username = scanner.nextLine();
+            InternshipList.setUsername(username);
+        }
+        Ui.printGreeting(InternshipList.getUsername());
     }
 }
