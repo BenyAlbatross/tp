@@ -24,6 +24,20 @@ import internity.core.InternityException;
  * </ul>
  */
 public class CommandFactory {
+    /**
+     * Creates a {@link Command} instance based on the specified command word
+     * and argument string.
+     * <p>
+     * The method determines which command to create by matching the given
+     * {@code commandWord} against known commands. It then delegates argument
+     * parsing to the appropriate static method in {@link ArgumentParser}.
+     * </p>
+     *
+     * @param commandWord the command keyword (e.g., "add", "delete", "update")
+     * @param args the arguments to be parsed and passed to the command
+     * @return a concrete {@link Command} object representing the parsed command
+     * @throws InternityException if the command is unknown or argument parsing fails
+     */
     public Command createCommand(String commandWord, String args) throws InternityException {
         switch (commandWord) {
         case "add":
