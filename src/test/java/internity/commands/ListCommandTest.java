@@ -1,19 +1,20 @@
 package internity.commands;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import internity.core.Date;
-import internity.core.Internship;
-import internity.core.InternshipList;
-import internity.core.InternityException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import internity.core.Date;
+import internity.core.InternityException;
+import internity.core.Internship;
+import internity.core.InternshipList;
 
 class ListCommandTest {
 
