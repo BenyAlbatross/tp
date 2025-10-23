@@ -1,12 +1,12 @@
 package internity.commands;
 
+import java.util.logging.Logger;
+
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
 import internity.ui.Ui;
-
-import java.util.logging.Logger;
 
 /**
  * Represents a command that adds a new {@link Internship} entry to the {@link InternshipList}.

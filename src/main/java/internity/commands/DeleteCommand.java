@@ -1,10 +1,11 @@
 package internity.commands;
 
+import java.util.logging.Logger;
+
 import internity.core.Internship;
 import internity.core.InternityException;
 import internity.core.InternshipList;
 import internity.ui.Ui;
-import java.util.logging.Logger;
 
 public class DeleteCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteCommand.class.getName());

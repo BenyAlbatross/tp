@@ -1,5 +1,7 @@
 package internity.cli;
 
+import java.util.logging.Logger;
+
 import internity.commands.AddCommand;
 import internity.commands.DeleteCommand;
 import internity.commands.ListCommand;
@@ -9,8 +11,6 @@ import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.InternshipList;
 import internity.utils.DateFormatter;
-
-import java.util.logging.Logger;
 
 /**
  * A utility class responsible for parsing command-line arguments for various commands

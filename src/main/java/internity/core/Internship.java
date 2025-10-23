@@ -1,6 +1,6 @@
 package internity.core;
-import java.util.Set;
 
+import java.util.Set;
 import java.util.Comparator;
 
 public class Internship implements Comparable<Internship> {
