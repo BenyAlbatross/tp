@@ -70,7 +70,7 @@ public class Storage {
                 lineNumber++;
                 String errorMessage = parseInternshipFromFile(line, internships);
                 if (errorMessage != null) {
-                    System.out.println(errorMessage);
+                    System.err.println(errorMessage);
                 }
             }
         } catch (IOException e) {
