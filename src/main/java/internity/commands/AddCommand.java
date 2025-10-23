@@ -6,6 +6,8 @@ import internity.core.Internship;
 import internity.core.InternshipList;
 import internity.ui.Ui;
 
+import java.util.logging.Logger;
+
 /**
  * Represents a command that adds a new {@link Internship} entry to the {@link InternshipList}.
  * <p>
@@ -24,10 +26,12 @@ import internity.ui.Ui;
  * </p>
  */
 public class AddCommand extends Command {
-    private String company;
-    private String role;
-    private Date deadline;
-    private int pay;
+    private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
+
+    private final String company;
+    private final String role;
+    private final Date deadline;
+    private final int pay;
 
     /**
      * Constructs an {@code AddCommand} with the specified internship details.
@@ -55,9 +59,11 @@ public class AddCommand extends Command {
      */
     @Override
     public void execute() throws InternityException {
+        logger.info("Executing add command");
         Internship internship = new Internship(company, role, deadline, pay);
         InternshipList.add(internship);
         Ui.printAddInternship(internship);
+        logger.info("Add command executed successfully.");
     }
 
     /**
