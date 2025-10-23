@@ -21,3 +21,5 @@ data/
 
 # Logs folder
 log/
+*.log
+*.log.lck
