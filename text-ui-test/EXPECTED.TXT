@@ -79,37 +79,37 @@ ____________________________________________________________
     3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
-Updated internship 1 status to: Sacked
+Updated internship 1 status to: Rejected
 Internship status updated successfully!
 ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
+    1 Google          Janitor                        10-10-2025      100        Rejected  
     2 Meta            Dishwasher                     01-01-2039      1          Pending   
     3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
-Updated internship 2 status to: Laid off
+Updated internship 2 status to: Rejected
 Internship status updated successfully!
 ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
-    2 Meta            Dishwasher                     01-01-2039      1          Laid off  
+    1 Google          Janitor                        10-10-2025      100        Rejected  
+    2 Meta            Dishwasher                     01-01-2039      1          Rejected  
     3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
-Updated internship 3 status to: No response
+Updated internship 3 status to: Pending
 Internship status updated successfully!
 ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
-    2 Meta            Dishwasher                     01-01-2039      1          Laid off  
-    3 Meta            Full Stack Engineer            01-01-2090      10000      No response
+    1 Google          Janitor                        10-10-2025      100        Rejected  
+    2 Meta            Dishwasher                     01-01-2039      1          Rejected  
+    3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
 Invalid internship index: 0
@@ -117,9 +117,9 @@ ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
-    2 Meta            Dishwasher                     01-01-2039      1          Laid off  
-    3 Meta            Full Stack Engineer            01-01-2090      10000      No response
+    1 Google          Janitor                        10-10-2025      100        Rejected  
+    2 Meta            Dishwasher                     01-01-2039      1          Rejected  
+    3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
 Invalid internship index: -111
@@ -127,9 +127,9 @@ ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
-    2 Meta            Dishwasher                     01-01-2039      1          Laid off  
-    3 Meta            Full Stack Engineer            01-01-2090      10000      No response
+    1 Google          Janitor                        10-10-2025      100        Rejected  
+    2 Meta            Dishwasher                     01-01-2039      1          Rejected  
+    3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
 Invalid internship index: 100000
@@ -137,9 +137,9 @@ ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Google          Janitor                        10-10-2025      100        Sacked    
-    2 Meta            Dishwasher                     01-01-2039      1          Laid off  
-    3 Meta            Full Stack Engineer            01-01-2090      10000      No response
+    1 Google          Janitor                        10-10-2025      100        Rejected  
+    2 Meta            Dishwasher                     01-01-2039      1          Rejected  
+    3 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
 Noted. I've removed this internship:
@@ -149,8 +149,8 @@ ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Meta            Dishwasher                     01-01-2039      1          Laid off  
-    2 Meta            Full Stack Engineer            01-01-2090      10000      No response
+    1 Meta            Dishwasher                     01-01-2039      1          Rejected  
+    2 Meta            Full Stack Engineer            01-01-2090      10000      Pending   
 ____________________________________________________________
 ____________________________________________________________
 Noted. I've removed this internship:
@@ -160,7 +160,7 @@ ____________________________________________________________
 ____________________________________________________________
   No. Company         Role                           Deadline        Pay        Status    
 ____________________________________________________________
-    1 Meta            Dishwasher                     01-01-2039      1          Laid off  
+    1 Meta            Dishwasher                     01-01-2039      1          Rejected  
 ____________________________________________________________
 ____________________________________________________________
 Invalid internship index: 3

@@ -1,9 +1,13 @@
 package internity.core;
+import java.util.Set;
 
 import java.util.Comparator;
 
 public class Internship implements Comparable<Internship> {
     public static Comparator<Internship> SortByDeadline;
+    private static final Set<String> VALID_STATUSES = Set.of(
+            "Pending", "Interested", "Applied", "Interviewing", "Offer", "Accepted", "Rejected"
+    );
     private String company;
     private String role;
     private Date deadline;
@@ -67,6 +71,16 @@ public class Internship implements Comparable<Internship> {
         public int compare(Internship a, Internship b) {
             return a.getDeadline().compareTo(b.getDeadline());
         }
+    }
+
+    /**
+     * Checks if the given status is valid.
+     *
+     * @param status The status to validate.
+     * @return true if the status is valid, false otherwise.
+     */
+    public static boolean isValidStatus(String status) {
+        return status != null && VALID_STATUSES.contains(status);
     }
 
     @Override
