@@ -87,16 +87,16 @@ public class InternshipList {
         return internshipList.size();
     }
 
-    public static void sortInternships(ListCommand.orderType order) {
-        if (order == ListCommand.orderType.DESCENDING) {
+    public static void sortInternships(ListCommand.OrderType order) {
+        if (order == ListCommand.OrderType.DESCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
-        } else if (order == ListCommand.orderType.ASCENDING) {
+        } else if (order == ListCommand.OrderType.ASCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline));
         }
     }
 
     // list all
-    public static void listAll(ListCommand.orderType order) throws InternityException {
+    public static void listAll(ListCommand.OrderType order) throws InternityException {
         logger.info("Listing all internships");
 
         if (InternshipList.isEmpty()) {
