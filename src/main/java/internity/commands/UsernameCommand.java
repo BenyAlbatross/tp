@@ -30,6 +30,9 @@ public class UsernameCommand extends Command {
      *             This value is stored and later used to update the application state.
      */
     public UsernameCommand(String args) {
+        assert args != null : "Username argument must not be null";
+        assert !args.trim().isEmpty() : "Username argument must not be empty";
+
         username = args;
         LOGGER.log(Level.FINE, "UsernameCommand created with username: {0}", username);
     }
@@ -45,9 +48,13 @@ public class UsernameCommand extends Command {
      */
     @Override
     public void execute() {
+        assert username != null && !username.isEmpty()
+                : "Username must be non-null and non-empty before execution";
         LOGGER.log(Level.INFO, "Executing UsernameCommand: setting username to {0}", username);
         InternshipList.setUsername(username);
         Ui.printSetUsername(username);
+        assert username.equals(InternshipList.getUsername())
+                : "Username was incorrectly set in InternshipList";
         LOGGER.log(Level.FINE, "Username successfully set in InternshipList and printed to UI");
     }
 
