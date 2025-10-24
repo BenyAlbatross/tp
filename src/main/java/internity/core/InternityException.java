@@ -82,7 +82,6 @@ public class InternityException extends Exception {
         );
     }
 
-
     public static InternityException invalidUsernameCommand() {
         return new InternityException("Invalid username command. Usage: username USERNAME");
     }
