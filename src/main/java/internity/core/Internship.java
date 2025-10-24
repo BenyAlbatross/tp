@@ -165,4 +165,12 @@ public class Internship implements Comparable<Internship> {
     public static boolean isValidStatus(String status) {
         return status != null && VALID_STATUSES.contains(status);
     }
+
+    @Override
+    public String toString() {
+        return "  " + getCompany() + " - " + getRole()
+                + " | Deadline: " + getDeadline()
+                + " | Pay: " + getPay()
+                + " | Status: " + getStatus();
+    }
 }

@@ -44,6 +44,8 @@ public class CommandFactory {
             return ArgumentParser.parseAddCommandArgs(args);
         case "delete":
             return ArgumentParser.parseDeleteCommandArgs(args);
+        case "find":
+            return ArgumentParser.parseFindCommandArgs(args);
         case "update":
             return ArgumentParser.parseUpdateCommandArgs(args);
         case "list":
