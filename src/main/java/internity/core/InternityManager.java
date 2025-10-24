@@ -1,6 +1,8 @@
 package internity.core;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
+
 import internity.cli.CommandParser;
 import internity.commands.Command;
 import internity.ui.Ui;
@@ -21,6 +23,7 @@ import internity.ui.Ui;
 public class InternityManager {
     private final Scanner scanner;
     private final CommandParser commandParser;
+    private static final Logger logger = Logger.getLogger(InternityManager.class.getName());
 
     /**
      * Constructs a new {@code InternityManager} instance.
@@ -28,10 +31,10 @@ public class InternityManager {
      * @param storagePath the path to the file or directory used for storing internship data
      */
     public InternityManager(String storagePath) {
-        this.scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         Storage storage = new Storage(storagePath);
         InternshipList.setStorage(storage);
-        this.commandParser = new CommandParser();
+        commandParser = new CommandParser();
     }
 
     /**
@@ -105,10 +108,34 @@ public class InternityManager {
      * The configured username is then displayed as part of a personalized greeting.
      */
     private void configureUsername() {
-        if (InternshipList.getUsername() == null) {
+        assert scanner != null : "Scanner should not be null";
+        logger.info("Starting username configuration.");
+
+        while (!isValidUsername(InternshipList.getUsername())) {
+            logger.info("No valid username found. Prompting user for input...");
+            Ui.printAskUsername();
             String username = scanner.nextLine();
-            InternshipList.setUsername(username);
+
+            if (!isValidUsername(username)) {
+                logger.warning("Invalid username entered (empty or null). Asking again...");
+                System.out.println("Invalid username entered. Try again.");
+            } else {
+                InternshipList.setUsername(username.trim());
+                logger.info("Username successfully set to: " + username);
+            }
         }
+        assert InternshipList.getUsername() != null : "Username must be initialized before greeting";
         Ui.printGreeting(InternshipList.getUsername());
+    }
+
+    /**
+     * Validates a username string to ensure it is not {@code null} or blank.
+     *
+     * @param username the username string to validate
+     * @return {@code true} if the username is non-null and not blank;<p>
+     *         {@code false} otherwise
+     */
+    private boolean isValidUsername(String username) {
+        return username != null && !username.isBlank();
     }
 }
