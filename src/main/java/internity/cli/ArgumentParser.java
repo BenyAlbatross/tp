@@ -1,16 +1,17 @@
 package internity.cli;
 
+import java.util.logging.Logger;
+
 import internity.commands.AddCommand;
 import internity.commands.DeleteCommand;
 import internity.commands.FindCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
+import internity.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.InternshipList;
 import internity.utils.DateFormatter;
-
-import java.util.logging.Logger;
 
 /**
  * A utility class responsible for parsing command-line arguments for various commands
@@ -254,4 +255,10 @@ public final class ArgumentParser {
         return token.substring(tag.length()).trim();
     }
 
+    public static UsernameCommand parseUsernameCommandArgs(String args) throws InternityException {
+        if (args == null || args.isBlank()) {
+            throw InternityException.invalidUsernameCommand();
+        }
+        return new UsernameCommand(args);
+    }
 }

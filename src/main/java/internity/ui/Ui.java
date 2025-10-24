@@ -31,7 +31,6 @@ public class Ui {
                 "                                    |___/";
         System.out.println("Hello, welcome to\n" + logo);
         System.out.println("Be on top of your internships management with the Internity chatbot!");
-        System.out.println("What is your name?");
     }
 
     public static void printGreeting(String input) {
@@ -82,4 +81,12 @@ public class Ui {
             );
         }
     }
+    public static void printAskUsername() {
+        System.out.println("What is your name?");
+    }
+
+    public static void printSetUsername(String username) {
+        System.out.println("Username set to " + username);
+    }
+
 }
