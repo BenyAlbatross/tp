@@ -79,9 +79,9 @@ class FindCommandTest {
         command.execute();
 
         // Assert
-        // Verify the output contains "No internships with this Company or Role found."
+        // Verify the output contains "No internships with this company or role found."
         String output = outContent.toString();
-        assertTrue(output.contains("No internships with this Company or Role found."));
+        assertTrue(output.contains("No internships with this company or role found."));
     }
 
     /**
