@@ -3,17 +3,17 @@ package internity.commands;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
-
 import internity.utils.DateFormatter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 class FindCommandTest {
 
