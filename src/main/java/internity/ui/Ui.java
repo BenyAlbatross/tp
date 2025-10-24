@@ -1,8 +1,16 @@
 package internity.ui;
 
 import internity.core.Internship;
+import internity.core.InternshipList;
 
 import java.util.ArrayList;
+
+import static internity.core.InternshipList.INDEX_MAXLEN;
+import static internity.core.InternshipList.COMPANY_MAXLEN;
+import static internity.core.InternshipList.ROLE_MAXLEN;
+import static internity.core.InternshipList.DEADLINE_MAXLEN;
+import static internity.core.InternshipList.PAY_MAXLEN;
+import static internity.core.InternshipList.STATUS_MAXLEN;
 
 /**
  * The Ui Class provides user interface methods for the Internity chatbot.
@@ -52,10 +60,27 @@ public class Ui {
 
     public static void printFindInternship(ArrayList<Internship> list) {
         System.out.println("These are the matching internships in your list:");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.print("  " + (i + 1) + ".");
+
+        Ui.printHorizontalLine();
+        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
+        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
+        System.out.printf(formatHeader,
+                "No.", "Company", "Role", "Deadline", "Pay", "Status");
+        Ui.printHorizontalLine();
+
+        int i;
+        for (i = 0; i < list.size(); i++) {
             Internship internship = list.get(i);
-            System.out.println(internship.toString());
+            System.out.printf(formatContent,
+                    i + 1,
+                    internship.getCompany(),
+                    internship.getRole(),
+                    internship.getDeadline().toString(),
+                    internship.getPay(),
+                    internship.getStatus()
+            );
         }
     }
 }
