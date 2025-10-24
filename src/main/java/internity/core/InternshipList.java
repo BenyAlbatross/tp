@@ -189,7 +189,7 @@ public class InternshipList {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         if (matchingInternships.isEmpty()) {
-            System.out.println("No internships with this Company or Role found.");
+            System.out.println("No internships with this company or role found.");
             return;
         }
 
