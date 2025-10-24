@@ -61,9 +61,159 @@ Below is a simplified interaction for the `delete 1` command:
 
 ### Storage Component
 
+**API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/Storage.java)
+
+The `Storage` component:
+* can save internship data in a pipe-delimited text format, and read it back into corresponding objects.
+* depends on classes in the `internity.core` package (specifically `Internship` and `InternshipList`) to load and save internship data.
+* automatically creates the data directory and file if they don't exist.
+* handles corrupted data gracefully by skipping invalid entries and logging warnings instead of crashing the application.
+
 ### Common Classes
 
 ## Implementation
+
+### Delete feature
+
+The delete mechanism is facilitated by `DeleteCommand`. It extends `Command` with an index field, internally stored as a 0-based integer. Additionally, it implements the following operation:
+
+* `DeleteCommand.execute()` — Removes the internship at the specified index from the `InternshipList`.
+
+Given below is an example usage scenario and how the delete mechanism behaves at each step.
+
+Step 1. The user launches the application and the `InternshipList` contains 3 internships. The user executes `delete 2` to delete the 2nd internship in the list.
+
+Step 2. The `CommandParser` parses the input and extracts the command word "delete" and arguments "2".
+
+Step 3. The `CommandFactory` uses `ArgumentParser` to convert the user's 1-based index (2) to a 0-based index (1) and validates that it is within bounds.
+
+Step 4. A `DeleteCommand` object is created with index 1 and its `execute()` method is called.
+
+Step 5. `DeleteCommand.execute()` retrieves the internship at index 1, removes it from `InternshipList`, and displays a success message showing the deleted internship details and the updated list size.
+
+Step 6. After execution, `Storage.save()` is automatically called to persist the changes to disk.
+
+#### Design considerations
+
+**Aspect: Index base convention**
+
+* **Alternative 1 (current choice):** Users provide 1-based indices, converted to 0-based internally in `ArgumentParser`.
+  * Pros: More intuitive for users who see numbered lists starting from 1.
+  * Cons: Requires conversion logic and careful management of the conversion point.
+
+* **Alternative 2:** Use 0-based indices throughout, including in user-facing output.
+  * Pros: Simpler implementation with no conversion needed.
+  * Cons: Less intuitive for users unfamiliar with programming conventions.
+
+### Find feature
+
+The find mechanism is implemented by the `FindCommand` class, which allows users to search for internships based on a
+keyword that matches either the company name or the role of the internship.
+
+The FindCommand class extends Command and consists of the following key components and operations:
+* FindCommand.execute() — Executes the command by searching for internships that match the provided keyword.
+The search looks for matching company or role names.
+
+### Class and Method Breakdown
+
+#### 1. `FindCommand` Constructor
+
+- **Purpose**: Initialises a `FindCommand` object with a given keyword.
+- **Signature**:
+    ```java
+    public FindCommand(String keyword)
+    ```
+- **Parameters**:
+    - `keyword`: The keyword to search for in the company or role fields of the internships.
+
+#### 2. `FindCommand.execute()`
+
+- **Purpose**: Executes the find command, which triggers a search for internships matching the keyword.
+- **Signature**:
+    ```java
+    @Override
+    public void execute() throws InternityException
+    ```
+- **Steps**:
+    1. Logs the command execution start.
+    2. Calls `InternshipList.findInternship(keyword)` to filter and search through the list of internships.
+    3. Logs the success of the operation.
+
+#### 3. `InternshipList.findInternship()`
+
+- **Purpose**: Filters and returns internships whose company or role contains the given keyword, case-insensitively.
+- **Signature**:
+    ```java
+    public static void findInternship(String keyword)
+    ```
+- **Parameters**:
+    - `keyword`: The string to search for in the company or role names of internships.
+- **Implementation**:
+    - Internships are filtered using a stream to check if the keyword exists in either the company name or the role.
+    - The filter is case-insensitive (`keyword.toLowerCase()`).
+    - If no internships match the keyword, a message is printed: "No internships with this Company or Role found."
+    - If matches are found, the results are passed to the `Ui.printFindInternship()` method for display.
+
+### Example Usage Scenario
+
+1. **Step 1**: The user launches the application and executes a find command by typing `find Google`.
+
+2. **Step 2**: The `CommandParser` parses the input, extracting the command word `find` and the argument `Google`.
+
+3. **Step 3**: The `CommandFactory` creates a `FindCommand` with the keyword `Google`.
+
+4. **Step 4**: The `FindCommand.execute()` method is called, triggering the `InternshipList.findInternship()` method.
+
+5. **Step 5**: `findInternship()` filters the internships, looking for the keyword in both the company and role fields.
+If any matches are found, they are displayed through the UI.
+
+6. **Step 6**: If no matches are found, the user sees the message printed in the Ui: "No internships with this Company or Role found."
+
+### Internals and Key Functions
+
+- **Keyword Matching**: The keyword is matched against both the company and role fields of each internship in a
+case-insensitive manner using the `toLowerCase()` method.
+  
+- **Logging**: The command execution is logged at the start and end, using the `Logger` class to track the command’s
+lifecycle.
+
+- **UI Handling**: When matching internships are found, they are passed to the `Ui.printFindInternship()` method
+for display. The UI is responsible for presenting the search results to the user.
+
+### Example Interaction
+
+- **User Input**:
+    ```sh
+    find Google
+    ```
+
+- **Expected Output**:
+    ```
+    These are the matching internships in your list:
+      1.  Google - Software Engineer | Deadline: 10-12-2025 | Pay: 100000 | Status: Pending
+      2.  Alphabet - Googler | Deadline: 10-12-2025 | Pay: 150000 | Status: Pending
+    ```
+
+  If no internships match:
+    ```
+    No internships with this Company or Role found.
+    ```
+
+### Edge Cases and Considerations
+
+- **Case Insensitivity**: The search is case-insensitive, so `find google`, `find GOOGLE`, or `find GoOgLe`
+would all match the same internships.
+
+- **Empty or Invalid Keyword**: If an empty string is provided as the keyword, the Ui will print
+"Invalid find command. Usage: find KEYWORD"
+
+- **Performance**: The search mechanism uses a stream-based filter on the internship list, which is efficient
+for moderate-sized datasets but may require optimisation for larger datasets.
+
+### Persistence
+
+Since this is a search command and does not modify the underlying data, no changes are persisted to disk
+during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
 
 ## Documentation, logging, testing, configuration, dev-ops
 

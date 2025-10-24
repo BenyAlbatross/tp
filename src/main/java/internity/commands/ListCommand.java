@@ -1,9 +1,9 @@
 package internity.commands;
 
+import java.util.logging.Logger;
+
 import internity.core.InternityException;
 import internity.core.InternshipList;
-
-import java.util.logging.Logger;
 
 /**
  * Represents a command that lists all internship applications

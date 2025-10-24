@@ -18,3 +18,8 @@ text-ui-test/EXPECTED-UNIX.TXT
 
 # Storage data folder
 data/
+
+# Logs folder
+log/
+*.log
+*.log.lck

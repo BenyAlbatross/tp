@@ -37,6 +37,12 @@ class CommandFactoryTest {
     }
 
     @Test
+    void createCommand_username_returnsUsernameCommand() throws InternityException {
+        Command command = factory.createCommand("username", "Walter White");
+        assertInstanceOf(UsernameCommand.class, command);
+    }
+
+    @Test
     void createCommand_exit_returnsExitCommand() throws InternityException {
         Command command = factory.createCommand("exit", "");
         assertInstanceOf(ExitCommand.class, command);

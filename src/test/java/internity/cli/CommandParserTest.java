@@ -4,15 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import internity.commands.AddCommand;
 import internity.commands.Command;
 import internity.commands.DeleteCommand;
 import internity.commands.ExitCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
+import internity.commands.UsernameCommand;
 import internity.core.InternityException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link CommandParser}.
@@ -57,6 +59,12 @@ class CommandParserTest {
     void parseInput_updateCommand_returnsUpdateCommand() throws InternityException {
         Command command = commandParser.parseInput("update 1 status/Pending");
         assertInstanceOf(UpdateCommand.class, command);
+    }
+
+    @Test
+    void parseInput_usernameCommand_returnsUsernameCommand() throws InternityException {
+        Command command = commandParser.parseInput("username Badger");
+        assertInstanceOf(UsernameCommand.class, command);
     }
 
     @Test

@@ -61,19 +61,20 @@ public class DateFormatter {
         if (parts.length != 3) {
             throw InternityException.invalidDateFormat();
         }
-        try {
-            int day = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]);
-            int year = Integer.parseInt(parts[2]);
 
-            if (!isValidDate(day, month, year)) {
-                throw new InternityException("Invalid date: " + trimmed);
-            }
+        // Regex validation above guarantees numeric format, so parseInt() cannot throw NumberFormatException
+        assert parts[0].matches("\\d+") && parts[1].matches("\\d+") && parts[2].matches("\\d+")
+                : "Regex should guarantee numeric format";
 
-            return new Date(day, month, year);
-        } catch (NumberFormatException e) {
-            throw new InternityException("Date must contain only numbers (expected dd-MM-yyyy)");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+
+        if (!isValidDate(day, month, year)) {
+            throw InternityException.invalidDateFormat();
         }
+
+        return new Date(day, month, year);
     }
 
     /**
