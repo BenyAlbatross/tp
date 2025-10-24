@@ -67,6 +67,18 @@ Below is a simplified interaction for the `delete 1` command:
 
 ## Documentation, logging, testing, configuration, dev-ops
 
+### Testing & Debugging tips related to architecture
+
+- Logic layer tests:
+    - Unit test Parser and each Command individually with a stubbed Model and Storage.
+    - Use test doubles (mocks/fakes) for Storage to avoid disk I/O during unit tests.
+- Model tests:
+    - Test ModelManager's add/delete/list/filter behavior and equality semantics.
+- Storage tests:
+    - Use a temporary file/folder and assert that save and load preserve state.
+- Integration tests:
+    - Boot LogicManager with real ModelManager and StorageManager (with test file) to test end-to-end flows.
+
 ## Appendix: Requirements
 
 ## Product scope
