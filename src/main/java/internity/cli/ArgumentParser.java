@@ -2,6 +2,7 @@ package internity.cli;
 
 import internity.commands.AddCommand;
 import internity.commands.DeleteCommand;
+import internity.commands.FindCommand;
 import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
 import internity.core.Date;
@@ -103,6 +104,20 @@ public final class ArgumentParser {
         } catch (NumberFormatException e) {
             throw InternityException.invalidInternshipIndex();
         }
+    }
+
+    /**
+     * Parses the arguments for Find Command to create a {@link FindCommand} instance.
+     *
+     * @param args arguments for {@link FindCommand}
+     * @return an instance of {@link FindCommand} constructed from the parsed arguments.
+     * @throws InternityException if the arguments are missing.
+     */
+    public static FindCommand parseFindCommandArgs(String args) throws InternityException {
+        if (args == null || args.isBlank()) {
+            throw InternityException.invalidFindCommand();
+        }
+        return new FindCommand(args);
     }
 
     /**

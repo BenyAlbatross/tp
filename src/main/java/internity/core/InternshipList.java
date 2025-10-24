@@ -3,6 +3,7 @@ package internity.core;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import internity.commands.ListCommand;
 import internity.ui.Ui;
@@ -178,6 +179,21 @@ public class InternshipList {
         Internship it = List.get(index);
         it.setPay(newPay);
         System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
+    }
+
+    public static void findInternship(String keyword) {
+        ArrayList<Internship> matchingInternships = List.stream()
+                .filter(internship ->
+                        internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
+                                internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (matchingInternships.isEmpty()) {
+            System.out.println("No internships with this company or role found.");
+            return;
+        }
+
+        Ui.printFindInternship(matchingInternships);
     }
 
     public static void clear() {

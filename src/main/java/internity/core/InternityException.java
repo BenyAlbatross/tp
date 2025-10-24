@@ -34,6 +34,10 @@ public class InternityException extends Exception {
         return new InternityException("Invalid delete command. Usage: delete INDEX");
     }
 
+    public static InternityException invalidFindCommand() {
+        return new InternityException("Invalid find command. Usage: find KEYWORD");
+    }
+
     public static InternityException invalidInternshipIndex() {
         return new InternityException("Invalid internship index.");
     }
