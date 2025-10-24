@@ -18,16 +18,25 @@ import java.io.PrintStream;
 class FindCommandTest {
 
     // Streams to capture the console output
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalSystemOut = System.out;
+    private ByteArrayOutputStream outContent;
 
     @BeforeEach
     void setup() {
         // Clear any previous internships before each test
         InternshipList.clear();
 
+        // Set up new ByteArrayOutputStream
+        outContent = new ByteArrayOutputStream();
+
         // Redirect System.out to capture printed output during the test
         System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    void restoreStreams() {
+        System.setOut(originalSystemOut);
+        InternshipList.clear();
     }
 
     /**
@@ -88,9 +97,4 @@ class FindCommandTest {
         assertFalse(command.isExit(), "FindCommand should not terminate the application");
     }
 
-    @AfterEach
-    void restoreSystemOut() {
-        // Restore the original System.out after the test
-        System.setOut(originalSystemOut);
-    }
 }
