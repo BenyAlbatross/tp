@@ -1,7 +1,6 @@
 package internity.ui;
 
 import internity.core.Internship;
-import internity.core.InternshipList;
 
 import java.util.ArrayList;
 
