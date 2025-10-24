@@ -23,7 +23,7 @@ import internity.ui.Ui;
 public class InternityManager {
     private final Scanner scanner;
     private final CommandParser commandParser;
-    private static final Logger logger = Logger.getLogger(InternityManager.class.getName());
+    private final static Logger logger = Logger.getLogger(InternityManager.class.getName());
 
     /**
      * Constructs a new {@code InternityManager} instance.
