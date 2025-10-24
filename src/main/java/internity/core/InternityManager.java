@@ -21,9 +21,9 @@ import internity.ui.Ui;
  * </ul>
  */
 public class InternityManager {
+    private static final Logger logger = Logger.getLogger(InternityManager.class.getName());
     private final Scanner scanner;
     private final CommandParser commandParser;
-    private final static Logger logger = Logger.getLogger(InternityManager.class.getName());
 
     /**
      * Constructs a new {@code InternityManager} instance.
