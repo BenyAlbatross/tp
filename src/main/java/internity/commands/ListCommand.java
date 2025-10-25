@@ -39,6 +39,11 @@ public class ListCommand extends Command {
         logger.info("List command executed successfully.");
     }
 
+    /**
+     * Indicates that this command does not terminate the program.
+     *
+     * @return {@code false}
+     */
     @Override
     public boolean isExit() {
         return false;
