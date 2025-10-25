@@ -54,7 +54,7 @@ The Logic component is responsible for:
 5. The result of the execution is printed ot the console via the `Ui`.
 
 #### Sequence Diagram
-Below is a simplified interaction for the `delete 1` command:
+Below is a simplified interaction for the `delete 1` command
 
 ### Model Component
 
