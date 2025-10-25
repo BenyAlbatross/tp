@@ -55,7 +55,6 @@ The Logic component is responsible for:
 
 #### Sequence Diagram
 Below is a simplified interaction for the `delete 1` command:
-<insert uml diagram>
 
 ### Model Component
 
@@ -240,6 +239,7 @@ during the `find` operation. However, any modifications (such as deletion or add
 | v2.0    | user     | see my internships sorted by upcoming deadlines                        | prioritize applications that are due soon           |
 | v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions |
 | v2.0    | user     | see an overall countdown for upcoming interviews                       | manage my time effectively and be prepared          |
+
 
 ## Use Cases
 
