@@ -9,9 +9,34 @@ import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
 
+/**
+ * Provides a command-line dashboard interface for the Internity application.
+ * <p>
+ * This class contains static methods to display key information about the current
+ * user's internship tracking status, including:
+ * <ul>
+ *     <li>Username</li>
+ *     <li>Total number of internships</li>
+ *     <li>Nearest internship deadline</li>
+ *     <li>Status breakdown of internships</li>
+ * </ul>
+ * </p>
+ */
 public class DashboardUi {
     private static final Logger logger = Logger.getLogger(DashboardUi.class.getName());
 
+    /**
+     * Prints the complete dashboard to the console.
+     * <p>
+     * The dashboard includes:
+     * <ul>
+     *     <li>Current user's username</li>
+     *     <li>Total internships</li>
+     *     <li>Nearest internship deadline</li>
+     *     <li>Status overview of all internships</li>
+     * </ul>
+     * </p>
+     */
     public static void printDashboard() throws InternityException {
         printUser();
         printInternshipCount();
@@ -19,6 +44,12 @@ public class DashboardUi {
         printStatusOverview();
     }
 
+    /**
+     * Prints the current user's username to the console.
+     * <p>
+     * If no username is set, displays {@code Guest} as the default.
+     * </p>
+     */
     public static void printUser() {
         String user = InternshipList.getUsername();
         System.out.println("User: " + (user != null ? user : "Guest"));
@@ -26,6 +57,9 @@ public class DashboardUi {
         logger.fine("Displayed user: " + user);
     }
 
+    /**
+     * Prints the total number of internships currently tracked.
+     */
     public static void printInternshipCount() {
         int count = InternshipList.size();
         System.out.println("Total Internships: " + count);
@@ -33,6 +67,15 @@ public class DashboardUi {
         logger.fine("Total internships: " + count);
     }
 
+    /**
+     * Prints a breakdown of internships by their application status.
+     * <p>
+     * Statuses are displayed in the following fixed order:
+     * {@code Pending, Interested, Applied, Interviewing, Offer, Accepted, Rejected}.
+     * </p>
+     *
+     * @throws InternityException if an error occurs while accessing internship data
+     */
     public static void printStatusOverview() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nStatus Overview: No internships found.");
@@ -68,6 +111,12 @@ public class DashboardUi {
         logger.fine("Status overview printed");
     }
 
+    /**
+     * Prints the internship with the nearest upcoming deadline.
+     * <p>
+     * If there are no internships, or none with valid deadlines, prints an appropriate message.
+     * </p>
+     */
     public static void printNearestDeadline() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nNearest Deadline: No internships found.");
@@ -90,6 +139,15 @@ public class DashboardUi {
         logger.fine("Nearest deadline displayed: " + nearest);
     }
 
+    /**
+     * Finds the internship with the earliest deadline.
+     * <p>
+     * Assumes the internship list is non-empty.
+     * </p>
+     *
+     * @return the internship with the nearest upcoming deadline
+     * @throws InternityException if an error occurs while accessing internship data
+     */
     private static Internship findNearestDeadlineInternship() throws InternityException {
         assert InternshipList.size() > 0 : "Cannot find nearest deadline in empty list";
         Internship nearest = null;
