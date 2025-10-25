@@ -19,21 +19,21 @@ public class DashboardUi {
         printStatusOverview();
     }
 
-    private static void printUser() {
+    public static void printUser() {
         String user = InternshipList.getUsername();
         System.out.println("User: " + (user != null ? user : "Guest"));
         assert user != null : "Username should not be null";
         logger.fine("Displayed user: " + user);
     }
 
-    private static void printInternshipCount() {
+    public static void printInternshipCount() {
         int count = InternshipList.size();
         System.out.println("Total Internships: " + count);
         assert count >= 0 : "Internship count should never be negative";
         logger.fine("Total internships: " + count);
     }
 
-    private static void printStatusOverview() throws InternityException {
+    public static void printStatusOverview() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nStatus Overview: No internships found.");
             logger.warning("Status overview requested but internship list is empty");
@@ -68,7 +68,7 @@ public class DashboardUi {
         logger.fine("Status overview printed");
     }
 
-    private static void printNearestDeadline() throws InternityException {
+    public static void printNearestDeadline() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nNearest Deadline: No internships found.");
             logger.warning("Nearest deadline requested but internship list is empty");
