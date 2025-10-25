@@ -3,12 +3,15 @@ package internity.ui;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
 
-public class DashboardUI {
+public class DashboardUi {
+    private static final Logger logger = Logger.getLogger(DashboardUi.class.getName());
+
     public static void printDashboard() throws InternityException {
         printUser();
         printInternshipCount();
@@ -19,15 +22,21 @@ public class DashboardUI {
     private static void printUser() {
         String user = InternshipList.getUsername();
         System.out.println("User: " + (user != null ? user : "Guest"));
+        assert user != null : "Username should not be null";
+        logger.fine("Displayed user: " + user);
     }
 
     private static void printInternshipCount() {
-        System.out.println("Total Internships: " + InternshipList.size());
+        int count = InternshipList.size();
+        System.out.println("Total Internships: " + count);
+        assert count >= 0 : "Internship count should never be negative";
+        logger.fine("Total internships: " + count);
     }
 
     private static void printStatusOverview() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nStatus Overview: No internships found.");
+            logger.warning("Status overview requested but internship list is empty");
             return;
         }
 
@@ -56,11 +65,13 @@ public class DashboardUI {
         for (String status : statusOrder) {
             System.out.printf("  %-15s : %d%n", status, statusCount.get(status));
         }
+        logger.fine("Status overview printed");
     }
 
     private static void printNearestDeadline() throws InternityException {
         if (InternshipList.size() == 0) {
             System.out.println("\nNearest Deadline: No internships found.");
+            logger.warning("Nearest deadline requested but internship list is empty");
             return;
         }
 
@@ -75,9 +86,12 @@ public class DashboardUI {
                 nearest.getDeadline().toString(),
                 nearest.getRole(),
                 nearest.getCompany());
+
+        logger.fine("Nearest deadline displayed: " + nearest);
     }
 
     private static Internship findNearestDeadlineInternship() throws InternityException {
+        assert InternshipList.size() > 0 : "Cannot find nearest deadline in empty list";
         Internship nearest = null;
 
         for (int i = 0; i < InternshipList.size(); i++) {
@@ -87,7 +101,7 @@ public class DashboardUI {
                 nearest = internship;
             }
         }
-
+        logger.fine("Found nearest deadline internship: " + nearest);
         return nearest;
     }
 }
