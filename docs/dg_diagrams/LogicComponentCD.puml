@@ -1,0 +1,48 @@
+@startuml
+title Logic Component - Class Diagram
+
+class CommandParser {
+    + parseInput(input: String): Command
+}
+
+class CommandFactory {
+    + createCommand(commandWord: String, args: String): Command
+}
+
+class ArgumentParser {
+    + {static} parseAddCommandArgs(args: String): AddCommand
+    + {static} parseDeleteCommandArgs(args: String): DeleteCommand
+    + {static} parseFindCommandArgs(args: String): FindCommand
+    + {static} parseUpdateCommandArgs(args: String): UpdateCommand
+    + {static} parseListCommandArgs(args: String): ListCommand
+    + {static} parseUsernameCommandArgs(args: String): UsernameCommand
+}
+
+abstract class Command {
+    + execute(): void
+    + isExit(): boolean
+}
+
+class AddCommand
+class DeleteCommand
+class FindCommand
+class UpdateCommand
+class ListCommand
+class UsernameCommand
+class DashboardCommand
+class ExitCommand
+
+CommandParser --> CommandFactory : uses
+CommandFactory --> ArgumentParser : delegates parsing
+CommandFactory --> Command : creates
+ArgumentParser --> Command : constructs
+Command <|-- AddCommand
+Command <|-- DeleteCommand
+Command <|-- FindCommand
+Command <|-- UpdateCommand
+Command <|-- ListCommand
+Command <|-- UsernameCommand
+Command <|-- DashboardCommand
+Command <|-- ExitCommand
+
+@enduml
