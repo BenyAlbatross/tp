@@ -1,0 +1,79 @@
+@startuml@startuml
+title Architecture - Class Diagram
+
+' === Core Controller ===
+class InternityManager
+
+' === Logic Layer ===
+class CommandParser
+class CommandFactory
+abstract class Command
+class AddCommand
+class DeleteCommand
+class FindCommand
+class UpdateCommand
+class ListCommand
+class UsernameCommand
+class DashboardCommand
+class ExitCommand
+class ArgumentParser
+
+' === Model Layer ===
+class InternshipList
+class Internship
+class Storage
+class Date
+enum Status
+
+' === UI Layer ===
+class Ui
+class DashboardUi
+
+' === Utilities ===
+class DateFormatter
+
+' === Relationships ===
+InternityManager --> CommandParser
+InternityManager --> InternshipList
+InternityManager --> Storage
+InternityManager --> Ui
+
+CommandParser --> CommandFactory
+CommandFactory --> ArgumentParser
+CommandFactory --> Command
+ArgumentParser --> Command
+
+' Command hierarchy
+Command <|-- AddCommand
+Command <|-- DeleteCommand
+Command <|-- FindCommand
+Command <|-- UpdateCommand
+Command <|-- ListCommand
+Command <|-- UsernameCommand
+Command <|-- DashboardCommand
+Command <|-- ExitCommand
+
+' All commands interact with InternshipList
+AddCommand --> InternshipList
+DeleteCommand --> InternshipList
+FindCommand --> InternshipList
+UpdateCommand --> InternshipList
+ListCommand --> InternshipList
+UsernameCommand --> InternshipList
+DashboardCommand --> InternshipList
+ExitCommand --> InternshipList
+
+' Dashboard uses DashboardUi
+DashboardCommand --> DashboardUi
+
+' InternshipList relationships
+InternshipList --> Storage
+InternshipList --> Internship
+Internship --> Date
+Internship --> Status
+DashboardUi --> InternshipList
+
+' ArgumentParser uses DateFormatter
+ArgumentParser --> DateFormatter
+
+@enduml

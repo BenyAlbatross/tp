@@ -1,0 +1,24 @@
+@startuml
+title Internity - User Interaction Sequence
+actor User
+participant ":InternityManager" as Manager
+participant ":CommandParser" as Parser
+participant ":CommandFactory" as Factory
+participant ":Command" as Command
+participant "<<class>> InternshipList" as Model
+participant ":Storage" as Storage
+participant "<<class>> Ui" as Ui
+
+
+User -> Manager : type command (e.g., "delete 1")
+Manager -> Parser : parseInput(userInput)
+Parser -> Factory : createCommand(commandWord, args)
+Factory --> Parser : return Command
+Parser --> Manager : return Command
+
+Manager -> Command : execute()
+Command -> Model : modify / query internships
+Command -> Ui : Ui display method
+Manager -> Storage : save changes
+Manager --> User :
+@end
