@@ -21,7 +21,7 @@
 
 
 ## Acknowledgements
-We would like to thank our TA Nigel Yeo, and the CS2113 Team.
+We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team.
 
 ## Design
 
