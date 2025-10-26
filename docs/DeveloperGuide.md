@@ -278,36 +278,77 @@ during the `find` operation. However, any modifications (such as deletion or add
 ## Product scope
 
 ### Target user profile
-
-{Describe the target user profile}
+- Computer Science students who are actively applying for multiple internships, often over 200 applications per recruitment cycle.
+- Detail-oriented users who want a structured way to track internship applications.
+- Comfortable using command-line interfaces (CLI) and prefer a lightweight and fast tool over complex graphical applications.
 
 ### Value proposition
-
-{Describe the value proposition: what problem does it solve?}
+Internity provides a centralized and efficient way to manage internship applications through a command-line interface.
+It allows users to:
+- Store and organize internships along with key attributes such as company name, role, deadline, pay and
+application status
+- Find internships by keyword
+- Sort internships by date in ascending or descending order.
+- View an automatically generated dashboard showing key statistics such as total applications, nearest deadlines and
+status breakdowns.
 
 ## User Stories
 
-| Version | As a ... | I want to ...                                                          | So that I can ...                                   |
-|---------|----------|------------------------------------------------------------------------|-----------------------------------------------------|
-| v1.0    | new user | add a new internship with company, role, and deadline details          | keep all opportunities organized in one place       |
-| v1.0    | user     | set the status of my application (applied, interview, offer, rejected) | easily see my progress with each internship         |
-| v1.0    | user     | see a list of all my internships                                       | easily view the opportunities I’m tracking          |
-| v1.0    | user     | remove an internship entry                                             | keep the list relevant and up to date               |
-| v2.0    | user     | see my internships sorted by upcoming deadlines                        | prioritize applications that are due soon           |
-| v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions |
-| v2.0    | user     | see an overall countdown for upcoming interviews                       | manage my time effectively and be prepared          |
+
+| Version | As a ... | I want to ...                                                          | So that I can ...                                                                |
+|---------|----------|------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| v1.0    | new user | add a new internship with company, role, and deadline details          | keep all opportunities organized in one place                                    |
+| v1.0    | user     | set the status of my application (applied, interview, offer, rejected) | easily see my progress with each internship                                      |
+| v1.0    | user     | see a list of all my internships                                       | easily view the opportunities I’m tracking                                       |
+| v1.0    | user     | remove an internship entry                                             | keep the list relevant and up to date                                            |
+| v2.0    | user     | update the company, role, deadline and pay for an internship           | keep my application information accurate and up to date                          |
+| v2.0    | user     | see my internships sorted by deadlines                                 | prioritize applications that are due soon                                        |
+| v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions                              |
+| v2.0    | user     | find internships based on the company or role                          | easily view my applications to specific companies or positions I'm interested in |
+| v2.0    | user     | set or change my username                                              | personalize my internship tracker experience                                     |
+| v2.0    | user     | view a condensed dashboard                                             | to see the current status of my applications                                     |
 
 
 ## Use Cases
 
+
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. Should work on any mainstream OS (Windows, macOS, Linux) as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 internship applications without a noticeable sluggishness in performance
+for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) 
+should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. User data should not be shared or transmitted externally. All storage is local to the user's system.
+5. The architecture should allow easy addition of new commands without breaking existing functionality.
+
 
 ## Glossary
+*Internship*
+A temporary work experience offered by a company or organization that allows a student or early-career individual
+to gain practical skills, industry knowledge and professional exposure in a specific field. Internships may be paid
+or unpaid, part-time or full-time, and can occur during or after academic study.
 
-* *glossary item* - Definition
 
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launch and shutdown
+1. Initial launch
+   1. Download the jar file and copy it into an empty folder.
+
+### Adding an internship
+
+### Updating an internship
+
+### Deleting an internship
+
+### Listing and sorting all internships
+
+### Finding an internship by keyword
+
+### Setting/Changing username
+
+### Displaying the Internity Dashboard
+
+### Saving Data
