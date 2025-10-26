@@ -1,0 +1,52 @@
+@startuml
+title Logic Component - Sequence Diagram
+
+participant ":InternityManager" as IM
+participant ":CommandParser" as CP
+participant ":CommandFactory" as CF
+participant "<<class>>\nArgumentParser" as AP
+participant ":AddCommand" as AddC
+participant ":ExitCommand" as ExitC
+
+IM -> CP: parseInput(input)
+activate CP
+
+' --- validate input ---
+CP -> CP: validate input (null/blank)
+activate CP
+CP --> CP: return from validate
+deactivate CP
+
+' --- split input ---
+CP -> CP: split input into commandWord and args
+activate CP
+CP --> CP: return from split
+deactivate CP
+
+' --- create command via factory ---
+CP -> CF: createCommand(commandWord, args)
+activate CF
+
+alt Command requires argument parsing
+    CF -> AP: parseAddCommandArgs(args)
+    activate AP
+    AP -> AddC: new AddCommand(company, role, deadline, pay)
+    activate AddC
+    AddC --> AP: return AddCommand instance
+    deactivate AddC
+    AP --> CF: return AddCommand
+    deactivate AP
+else Command does not require args (exit/dashboard)
+    CF -> ExitC: new ExitCommand()
+    activate ExitC
+    ExitC --> CF: return ExitCommand instance
+    deactivate ExitC
+end
+
+CF --> CP: return Command
+deactivate CF
+
+CP --> IM: return Command
+deactivate CP
+
+@enduml

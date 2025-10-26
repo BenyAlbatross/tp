@@ -67,7 +67,7 @@ public class AddCommand extends Command {
     }
 
     /**
-     * This command will not terminate the application.
+     * Indicates that this command does not terminate the program.
      *
      * @return {@code false}
      */

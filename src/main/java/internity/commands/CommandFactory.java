@@ -52,6 +52,8 @@ public class CommandFactory {
             return ArgumentParser.parseListCommandArgs(args);
         case "username":
             return ArgumentParser.parseUsernameCommandArgs(args);
+        case "dashboard":
+            return new DashboardCommand();
         case "exit":
             return new ExitCommand();
         default:

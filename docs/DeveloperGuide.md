@@ -21,14 +21,39 @@
 
 
 ## Acknowledgements
-
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team.
 
 ## Design
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-
 ### Architecture
+The Internity application follows a layered architecture inspired by the Model-View-Controller (MVC)
+pattern, combined with the Command Pattern for handling user actions. This design separates concerns
+clearly, allowing for modular, maintainable and extensible code.
+
+![Architecture: Class Diagram](diagrams/ArchitectureCD.png)
+
+#### User Interaction
+![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
+
+#### Layers
+1. Model
+   - Classes: `InternshipList`, `Internship`, `Date`, `Status`, `Storage`
+   - Responsibilities:
+     - Stores internship data
+     - Provides operations like adding, deleting, updating, finding or listing internships.
+     - Completely independent of UI and input logic.
+2. View
+   - Classes: `Ui`, `DashboardUi`
+   - Responsibilities:
+     - Does not contain any logic, just presenting data.
+     - Takes data from the Model and formats it nicely for the user.
+     - Views are used by commands to show information.
+3. Controller
+   - Classes: `InternityManager`, `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
+   - Responsibilities:
+     - Interprets user commands and orchestrates interactions between Model and View.
+     - Each `Command` operates on the Model and may trigger a View update.
+     - Parsing, validation and command creation are the key parts of the Controller layer.
 
 ### UI Component
 
@@ -39,6 +64,20 @@ The Logic component is responsible for:
 - Parsing user input commands.
 - Creating the appropriate `Command` object.
 - Executing that command to modify the Model or interact with the UI.
+
+#### Chosen Approach
+This component follows the **Command Pattern**, which decouples the user input parsing from the execution of commands.
+Each command is represented as a subclass of the abstract `Command` class, encapsulating its execution logic. This
+allows new commands to be easily added without modifying the core parsing or execution workflow.
+
+####  Class Diagram
+![Logic Component: Class Diagram](diagrams/LogicComponentCD.png)
+
+The class diagram above shows the main classes involved in parsing, creating, and executing commands.
+- CommandParser is responsible for validating and splitting the input.
+- CommandFactory creates the appropriate Command object.
+- ArgumentParser is a static utility class used to parse arguments for commands that require them.
+- All Command subclasses implement the execute() method, following the Command Pattern.
 
 #### How it Works
 1. User input (e.g. `add company/Google role/SWE deadline/10-10-2025 pay/1000`) is received by CommandParser.
@@ -51,11 +90,28 @@ The Logic component is responsible for:
    - Uses the `ArgumentParser` to interpret argument strings.
    - Returns a fully constructed `Command` object.
 4. The `Command` object executes its logic (e.g. adds a new internship to `InternshipList`).
-5. The result of the execution is printed ot the console via the `Ui`.
+5. Finally, the result of the execution is printed ot the console via the `Ui`.
 
 #### Sequence Diagram
-Below is a simplified interaction for the `delete 1` command:
-<insert uml diagram>
+The following sequence diagram illustrates how the Logic Component processes an input command:
+
+![Logic Component: Sequence Diagram](diagrams/LogicComponentSD.png)
+
+#### Explaining Commands with and without arguments
+1. Commands that **require** arguments 
+   - `add`, `update`, `delete`, `find`, `list`, `username`
+   - These commands need extra information to execute correctly:
+     - `add` needs company, role, deadline and pay.
+     - `update` needs an index and fields to update.
+     - `find` needs a search keyword.
+2. Commands that **do not require** arguments
+   - `exit`, `dashboard`
+   - These commands operate independently of data supplied by the user.
+   - `CommandFactory` directly constructs the corresponding `Command` object (e.g. `ExitCommand` or `DashboardCommand`) without invoking `ArgumentParser`.
+
+This distinction is represented in the above sequence diagram's `alt` block, showing the two conditional flows:
+- Top path (commands requiring arguments) -> parsed via `ArgumentParser`.
+- Bottom path (commands not requiring arguments) -> instantiated directly.
 
 ### Model Component
 
@@ -234,35 +290,77 @@ during the `find` operation. However, any modifications (such as deletion or add
 ## Product scope
 
 ### Target user profile
-
-{Describe the target user profile}
+- Computer Science students who are actively applying for multiple internships, often over 200 applications per recruitment cycle.
+- Detail-oriented users who want a structured way to track internship applications.
+- Comfortable using command-line interfaces (CLI) and prefer a lightweight and fast tool over complex graphical applications.
 
 ### Value proposition
-
-{Describe the value proposition: what problem does it solve?}
+Internity provides a centralized and efficient way to manage internship applications through a command-line interface.
+It allows users to:
+- Store and organize internships along with key attributes such as company name, role, deadline, pay and
+application status
+- Find internships by keyword
+- Sort internships by date in ascending or descending order.
+- View an automatically generated dashboard showing key statistics such as total applications, nearest deadlines and
+status breakdowns.
 
 ## User Stories
 
-| Version | As a ... | I want to ...                                                          | So that I can ...                                   |
-|---------|----------|------------------------------------------------------------------------|-----------------------------------------------------|
-| v1.0    | new user | add a new internship with company, role, and deadline details          | keep all opportunities organized in one place       |
-| v1.0    | user     | set the status of my application (applied, interview, offer, rejected) | easily see my progress with each internship         |
-| v1.0    | user     | see a list of all my internships                                       | easily view the opportunities I’m tracking          |
-| v1.0    | user     | remove an internship entry                                             | keep the list relevant and up to date               |
-| v2.0    | user     | see my internships sorted by upcoming deadlines                        | prioritize applications that are due soon           |
-| v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions |
-| v2.0    | user     | see an overall countdown for upcoming interviews                       | manage my time effectively and be prepared          |
+
+| Version | As a ... | I want to ...                                                          | So that I can ...                                                                |
+|---------|----------|------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| v1.0    | new user | add a new internship with company, role, and deadline details          | keep all opportunities organized in one place                                    |
+| v1.0    | user     | set the status of my application (applied, interview, offer, rejected) | easily see my progress with each internship                                      |
+| v1.0    | user     | see a list of all my internships                                       | easily view the opportunities I’m tracking                                       |
+| v1.0    | user     | remove an internship entry                                             | keep the list relevant and up to date                                            |
+| v2.0    | user     | update the company, role, deadline and pay for an internship           | keep my application information accurate and up to date                          |
+| v2.0    | user     | see my internships sorted by deadlines                                 | prioritize applications that are due soon                                        |
+| v2.0    | user     | save and load internships automatically                                | avoid losing my progress and notes between sessions                              |
+| v2.0    | user     | find internships based on the company or role                          | easily view my applications to specific companies or positions I'm interested in |
+| v2.0    | user     | set or change my username                                              | personalize my internship tracker experience                                     |
+| v2.0    | user     | view a condensed dashboard                                             | to see the current status of my applications                                     |
+
 
 ## Use Cases
 
+
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. Should work on any mainstream OS (Windows, macOS, Linux) as long as it has Java `17` or above installed.
+2. Should be able to hold up to 1000 internship applications without a noticeable sluggishness in performance
+for typical usage.
+3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) 
+should be able to accomplish most of the tasks faster using commands than using the mouse.
+4. User data should not be shared or transmitted externally. All storage is local to the user's system.
+5. The architecture should allow easy addition of new commands without breaking existing functionality.
+
 
 ## Glossary
+**Internship**\
+A temporary work experience offered by a company or organization that allows a student or early-career individual
+to gain practical skills, industry knowledge and professional exposure in a specific field. Internships may be paid
+or unpaid, part-time or full-time, and can occur during or after academic study.
 
-* *glossary item* - Definition
 
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launch and shutdown
+1. Initial launch
+   1. Download the jar file and copy it into an empty folder.
+
+### Adding an internship
+
+### Updating an internship
+
+### Deleting an internship
+
+### Listing and sorting all internships
+
+### Finding an internship by keyword
+
+### Setting/Changing username
+
+### Displaying the Internity Dashboard
+
+### Saving Data
