@@ -30,10 +30,10 @@ The Internity application follows a layered architecture inspired by the Model-V
 pattern, combined with the Command Pattern for handling user actions. This design separates concerns
 clearly, allowing for modular, maintainable and extensible code.
 
-![Architecture: Class Diagram](dg_diagrams/ArchitectureCD.png)
+![Architecture: Class Diagram](diagrams/ArchitectureCD.png)
 
 #### User Interaction
-![User Interaction: Sequence Diagram](dg_diagrams/UserInteractionSD.png)
+![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
 
 #### Layers
 1. Model
@@ -71,7 +71,7 @@ Each command is represented as a subclass of the abstract `Command` class, encap
 allows new commands to be easily added without modifying the core parsing or execution workflow.
 
 ####  Class Diagram
-![Logic Component: Class Diagram](dg_diagrams/LogicComponentCD.png)
+![Logic Component: Class Diagram](diagrams/LogicComponentCD.png)
 
 The class diagram above shows the main classes involved in parsing, creating, and executing commands.
 - CommandParser is responsible for validating and splitting the input.
@@ -95,7 +95,7 @@ The class diagram above shows the main classes involved in parsing, creating, an
 #### Sequence Diagram
 The following sequence diagram illustrates how the Logic Component processes an input command:
 
-![Logic Component: Sequence Diagram](dg_diagrams/LogicComponentSD.png)
+![Logic Component: Sequence Diagram](diagrams/LogicComponentSD.png)
 
 #### Explaining Commands with and without arguments
 1. Commands that **require** arguments 
