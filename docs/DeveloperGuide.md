@@ -21,12 +21,9 @@
 
 
 ## Acknowledgements
-
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+We would like to thank our TA Nigel Yeo, and the CS2113 Team.
 
 ## Design
-
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
 ### Architecture
 
@@ -40,6 +37,20 @@ The Logic component is responsible for:
 - Creating the appropriate `Command` object.
 - Executing that command to modify the Model or interact with the UI.
 
+#### Chosen Approach
+This component follows the **Command Pattern**, which decouples the user input parsing from the execution of commands.
+Each command is represented as a subclass of the abstract `Command` class, encapsulating its execution logic. This
+allows new commands to be easily added without modifying the core parsing or execution workflow.
+
+####  Class Diagram
+![Logic Component: Class Diagram](dg_diagrams/LogicComponentCD.png)
+
+The class diagram above shows the main classes involved in parsing, creating, and executing commands.
+- CommandParser is responsible for validating and splitting the input.
+- CommandFactory creates the appropriate Command object.
+- ArgumentParser is a static utility class used to parse arguments for commands that require them.
+- All Command subclasses implement the execute() method, following the Command Pattern.
+
 #### How it Works
 1. User input (e.g. `add company/Google role/SWE deadline/10-10-2025 pay/1000`) is received by CommandParser.
 2. The `CommandParser`:
@@ -51,10 +62,28 @@ The Logic component is responsible for:
    - Uses the `ArgumentParser` to interpret argument strings.
    - Returns a fully constructed `Command` object.
 4. The `Command` object executes its logic (e.g. adds a new internship to `InternshipList`).
-5. The result of the execution is printed ot the console via the `Ui`.
+5. Finally, the result of the execution is printed ot the console via the `Ui`.
 
 #### Sequence Diagram
-Below is a simplified interaction for the `delete 1` command
+The following sequence diagram illustrates how the Logic Component processes an input command:
+
+![Logic Component: Sequence Diagram](dg_diagrams/LogicComponentSD.png)
+
+#### Explaining Commands with and without arguments
+1. Commands that **require** arguments 
+   - `add`, `update`, `delete`, `find`, `list`, `username`
+   - These commands need extra information to execute correctly:
+     - `add` needs company, role, deadline and pay.
+     - `update` needs an index and fields to update.
+     - `find` needs a search keyword.
+2. Commands that **do not require** arguments
+   - `exit`, `dashboard`
+   - These commands operate independently of data supplied by the user.
+   - `CommandFactory` directly constructs the corresponding `Command` object (e.g. `ExitCommand` or `DashboardCommand`) without invoking `ArgumentParser`.
+
+This distinction is represented in the above sequence diagram's `alt` block, showing the two conditional flows:
+- Top path (commands requiring arguments) -> parsed via `ArgumentParser`.
+- Bottom path (commands not requiring arguments) -> instantiated directly.
 
 ### Model Component
 
