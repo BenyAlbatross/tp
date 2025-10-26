@@ -324,7 +324,7 @@ should be able to accomplish most of the tasks faster using commands than using 
 
 
 ## Glossary
-*Internship*
+**Internship**\
 A temporary work experience offered by a company or organization that allows a student or early-career individual
 to gain practical skills, industry knowledge and professional exposure in a specific field. Internships may be paid
 or unpaid, part-time or full-time, and can occur during or after academic study.

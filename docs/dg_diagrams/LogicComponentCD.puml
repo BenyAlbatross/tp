@@ -35,7 +35,7 @@ class ExitCommand
 CommandParser --> CommandFactory : uses
 CommandFactory --> ArgumentParser : delegates parsing
 CommandFactory --> Command : creates
-ArgumentParser --> Command : constructs
+ArgumentParser --> Command : creates
 Command <|-- AddCommand
 Command <|-- DeleteCommand
 Command <|-- FindCommand
