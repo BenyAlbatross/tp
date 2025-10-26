@@ -26,6 +26,34 @@ We would like to thank our TA Nigel Yeo, and the CS2113 Team.
 ## Design
 
 ### Architecture
+The Internity application follows a layered architecture inspired by the Model-View-Controller (MVC)
+pattern, combined with the Command Pattern for handling user actions. This design separates concerns
+clearly, allowing for modular, maintainable and extensible code.
+
+![Architecture: Class Diagram](dg_diagrams/ArchitectureCD.png)
+
+#### User Interaction
+![User Interaction: Sequence Diagram](dg_diagrams/UserInteractionSD.png)
+
+#### Layers
+1. Model
+   - Classes: `InternshipList`, `Internship`, `Date`, `Status`, `Storage`
+   - Responsibilities:
+     - Stores internship data
+     - Provides operations like adding, deleting, updating, finding or listing internships.
+     - Completely independent of UI and input logic.
+2. View
+   - Classes: `Ui`, `DashboardUi`
+   - Responsibilities:
+     - Does not contain any logic, just presenting data.
+     - Takes data from the Model and formats it nicely for the user.
+     - Views are used by commands to show information.
+3. Controller
+   - Classes: `InternityManager`, `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
+   - Responsibilities:
+     - Interprets user commands and orchestrates interactions between Model and View.
+     - Each `Command` operates on the Model and may trigger a View update.
+     - Parsing, validation and command creation are the key parts of the Controller layer.
 
 ### UI Component
 
