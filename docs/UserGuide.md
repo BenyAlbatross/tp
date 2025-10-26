@@ -77,6 +77,7 @@ Use this command to update the **status** of an internship application.
 For v1.0, only the `status` field can be updated. Updating other fields (company, role, deadline, pay) will be added in future iterations.
 
 **Valid `status` values:**
+- `Pending` -> You’re considering the internship but haven’t applied yet.
 - `Interested` → You’ve found the internship and might apply.
 - `Applied` → You’ve submitted your application.
 - `Interviewing` → You’re currently in the interview process.
@@ -122,6 +123,40 @@ list sort/desc
 
 ---
 
+### Finding by keyword
+
+Format:
+
+Example:
+
+---
+
+### Setting/Changing username: `username`
+Use this command to set or change the username for the Internity application.
+
+Format:
+```
+username USERNAME
+```
+
+Example:
+```
+username Yoshikage Kira
+```
+
+---
+
+### Displaying dashboard: `dashboard`
+Use this command to display a dashboard showing the current user's information, total internships, nearest deadline, 
+and a breakdown of internships by status.
+
+Format:
+```
+dashboard
+```
+
+---
+
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -132,9 +167,13 @@ list sort/desc
 
 ## Command Summary
 
-| **Action**             | **Command** | **Format**                                                                                                                                                  | **Example**                                                                     |
-|------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **Add Application**    | `add`       | `add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_DETAILS`                                                                                 | `add company/Google role/Software Engineer Intern deadline/2025-10-20 pay/1000` |
-| **Delete Application** | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                      |
-| **Update Application** | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
-| **List Applications**  | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
+| **Action**              | **Command** | **Format**                                                                                                                                                  | **Example**                                                                     |
+|-------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **Add Application**     | `add`       | `add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_DETAILS`                                                                                 | `add company/Google role/Software Engineer Intern deadline/2025-10-20 pay/1000` |
+| **Delete Application**  | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                      |
+| **Update Application**  | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
+| **List Applications**   | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
+| **Find Application**    | `find`      |                                                                                                                                                             |                                                                                 |
+| **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                       |
+| **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                     |
+
