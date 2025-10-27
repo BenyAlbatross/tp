@@ -51,7 +51,11 @@ code reuse.
 
 ### Project management
 - Prioritized tasks and managed the implementation schedule to meet project deadlines.
-- Managed releases `v1.0`-`2.1` on GitHub
+- Managed releases `v1.0`-`v2.1` on GitHub.
+
+### Enhancements to existing features
+- Wrote additional tests for existing features to increase branch coverage from 55% to 72% and line coverage from
+70% to 83%.
 
 ### Documentation
 - User Guide:
