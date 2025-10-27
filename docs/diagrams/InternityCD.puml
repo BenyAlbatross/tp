@@ -1,5 +1,5 @@
 @startuml@startuml
-title Architecture - Class Diagram
+title Internity - Class Diagram
 
 ' === Core Controller ===
 class InternityManager

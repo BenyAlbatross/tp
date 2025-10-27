@@ -1,0 +1,32 @@
+@startuml
+title Architecture Diagram
+
+actor User
+
+rectangle "Logic" {
+    [CommandParser]
+    [Command]
+}
+
+rectangle "Model" {
+    [InternshipList]
+    [Storage]
+}
+
+rectangle "UI" {
+    [Ui]
+    [DashboardUi]
+}
+
+User --> [InternityManager] : inputs command
+[InternityManager] --> [CommandParser] : parse input
+[CommandParser] --> [Command] : create & return Command
+[InternityManager] --> [Command] : execute()
+
+[Command] --> [InternshipList] : modify/query data
+[InternityManager] --> [Storage] : save changes
+[Command] --> [Ui] : display messages
+[Command] --> [DashboardUi] : render dashboard
+[Ui] --> User : show output
+
+@enduml

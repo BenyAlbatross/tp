@@ -30,9 +30,15 @@ The Internity application follows a layered architecture inspired by the Model-V
 pattern, combined with the Command Pattern for handling user actions. This design separates concerns
 clearly, allowing for modular, maintainable and extensible code.
 
-![Architecture: Class Diagram](diagrams/ArchitectureCD.png)
+The **Architecture Diagram** below explains the high-level design of the Internity application.
+![Architecture Diagram](diagrams/ArchitectureOverview.png)
+
+The diagram below shows a simplified **Class Diagram** of all of Internity's classes and their relationships.
+![Internity Class Diagram](diagrams/InternityCD.png)
 
 #### User Interaction
+The Sequence Diagram below shows how the components interact with each other when the user issues the command
+`delete 1`.
 ![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
 
 #### Layers
@@ -56,7 +62,32 @@ clearly, allowing for modular, maintainable and extensible code.
      - Parsing, validation and command creation are the key parts of the Controller layer.
 
 ### UI Component
+#### Overview
+The UI component is responsible for all interactions between the user and the application.
+It displays messages, prompts, and formatted lists in the command-line interface (CLI), and ensures that feedback 
+from executed commands is presented clearly.
 
+The API of this component is specified in the [`Ui.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/Ui.java) class
+and the [`DashboardUi.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/DashboardUi.java).
+
+
+#### How it Works
+1. The `InternityManager` handles all user input through a `Scanner`.
+When a command is executed, it delegates output responsibilities to the `Ui` class.
+2. The `Ui` component formats and prints the messages or internship data to the console.
+For example:
+   - `Ui.printAddInternship()` displays confirmation for a newly added internship.
+   - `Ui.printFindInternship()` displays results in a neat, column-aligned format.
+3. For specialized displays such as the dashboard, the `DashboardUi` class is used.
+
+#### Design Consideration
+- Static methods
+  - The `Ui` class methods are static to ensure simplicity and easy access across commands without requiring
+  instantiation.
+- Loose coupling
+  - The UI does not directly modify model or logic components. 
+  - It only displays results based on data passed to it.
+ 
 ### Logic Component
 
 #### Overview
