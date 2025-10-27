@@ -70,6 +70,15 @@ class DateFormatterTest {
     }
 
     @Test
+    void parse_nullInput_throwsInternityException() {
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(null)
+        );
+        assertEquals("Input cannot be null or blank", thrown.getMessage());
+    }
+
+    @Test
     void parse_blankInput_throwsException() {
         String input = " ";
 
@@ -107,4 +116,68 @@ class DateFormatterTest {
             );
         }
     }
+
+    @Test
+    void parse_leapYearValidDate_returnsDate() throws InternityException {
+        // 2024 is a leap year
+        String input = "29-02-2024";
+        Date date = DateFormatter.parse(input);
+
+        assertEquals(29, date.getDay());
+        assertEquals(2, date.getMonth());
+        assertEquals(2024, date.getYear());
+    }
+
+    @Test
+    void parse_leapYearInvalidDate_throwsException() {
+        // 2023 is NOT a leap year
+        String input = "29-02-2023";
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(input)
+        );
+        assertEquals("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)", thrown.getMessage());
+    }
+
+    @Test
+    void parse_endOfMonthBoundaries_validDates() throws InternityException {
+        String input = "30-04-2025";
+        Date date = DateFormatter.parse(input);
+        assertEquals(30, date.getDay());
+        assertEquals(4, date.getMonth());
+
+        input = "31-01-2025";
+        date = DateFormatter.parse(input);
+        assertEquals(31, date.getDay());
+        assertEquals(1, date.getMonth());
+    }
+
+    @Test
+    void parse_outOfBoundsMonthOrDay_throwsException() {
+        String[] invalidInputs = {"31-04-2025", "32-01-2025", "00-12-2025", "15-00-2025", "15-13-2025"};
+        for (String input : invalidInputs) {
+            InternityException thrown = assertThrows(
+                    InternityException.class,
+                    () -> DateFormatter.parse(input),
+                    "Expected parse() to throw for input: " + input
+            );
+            assertEquals("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)", thrown.getMessage());
+        }
+    }
+
+    @Test
+    void parse_partsLengthNotThree_throwsInternityException() {
+        String input = "08-10-2025-";
+
+        InternityException thrown = assertThrows(
+                InternityException.class,
+                () -> DateFormatter.parse(input)
+        );
+
+        assertEquals(
+                "Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)",
+                thrown.getMessage()
+        );
+    }
+
 }
