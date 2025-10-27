@@ -1,9 +1,10 @@
 # Luke Aidan Tan - Project Portfolio Page
 
 ## Overview
-Internity is a CLI based app for managing internship applications. Internity can help you manage and keep track
-of your internship applications more efficiently, perfect for Computer Science students who need to
-manage hundreds of applications. The app allows users to add, update, delete, find, and list internships, each with detailed 
+Internity is a Command-Line Interface (CLI) application designed to help users manage their internship applications efficiently. 
+It is especially useful for Computer Science students who often apply to hundreds of internships and need a simple yet powerful 
+way to organize their applications.
+The app allows users to add, update, delete, find, and list internships, each with detailed 
 attributes such as company name, role, application deadline, pay, and status. In addition, Internity provides features 
 like a dashboard overview for quick insights and data persistence between sessions.
 
