@@ -115,14 +115,17 @@ This distinction is represented in the above sequence diagram's `alt` block, sho
 
 ### Model Component
 
-**API**: [`internity.core`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/)
+**API**: [`internity.core`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/) (exclude Storage.java)
 
 ![Model Component: Class Diagram](diagrams/ModelComponentCD.png)
 
 The `Model` component:
 * stores internship data i.e. all `Internship` objects in an `InternshipList` object
 * provides operations to manipulate that data e.g. `add`, `delete`, `update`, `find`, `list` internships
-* does not depend on the UI and Logic components
+* does not depend on the other three components (i.e. `UI`, `Logic`, `Storage`)
+
+The sequence diagram below shows how Logic component delegates add Internship to the Model component:
+![Model Component: Sequence Diagram](diagrams/ModelComponentSD.png)
 
 ### Storage Component
 
