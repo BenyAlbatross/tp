@@ -26,40 +26,54 @@ We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team.
 ## Design
 
 ### Architecture
-The Internity application follows a layered architecture inspired by the Model-View-Controller (MVC)
-pattern, combined with the Command Pattern for handling user actions. This design separates concerns
+The Internity application adopts layered architecture where responsibilities are divided among UI, Logic, Model and Storage related
+components. It also follows the Command Pattern for handling user actions. This design separates concerns
 clearly, allowing for modular, maintainable and extensible code.
 
-The **Architecture Diagram** below explains the high-level design of the Internity application.
-![Architecture Diagram](diagrams/ArchitectureOverview.png)
+The **Architecture Diagram** below explains the high-level design of the Internity application.\
+![Architecture Diagram](diagrams/ArchitectureOverview.png)\
 
 The diagram below shows a simplified **Class Diagram** of all of Internity's classes and their relationships.
 ![Internity Class Diagram](diagrams/InternityCD.png)
+
+#### Layers
+1. InternityManager
+   - Responsibilities:
+     - Receives input from the user and delegates parsing to the `Logic` layer.
+     - Commands executed by `Logic` layer may modify the `Model` or trigger UI updates.
+     - It also handles reading from and writing to the `Storage` layer.
+     - Simplifies interactions between all layers and maintains a clear separation of concerns.
+2. UI (User Interface)
+    - Classes: `Ui`, `DashboardUi`
+    - Responsibilities:
+        - Handles all user-facing output (printing, dashboards, etc.).
+        - Does not perform any logic or state changes.
+        - Displays information passed from the Logic or Model layers in a user-friendly format.
+        - Invoked by Commands to show feedback or results.
+3. Logic
+   - Classes: `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
+   - Responsibilities:
+       - Acts as the intermediary between user input and model operations.
+       - Parses and validates user commands.
+       - Constructs the appropriate `Command` object through the `CommandFactory`.
+       - Executes commands, which modify the `Model` or update the `UI`.
+4. Model
+   - Classes: `InternshipList`, `Internship`, `Date`, `Status`
+   - Responsibilities:
+     - Stores internship data
+     - Provides operations like adding, deleting, updating, finding or listing internships.
+     - Completely independent of UI and input logic.
+5. Storage
+   - Classes: `Storage`
+   - Responsibilities:
+     - Reads and writes internship data to persistent storage (e.g., file system). 
+     - Keeps data consistent between sessions. 
+     - Used by InternityManager to save or load application state.
 
 #### User Interaction
 The Sequence Diagram below shows how the components interact with each other when the user issues the command
 `delete 1`.
 ![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
-
-#### Layers
-1. Model
-   - Classes: `InternshipList`, `Internship`, `Date`, `Status`, `Storage`
-   - Responsibilities:
-     - Stores internship data
-     - Provides operations like adding, deleting, updating, finding or listing internships.
-     - Completely independent of UI and input logic.
-2. View
-   - Classes: `Ui`, `DashboardUi`
-   - Responsibilities:
-     - Does not contain any logic, just presenting data.
-     - Takes data from the Model and formats it nicely for the user.
-     - Views are used by commands to show information.
-3. Controller
-   - Classes: `InternityManager`, `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
-   - Responsibilities:
-     - Interprets user commands and orchestrates interactions between Model and View.
-     - Each `Command` operates on the Model and may trigger a View update.
-     - Parsing, validation and command creation are the key parts of the Controller layer.
 
 ### UI Component
 #### Overview

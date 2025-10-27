@@ -10,7 +10,11 @@ rectangle "Logic" {
 
 rectangle "Model" {
     [InternshipList]
-    [Storage]
+
+}
+
+rectangle "Storage" {
+
 }
 
 rectangle "UI" {
