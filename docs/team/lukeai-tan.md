@@ -36,14 +36,10 @@ code reuse.
 - Created `DateFormatter` for parsing user-provided dates and `Date` as a custom comparable date object
   used across internships.
 
-#### Exit Command (`ExitCommand`)
-- Implemented the command for users to exit the program.
-
-#### Username Command (`UsernameCommand`)
-- Implemented the command to set or display the current username.
-
-#### Dashboard Command (`DashboardCommand`)
-- Implemented the command to display a dashboard overview of internships, showing nearest deadlines and status
+#### Exit, Username, Dashboard Command (`ExitCommand`, `UsernameCommand`, `DashboardCommand`)
+- Implemented the `exit` command for users to exit the program.
+- Implemented the `username` command to set or display the current username.
+- Implemented the `dashboard` command to display a dashboard overview of internships, showing nearest deadlines and status
   breakdowns.
 
 #### Dashboard UI (`DashboardUi`)
