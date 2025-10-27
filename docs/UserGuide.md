@@ -4,15 +4,18 @@
 
 Internity is a CLI based app for managing internship applications. Internity can help you manage and keep track 
 of your internship applications more efficiently, perfect for Computer Science students who need to 
-manage hundreds of applications.
+manage hundreds of applications. This guide explains how to install and use Internity to the fullest.
 
 # Table of Contents
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Adding an application](#adding-an-application-add)
-  - [Deleting an application](#deleting-an-application-delete)
-  - [Updating an application](#updating-an-application-update)
-  - [Viewing all applications](#listing-all-applications-list)
+  - [Adding an application : `add`](#adding-an-application-add)
+  - [Deleting an application : `delete`](#deleting-an-application-delete)
+  - [Updating an application : `update`](#updating-an-application-update)
+  - [Listing all applications: `list`](#listing-all-applications-list)
+  - [Finding by keyword : `[COMING SOON]`](#finding-by-keyword)
+  - [Setting/Changing username : `username`](#settingchanging-username-username)
+  - [Displaying dashboard : `dashboard`](#displaying-dashboard-dashboard)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
 
@@ -20,10 +23,14 @@ manage hundreds of applications.
 
 ## Quick Start
 
-{Give steps to get started quickly}
+1. **Install Java 17.** Confirm you have Java 17 installed by running `java -version` in your terminal.  
+   If you do not have Java 17 installed, download it from [here](https://www.oracle.com/java/technologies/downloads/#java17).
+2. **Download Internity.** Download the latest version of `Internity.jar` from [Github](https://github.com/AY2526S1-CS2113-W14-4/tp/releases), onto anywhere on your computer.
+3. **Run the program.** Open your terminal, navigate to the directory where you saved `Internity.jar`, and run the command:  
+   `java -jar Internity.jar`
+4. **Start using Internity!** You can now start adding, deleting, updating and viewing your internship applications.  
 
-1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `Internity` from [here](http://link.to/Internity).
+For a list of available commands, type `help` in the terminal.
 
 ---
 
@@ -125,9 +132,7 @@ list sort/desc
 
 ### Finding by keyword
 
-Format:
-
-Example:
+*details coming soon....*
 
 ---
 
@@ -159,9 +164,13 @@ dashboard
 
 ## FAQ
 
-**Q**: How do I transfer my data to another computer? 
+**Q: How do I transfer my data to another computer?** <br>
+A: Your internships are saved in a file name `internships.txt` in the directory `./data` within your project folder. To transfer your data, simply copy this file to the same location on your new computer.
 
-**A**: {your answer here}
+**Q: My add command seems to be in the correct format. Why is it throwing an error?** <br>
+A: First, ensure that the format exactly follows the specified format in this guide. Common mistakes include missing prefixes (e.g., `company/`, `role/`), incorrect date formats for deadlines, or missing fields. Double-check your command for any typos or omissions. Second, ensure that your parameters meet the character limits of each field.
+
+
 
 ---
 
