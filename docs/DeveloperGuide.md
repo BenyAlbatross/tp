@@ -379,9 +379,6 @@ or unpaid, part-time or full-time, and can occur during or after academic study.
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
-### Launch and shutdown
-1. Initial launch
-   1. Download the jar file and copy it into an empty folder.
 
 ### Adding an internship
 
@@ -393,8 +390,46 @@ or unpaid, part-time or full-time, and can occur during or after academic study.
 
 ### Finding an internship by keyword
 
-### Setting/Changing username
+### Changing username
+Prerequisites: The application has been launched and the user is at the command prompt.
+
+Test case 1: Changing username
+- Action: `username Dexter`
+- Expected:
+  - Username is updated to "Dexter".
+  - Confirmation message reflects the new username: `Username set to Dexter`.
+
+Test case 2: Invalid username input
+- Action: `username` (without specifying a name)
+- Expected:
+  - Error message is displayed indicating an invalid username command.
+  - Username remains unchanged.
 
 ### Displaying the Internity Dashboard
+Prerequisites: At least one internship has been added to the system.
+
+Test case 1: Display dashboard with multiple internships
+- Action: `dashboard`
+- Expected:
+  - Dashboard shows the current username.
+  - Total internships are displayed.
+  - Nearest upcoming internship deadline is displayed.
+  - Status overview counts for each status category are shown.
+
+Test case 2: Display dashboard with no internships
+- Action: `dashboard`
+- Expected:
+  - Dashboard stills shows the current username.
+  - Dashboard indicates no internships are found.
+
+Test case 3: Display dashboard after changing username
+- Action: `username Doakes`, then `dashboard`
+- Expected:
+  - Dashboard displays the new username `Doakes`.
+
+Test case 4: Dashboard reflects recent changes
+- Action: Add, update, or delete internships, then `dashboard`
+- Expected:
+  - Dashboard reflects the updated internship count, deadlines and statuses.
 
 ### Saving Data
