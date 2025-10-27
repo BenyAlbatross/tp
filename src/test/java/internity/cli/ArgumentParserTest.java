@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import internity.commands.AddCommand;
+import internity.commands.ListCommand;
 import internity.commands.UpdateCommand;
 import internity.commands.UsernameCommand;
 import internity.core.Date;
@@ -202,6 +203,45 @@ class ArgumentParserTest {
     @Test
     void parseDeleteCommandArgs_nullArgs_throwsInternityException() {
         assertThrows(InternityException.class, () -> ArgumentParser.parseDeleteCommandArgs(null));
+    }
+
+    @Test
+    void parseListCommandArgs_sortAsc_returnsAscendingListCommand() throws InternityException {
+        ListCommand command = ArgumentParser.parseListCommandArgs("sort/asc");
+        assertNotNull(command);
+    }
+
+    @Test
+    void parseListCommandArgs_sortDesc_returnsDescendingListCommand() throws InternityException {
+        ListCommand command = ArgumentParser.parseListCommandArgs("sort/desc");
+        assertNotNull(command);
+    }
+
+    @Test
+    void parseListCommandArgs_sortAscWithWhitespace_returnsAscendingListCommand() throws InternityException {
+        ListCommand command = ArgumentParser.parseListCommandArgs("sort/   asc");
+        assertNotNull(command);
+    }
+
+    @Test
+    void parseListCommandArgs_sortDescWithWhitespace_returnsAscendingListCommand() throws InternityException {
+        ListCommand command = ArgumentParser.parseListCommandArgs("sort/   desc");
+        assertNotNull(command);
+    }
+
+    @Test
+    void parseListCommandArgs_invalidSortOrder_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("sort/upwards"));
+    }
+
+    @Test
+    void parseListCommandArgs_missingSortPrefix_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("asc"));
+    }
+
+    @Test
+    void parseListCommandArgs_multipleSortArgs_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("sort/asc sort/desc"));
     }
 
     @Test
