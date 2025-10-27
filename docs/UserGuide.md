@@ -13,7 +13,7 @@ manage hundreds of applications. This guide explains how to install and use Inte
   - [Deleting an application : `delete`](#deleting-an-application-delete)
   - [Updating an application : `update`](#updating-an-application-update)
   - [Listing all applications: `list`](#listing-all-applications-list)
-  - [Finding by keyword : `[COMING SOON]`](#finding-by-keyword)
+  - [Finding by keyword : `find`](#finding-by-keyword)
   - [Setting/Changing username : `username`](#settingchanging-username-username)
   - [Displaying dashboard : `dashboard`](#displaying-dashboard-dashboard)
 - [FAQ](#faq)
@@ -130,9 +130,20 @@ list sort/desc
 
 ---
 
-### Finding by keyword
+### Finding by keyword : `find`
+Use this command to find internship applications that match a specific keyword in the **company name** or **role**.
 
-*details coming soon....*
+Format:
+```
+find KEYWORD
+```
+Example:
+```
+find Google
+find Software Engineer
+```
+This command is not case sensitive.
+
 
 ---
 
@@ -182,7 +193,7 @@ A: First, ensure that the format exactly follows the specified format in this gu
 | **Delete Application**  | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                      |
 | **Update Application**  | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
 | **List Applications**   | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
-| **Find Application**    | `find`      |                                                                                                                                                             |                                                                                 |
+| **Find Application**    | `find`      | `find KEYWORD`                                                                                                                                              | `find Google` <br> `find Software Engineer`                                     |
 | **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                       |
 | **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                     |
 
