@@ -3,15 +3,11 @@ title UI Component Diagram
 
 actor User
 
-rectangle "Main" {
-    [InternityManager]
-}
-
 rectangle "Logic" {
     [Command]
 }
 
-rectangle "Model" {
+rectangle "Core" {
     [InternshipList]
 }
 

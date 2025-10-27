@@ -72,7 +72,7 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
      - Used by InternityManager to save or load application state.
 
 #### User Interaction
-The Sequence Diagram below shows how the components interact with each other when the user issues the command
+The Sequence Diagram below shows a simplified version of how the components interact with each other when the user issues the command
 `delete 1`.
 ![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
 
