@@ -235,6 +235,16 @@ class ArgumentParserTest {
     }
 
     @Test
+    void parseListCommandArgs_nullSortSuffix_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("/sort"));
+    }
+
+    @Test
+    void parseListCommandArgs_blankSortSuffix_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("/sort   "));
+    }
+
+    @Test
     void parseListCommandArgs_missingSortPrefix_throwsInternityException() {
         assertThrows(InternityException.class, () -> ArgumentParser.parseListCommandArgs("asc"));
     }
