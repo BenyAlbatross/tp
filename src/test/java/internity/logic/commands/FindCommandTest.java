@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
-import internity.logic.commands.FindCommand;
 import internity.utils.DateFormatter;
 
 class FindCommandTest {

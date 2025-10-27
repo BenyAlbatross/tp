@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import internity.core.InternshipList;
-import internity.logic.commands.UsernameCommand;
 
 class UsernameCommandTest {
     @BeforeEach

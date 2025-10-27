@@ -11,7 +11,6 @@ import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
-import internity.logic.commands.UpdateCommand;
 
 class UpdateCommandTest {
     @BeforeEach

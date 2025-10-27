@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import internity.core.Date;
 import internity.core.Internship;
 import internity.core.InternshipList;
-import internity.logic.commands.DashboardCommand;
 
 class DashboardCommandTest {
     private final PrintStream originalOut = System.out;

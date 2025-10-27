@@ -11,7 +11,6 @@ import internity.logic.cli.ArgumentParser;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
-import internity.logic.commands.AddCommand;
 import internity.utils.DateFormatter;
 
 class AddCommandTest {

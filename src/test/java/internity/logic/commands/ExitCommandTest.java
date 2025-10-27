@@ -8,8 +8,6 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
-import internity.logic.commands.ExitCommand;
-
 class ExitCommandTest {
 
     @Test
