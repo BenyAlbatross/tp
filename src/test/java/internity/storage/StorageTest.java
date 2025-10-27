@@ -1,4 +1,4 @@
-package internity.core;
+package internity.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,6 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import internity.core.Date;
+import internity.core.InternityException;
+import internity.core.Internship;
 
 class StorageTest {
 

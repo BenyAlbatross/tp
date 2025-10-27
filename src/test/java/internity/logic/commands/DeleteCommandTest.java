@@ -1,4 +1,4 @@
-package internity.commands;
+package internity.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,6 +8,8 @@ import internity.core.Internship;
 import internity.core.InternityException;
 import internity.core.InternshipList;
 import internity.core.Date;
+import internity.logic.commands.DeleteCommand;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

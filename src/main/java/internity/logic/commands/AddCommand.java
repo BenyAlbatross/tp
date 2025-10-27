@@ -1,4 +1,4 @@
-package internity.commands;
+package internity.logic.commands;
 
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package internity.logic;
+package internity.logic.cli;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import internity.commands.AddCommand;
-import internity.commands.ListCommand;
-import internity.commands.UpdateCommand;
-import internity.commands.UsernameCommand;
+import internity.logic.commands.AddCommand;
+import internity.logic.commands.ListCommand;
+import internity.logic.commands.UpdateCommand;
+import internity.logic.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;

@@ -1,4 +1,4 @@
-package internity.commands;
+package internity.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import internity.core.InternshipList;
+import internity.logic.commands.UsernameCommand;
 
 class UsernameCommandTest {
     @BeforeEach

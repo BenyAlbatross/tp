@@ -36,12 +36,12 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
 ![Internity Class Diagram](diagrams/InternityCD.png)
 
 #### Layers
-1. Main
-   - Classes: `InternityManager`, `Internity` (main)
+1. Controller
+   - Classes: `InternityManager`
    - Responsibilities:
      - Launches and shuts down the application.
      - Receives input from the user and delegates parsing to the `Logic` layer.
-     - Commands executed by `Logic` layer may modify the `Model` or trigger UI updates.
+     - Commands executed by `Logic` layer may modify the `Core` or trigger UI updates.
      - It also handles reading from and writing to the `Storage` layer.
      - Simplifies interactions between all layers and maintains a clear separation of concerns.
 2. UI (User Interface)
@@ -49,16 +49,16 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
     - Responsibilities:
         - Handles all user-facing output (printing, dashboards, etc.).
         - Does not perform any logic or state changes.
-        - Displays information passed from the `Logic` or `Model` layers in a user-friendly format.
+        - Displays information passed from the `Logic` or `Core` layers in a user-friendly format.
         - Invoked by Commands to show feedback or results.
 3. Logic
    - Classes: `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
    - Responsibilities:
-       - Acts as the intermediary between user input and `Model` operations.
+       - Acts as the intermediary between user input and `Core` operations.
        - Parses and validates user commands.
        - Constructs the appropriate `Command` object through the `CommandFactory`.
-       - Executes commands, which modify the `Model` or trigger the `UI` to display information.
-4. Model
+       - Executes commands, which modify the `Core` or trigger the `UI` to display information.
+4. Core
    - Classes: `InternshipList`, `Internship`, `Date`, `Status`
    - Responsibilities:
      - Stores internship data

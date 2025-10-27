@@ -1,13 +1,13 @@
-package internity.logic;
+package internity.logic.cli;
 
 import java.util.logging.Logger;
 
-import internity.commands.AddCommand;
-import internity.commands.DeleteCommand;
-import internity.commands.FindCommand;
-import internity.commands.ListCommand;
-import internity.commands.UpdateCommand;
-import internity.commands.UsernameCommand;
+import internity.logic.commands.AddCommand;
+import internity.logic.commands.DeleteCommand;
+import internity.logic.commands.FindCommand;
+import internity.logic.commands.ListCommand;
+import internity.logic.commands.UpdateCommand;
+import internity.logic.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.InternshipList;

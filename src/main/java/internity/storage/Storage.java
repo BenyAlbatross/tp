@@ -1,4 +1,4 @@
-package internity.core;
+package internity.storage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import internity.core.Date;
+import internity.core.InternityException;
+import internity.core.Internship;
 import internity.utils.DateFormatter;
 
 /**

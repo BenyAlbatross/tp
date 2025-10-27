@@ -1,4 +1,4 @@
-package internity.commands;
+package internity.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import internity.core.InternityException;
 import internity.core.Internship;
 import internity.core.InternshipList;
+import internity.logic.commands.FindCommand;
 import internity.utils.DateFormatter;
 
 class FindCommandTest {
