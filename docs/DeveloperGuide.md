@@ -115,6 +115,15 @@ This distinction is represented in the above sequence diagram's `alt` block, sho
 
 ### Model Component
 
+**API**: [`internity.core`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/)
+
+![Model Component: Class Diagram](diagrams/ModelComponentCD.png)
+
+The `Model` component:
+* stores internship data i.e. all `Internship` objects in an `InternshipList` object
+* provides operations to manipulate that data e.g. `add`, `delete`, `update`, `find`, `list` internships
+* does not depend on the UI and Logic components
+
 ### Storage Component
 
 **API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/Storage.java)

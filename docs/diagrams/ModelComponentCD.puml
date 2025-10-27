@@ -1,4 +1,5 @@
 @startuml ModelComponentCD
+title Model Component - Class Diagram
 
 class InternshipList {
   + {static} INDEX_MAXLEN: int
