@@ -57,7 +57,7 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
        - Acts as the intermediary between user input and `Model` operations.
        - Parses and validates user commands.
        - Constructs the appropriate `Command` object through the `CommandFactory`.
-       - Executes commands, which modify the `Model` or update the `UI`.
+       - Executes commands, which modify the `Model` or trigger the `UI` to display information.
 4. Model
    - Classes: `InternshipList`, `Internship`, `Date`, `Status`
    - Responsibilities:
