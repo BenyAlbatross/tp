@@ -19,7 +19,6 @@
 6. [Instructions for Manual Testing](#instructions-for-manual-testing)
 
 
-
 ## Acknowledgements
 We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team.
 
@@ -37,8 +36,10 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
 ![Internity Class Diagram](diagrams/InternityCD.png)
 
 #### Layers
-1. InternityManager
+1. Main
+   - Classes: `InternityManager`, `Internity` (main)
    - Responsibilities:
+     - Launches and shuts down the application.
      - Receives input from the user and delegates parsing to the `Logic` layer.
      - Commands executed by `Logic` layer may modify the `Model` or trigger UI updates.
      - It also handles reading from and writing to the `Storage` layer.
@@ -48,12 +49,12 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
     - Responsibilities:
         - Handles all user-facing output (printing, dashboards, etc.).
         - Does not perform any logic or state changes.
-        - Displays information passed from the Logic or Model layers in a user-friendly format.
+        - Displays information passed from the `Logic` or `Model` layers in a user-friendly format.
         - Invoked by Commands to show feedback or results.
 3. Logic
    - Classes: `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
    - Responsibilities:
-       - Acts as the intermediary between user input and model operations.
+       - Acts as the intermediary between user input and `Model` operations.
        - Parses and validates user commands.
        - Constructs the appropriate `Command` object through the `CommandFactory`.
        - Executes commands, which modify the `Model` or update the `UI`.
@@ -84,6 +85,7 @@ from executed commands is presented clearly.
 The API of this component is specified in the [`Ui.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/Ui.java) class
 and the [`DashboardUi.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/DashboardUi.java).
 
+![UI Component Diagram](diagrams/UiComponentOverview.png)
 
 #### How it Works
 1. The `InternityManager` handles all user input through a `Scanner`.
@@ -94,7 +96,7 @@ For example:
    - `Ui.printFindInternship()` displays results in a neat, column-aligned format.
 3. For specialized displays such as the dashboard, the `DashboardUi` class is used.
 
-#### Design Consideration
+#### Design Considerations
 - Static methods
   - The `Ui` class methods are static to ensure simplicity and easy access across commands without requiring
   instantiation.
