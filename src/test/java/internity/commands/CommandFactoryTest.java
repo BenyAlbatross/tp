@@ -37,9 +37,27 @@ class CommandFactoryTest {
     }
 
     @Test
+    void createCommand_find_returnsFindCommand() throws InternityException {
+        Command command = factory.createCommand("find", "keyword");
+        assertInstanceOf(FindCommand.class, command);
+    }
+
+    @Test
     void createCommand_username_returnsUsernameCommand() throws InternityException {
         Command command = factory.createCommand("username", "Walter White");
         assertInstanceOf(UsernameCommand.class, command);
+    }
+
+    @Test
+    void createCommand_dashboard_returnsDashboardCommand() throws InternityException {
+        Command command = factory.createCommand("dashboard", "");
+        assertInstanceOf(DashboardCommand.class, command);
+    }
+
+    @Test
+    void createCommand_dashboardWithBlankArgs_returnsDashboardCommand() throws InternityException {
+        Command command = factory.createCommand("dashboard", "   ");
+        assertInstanceOf(DashboardCommand.class, command);
     }
 
     @Test
