@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import internity.commands.AddCommand;
 import internity.commands.Command;
+import internity.commands.DashboardCommand;
 import internity.commands.DeleteCommand;
 import internity.commands.ExitCommand;
 import internity.commands.ListCommand;
@@ -65,6 +66,12 @@ class CommandParserTest {
     void parseInput_usernameCommand_returnsUsernameCommand() throws InternityException {
         Command command = commandParser.parseInput("username Badger");
         assertInstanceOf(UsernameCommand.class, command);
+    }
+
+    @Test
+    void parseInput_dashboardCommand_returnsDashboardCommand() throws InternityException {
+        Command command = commandParser.parseInput("dashboard");
+        assertInstanceOf(DashboardCommand.class, command);
     }
 
     @Test

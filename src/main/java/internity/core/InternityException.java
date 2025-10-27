@@ -48,7 +48,7 @@ public class InternityException extends Exception {
 
     public static InternityException invalidUpdateFormat() {
         return new InternityException(
-                "Invalid update command format. Use: update INDEX field/VALUE ..."
+                "Invalid update command. Usage: update INDEX field/VALUE"
         );
     }
 

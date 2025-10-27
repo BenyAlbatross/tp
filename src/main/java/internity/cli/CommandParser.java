@@ -57,11 +57,6 @@ public class CommandParser {
 
         assert command != null : "CommandFactory should never return null command";
 
-        if (command == null) {
-            logger.severe("CommandFactory returned null for command: " + commandWord);
-            throw InternityException.unknownCommand(commandWord);
-        }
-
         logger.info(() -> "Successfully created command: " + command.getClass().getSimpleName());
         return command;
     }
