@@ -1,0 +1,93 @@
+@startuml ModelComponentCD
+
+class InternshipList {
+  + {static} INDEX_MAXLEN: int
+  + {static} COMPANY_MAXLEN: int
+  + {static} ROLE_MAXLEN: int
+  + {static} DEADLINE_MAXLEN: int
+  + {static} PAY_MAXLEN: int
+  + {static} STATUS_MAXLEN: int
+  - {static} List: ArrayList<Internship>
+  - {static} storage: Storage
+  - {static} username: String
+  + {static} setStorage(Storage): void
+  + {static} loadFromStorage(): void
+  + {static} saveToStorage(): void
+  + {static} add(Internship): void
+  + {static} delete(int): void
+  + {static} get(int): Internship
+  + {static} size(): int
+  + {static} sortInternships(orderType): void
+  + {static} listAll(orderType): void
+  + {static} updateStatus(int, String): void
+  + {static} updateCompany(int, String): void
+  + {static} updateRole(int, String): void
+  + {static} updateDeadline(int, Date): void
+  + {static} updatePay(int, int): void
+  + {static} findInternship(String): void
+  + {static} clear(): void
+  + {static} setUsername(String): void
+  + {static} getUsername(): String
+  - {static} isEmpty(): boolean
+}
+
+interface Comparable<T> {
+    + compareTo(T): int
+}
+
+class Internship {
+  - company: String
+  - role: String
+  - deadline: Date
+  - status: String
+  - pay: int
+  + Internship(String, String, Date, int)
+  + getCompany(): String
+  + getRole(): String
+  + getDeadline(): Date
+  + getStatus(): String
+  + getPay(): int
+  + setStatus(String): void
+  + setCompany(String): void
+  + setRole(String): void
+  + setDeadline(Date): void
+  + setPay(int): void
+  + {static} isValidStatus(String): boolean
+  + compareTo(Internship): int
+  + toString(): String
+}
+
+class Date {
+  - day: int
+  - month: int
+  - year: int
+  + Date(int, int, int)
+  + getDay(): int
+  + getMonth(): int
+  + getYear(): int
+  + setDay(int): void
+  + setMonth(int): void
+  + setYear(int): void
+  + compareTo(Date): int
+  + toString(): String
+}
+
+enum Status {
+  PENDING
+  INTERESTED
+  APPLIED
+  INTERVIEWING
+  OFFER
+  ACCEPTED
+  REJECTED
+  + {static} isValid(String): boolean
+  + {static} canonical(String): String
+}
+
+InternshipList *-left- "*" Internship
+Internship .|> Comparable
+Date .left.|> Comparable
+Internship --> "1" Date : deadline
+Internship --> "1" Status : status
+
+@enduml
