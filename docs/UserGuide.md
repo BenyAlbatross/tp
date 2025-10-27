@@ -30,7 +30,6 @@ manage hundreds of applications. This guide explains how to install and use Inte
    `java -jar Internity.jar`
 4. **Start using Internity!** You can now start adding, deleting, updating and viewing your internship applications.  
 
-For a list of available commands, type `help` in the terminal.
 
 ---
 
