@@ -3,7 +3,7 @@ package internity.core;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import internity.cli.CommandParser;
+import internity.logic.CommandParser;
 import internity.commands.Command;
 import internity.ui.Ui;
 
