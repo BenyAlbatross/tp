@@ -318,19 +318,6 @@ for moderate-sized datasets but may require optimisation for larger datasets.
 Since this is a search command and does not modify the underlying data, no changes are persisted to disk
 during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
 
-## Documentation, logging, testing, configuration, dev-ops
-
-### Testing & Debugging tips related to architecture
-
-- Logic layer tests:
-    - Unit test Parser and each Command individually with a stubbed Model and Storage.
-    - Use test doubles (mocks/fakes) for Storage to avoid disk I/O during unit tests.
-- Model tests:
-    - Test ModelManager's add/delete/list/filter behavior and equality semantics.
-- Storage tests:
-    - Use a temporary file/folder and assert that save and load preserve state.
-- Integration tests:
-    - Boot LogicManager with real ModelManager and StorageManager (with test file) to test end-to-end flows.
 
 ## Appendix: Requirements
 
