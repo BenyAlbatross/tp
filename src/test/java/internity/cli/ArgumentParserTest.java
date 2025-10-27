@@ -190,6 +190,21 @@ class ArgumentParserTest {
     }
 
     @Test
+    void parseDeleteCommandArgs_nonNumericIndex_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseDeleteCommandArgs("abc"));
+    }
+
+    @Test
+    void parseDeleteCommandArgs_blankArgs_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseDeleteCommandArgs("   "));
+    }
+
+    @Test
+    void parseDeleteCommandArgs_nullArgs_throwsInternityException() {
+        assertThrows(InternityException.class, () -> ArgumentParser.parseDeleteCommandArgs(null));
+    }
+
+    @Test
     void parseUsernameCommandArgs_validArgs_shouldReturnUsernameCommand() throws Exception {
         String validUsername = "Jesse Pinkman";
         UsernameCommand command = ArgumentParser.parseUsernameCommandArgs(validUsername);
