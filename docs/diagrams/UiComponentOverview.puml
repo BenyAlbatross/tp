@@ -1,0 +1,29 @@
+@startuml
+title UI Component Diagram
+
+actor User
+
+rectangle "Main" {
+    [InternityManager]
+}
+
+rectangle "Logic" {
+    [Command]
+}
+
+rectangle "Model" {
+    [InternshipList]
+}
+
+rectangle "UI" {
+    [Ui]
+    [DashboardUi]
+}
+
+User --> [Ui] : inputs & views output
+[InternityManager] --> [Ui] : call display methods
+[Command] --> [Ui] : print messages
+[Command] --> [DashboardUi] : show dashboard
+[DashboardUi] --> [InternshipList] : fetch data
+
+@enduml

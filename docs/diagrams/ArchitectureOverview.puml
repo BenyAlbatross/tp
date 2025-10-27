@@ -3,6 +3,10 @@ title Architecture Diagram
 
 actor User
 
+rectangle "Main" {
+    [InternityManager]
+}
+
 rectangle "Logic" {
     [CommandParser]
     [Command]
