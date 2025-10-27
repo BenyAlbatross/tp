@@ -35,8 +35,10 @@ class DashboardUiTest {
 
         assertTrue(output.contains("User: TestUser"), "Should print username");
         assertTrue(output.contains("Total Internships: 2"), "Should print correct count");
-        assertTrue(output.contains("Nearest Deadline:") && output.contains("01-01-2025"), "Should show earliest deadline");
-        assertTrue(output.contains("Applied") && output.contains("Pending"), "Should show status overview");
+        assertTrue(output.contains("Nearest Deadline:")
+                && output.contains("01-01-2025"), "Should show earliest deadline");
+        assertTrue(output.contains("Applied")
+                && output.contains("Pending"), "Should show status overview");
     }
 
     @Test
