@@ -129,6 +129,11 @@ The `Storage` component:
 
 ## Implementation
 
+### Add feature
+
+![Add Command: Sequence Diagram](diagrams/AddCommandSD.png)
+
+
 ### Delete feature
 
 The delete mechanism is facilitated by `DeleteCommand`. It extends `Command` with an index field, internally stored as a 0-based integer. Additionally, it implements the following operation:
@@ -162,6 +167,8 @@ Step 6. After execution, `Storage.save()` is automatically called to persist the
   * Cons: Less intuitive for users unfamiliar with programming conventions.
 
 ### Find feature
+
+![Find Command: Sequence Diagram](diagrams/FindCommandSD.png)
 
 The find mechanism is implemented by the `FindCommand` class, which allows users to search for internships based on a
 keyword that matches either the company name or the role of the internship.
