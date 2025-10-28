@@ -9,14 +9,13 @@
     - [Storage Component](#storage-component)
     - [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-4. [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
-5. [Appendix: Requirements](#appendix-requirements)
+4. [Appendix: Requirements](#appendix-requirements)
    - [Product Scope](#product-scope)
    - [User Stories](#user-stories)
-   - [Use Cases](#use-cases)
    - [Non-Functional Requirements](#non-functional-requirements)
    - [Glossary](#glossary)
-6. [Instructions for Manual Testing](#instructions-for-manual-testing)
+5. [Instructions for Manual Testing](#instructions-for-manual-testing)
+
 
 ## Acknowledgements
 We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team for their guidance.
@@ -24,37 +23,85 @@ We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team for the
 ## Design
 
 ### Architecture
-The Internity application follows a layered architecture inspired by the Model-View-Controller (MVC)
-pattern, combined with the Command Pattern for handling user actions. This design separates concerns
+The Internity application adopts layered architecture where responsibilities are divided among UI, Logic, Model and Storage related
+components. It also follows the Command Pattern for handling user actions. This design separates concerns
 clearly, allowing for modular, maintainable and extensible code.
 
-![Architecture: Class Diagram](diagrams/ArchitectureCD.png)
+The **Architecture Diagram** below explains the high-level design of the Internity application.\
+![Architecture Diagram](diagrams/ArchitectureOverview.png)\
 
-#### User Interaction
-![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
+The diagram below shows a simplified **Class Diagram** of all of Internity's classes and their relationships.
+![Internity Class Diagram](diagrams/InternityCD.png)
 
 #### Layers
-1. Model
-   - Classes: `InternshipList`, `Internship`, `Date`, `Status`, `Storage`
+1. Controller
+   - Classes: `InternityManager`
+   - Responsibilities:
+     - Launches and shuts down the application.
+     - Receives input from the user and delegates parsing to the `Logic` layer.
+     - Commands executed by `Logic` layer may modify the `Model` or trigger UI updates.
+     - It also handles reading from and writing to the `Storage` layer.
+     - Simplifies interactions between all layers and maintains a clear separation of concerns.
+2. UI (User Interface)
+    - Classes: `Ui`, `DashboardUi`
+    - Responsibilities:
+        - Handles all user-facing output (printing, dashboards, etc.).
+        - Does not perform any logic or state changes.
+        - Displays information passed from the `Logic` or `Model` layers in a user-friendly format.
+        - Invoked by Commands to show feedback or results.
+3. Logic
+   - Classes: `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
+   - Responsibilities:
+       - Acts as the intermediary between user input and `Model` operations.
+       - Parses and validates user commands.
+       - Constructs the appropriate `Command` object through the `CommandFactory`.
+       - Executes commands, which modify the `Model` or trigger the `UI` to display information.
+4. Model
+   - Classes: `InternshipList`, `Internship`, `Date`, `Status`
    - Responsibilities:
      - Stores internship data
      - Provides operations like adding, deleting, updating, finding or listing internships.
      - Completely independent of UI and input logic.
-2. View
-   - Classes: `Ui`, `DashboardUi`
+5. Storage
+   - Classes: `Storage`
    - Responsibilities:
-     - Does not contain any logic, just presenting data.
-     - Takes data from the Model and formats it nicely for the user.
-     - Views are used by commands to show information.
-3. Controller
-   - Classes: `InternityManager`, `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
-   - Responsibilities:
-     - Interprets user commands and orchestrates interactions between Model and View.
-     - Each `Command` operates on the Model and may trigger a View update.
-     - Parsing, validation and command creation are the key parts of the Controller layer.
+     - Reads and writes internship data to persistent storage (e.g., file system). 
+     - Keeps data consistent between sessions. 
+     - Used by InternityManager to save or load application state.
+
+#### User Interaction
+The Sequence Diagram below shows a simplified version of how the components interact with each other when the user issues the command
+`delete 1`.
+![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
 
 ### UI Component
+#### Overview
+The UI component is responsible for all interactions between the user and the application.
+It displays messages, prompts, and formatted lists in the command-line interface (CLI), and ensures that feedback 
+from executed commands is presented clearly.
 
+The API of this component is specified in the [`Ui.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/Ui.java) class
+and the [`DashboardUi.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/ui/DashboardUi.java).
+
+![UI Component Diagram](diagrams/UiComponentOverview.png)
+
+#### How it Works
+1. The `InternityManager` handles all user input through a `Scanner`.
+When a command is executed, it delegates output responsibilities to the `Ui` class.
+2. The `Ui` component formats and prints the messages or internship data to the console.
+For example:
+   - `Ui.printAddInternship()` displays confirmation for a newly added internship.
+   - `Ui.printFindInternship()` displays results in a neat, column-aligned format.
+3. For specialized displays such as the dashboard, the `DashboardUi` class is used.
+
+#### Design Considerations
+- Static methods
+  - The `Ui` class methods are static to ensure simplicity and easy access across commands without requiring
+  instantiation.
+- Loose coupling
+  - The UI does not directly modify model or logic components. 
+  - It only displays results based on data passed to it.
+ 
 ### Logic Component
 
 #### Overview
@@ -269,19 +316,6 @@ for moderate-sized datasets but may require optimisation for larger datasets.
 Since this is a search command and does not modify the underlying data, no changes are persisted to disk
 during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
 
-## Documentation, logging, testing, configuration, dev-ops
-
-### Testing & Debugging tips related to architecture
-
-- Logic layer tests:
-    - Unit test Parser and each Command individually with a stubbed Model and Storage.
-    - Use test doubles (mocks/fakes) for Storage to avoid disk I/O during unit tests.
-- Model tests:
-    - Test ModelManager's add/delete/list/filter behavior and equality semantics.
-- Storage tests:
-    - Use a temporary file/folder and assert that save and load preserve state.
-- Integration tests:
-    - Boot LogicManager with real ModelManager and StorageManager (with test file) to test end-to-end flows.
 
 ## Appendix: Requirements
 
@@ -317,9 +351,6 @@ status breakdowns.
 | v2.0    | user     | find internships based on the company or role                          | easily view my applications to specific companies or positions I'm interested in |
 | v2.0    | user     | set or change my username                                              | personalize my internship tracker experience                                     |
 | v2.0    | user     | view a condensed dashboard                                             | to see the current status of my applications                                     |
-
-
-## Use Cases
 
 
 ## Non-Functional Requirements
@@ -360,8 +391,46 @@ Given below are instructions to test the app manually.
 
 ### Finding an internship by keyword
 
-### Setting/Changing username
+### Changing username
+Prerequisites: The application has been launched and the user is at the command prompt.
+
+Test case 1: Changing username
+- Action: `username Dexter`
+- Expected:
+  - Username is updated to "Dexter".
+  - Confirmation message reflects the new username: `Username set to Dexter`.
+
+Test case 2: Invalid username input
+- Action: `username` (without specifying a name)
+- Expected:
+  - Error message is displayed indicating an invalid username command.
+  - Username remains unchanged.
 
 ### Displaying the Internity Dashboard
+Prerequisites: At least one internship has been added to the system.
+
+Test case 1: Display dashboard with multiple internships
+- Action: `dashboard`
+- Expected:
+  - Dashboard shows the current username.
+  - Total internships are displayed.
+  - Nearest upcoming internship deadline is displayed.
+  - Status overview counts for each status category are shown.
+
+Test case 2: Display dashboard with no internships
+- Action: `dashboard`
+- Expected:
+  - Dashboard stills shows the current username.
+  - Dashboard indicates no internships are found.
+
+Test case 3: Display dashboard after changing username
+- Action: `username Doakes`, then `dashboard`
+- Expected:
+  - Dashboard displays the new username `Doakes`.
+
+Test case 4: Dashboard reflects recent changes
+- Action: Add, update, or delete internships, then `dashboard`
+- Expected:
+  - Dashboard reflects the updated internship count, deadlines and statuses.
 
 ### Saving Data

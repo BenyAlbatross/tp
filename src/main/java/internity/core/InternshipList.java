@@ -5,7 +5,8 @@ import java.util.Comparator;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import internity.commands.ListCommand;
+import internity.logic.commands.ListCommand;
+import internity.storage.Storage;
 import internity.ui.Ui;
 
 public class InternshipList {

@@ -50,7 +50,7 @@ code reuse.
   nearest deadlines and status overview.
 
 ### Project management
-- Prioritized tasks and managed the implementation schedule to meet project deadlines.
+- Managed the implementation schedule to meet project deadlines.
 - Managed releases `v1.0`-`v2.1` on GitHub.
 
 ### Enhancements to existing features
@@ -61,10 +61,12 @@ code reuse.
 - User Guide:
     - Added documentation for the features `exit`, `username`, `dashboard`
 - Developer Guide:
-    - Added design details of the architecture and logic component.
+    - Added design details of the architecture, `Logic` and `UI` component.
     - Added UML diagrams for:
-      - Architecture Class Diagram
+      - Architecture Diagram
+      - Internity Class Diagram
       - User Interaction Sequence Diagram
+      - UI Component Diagram
       - Logic Component Class Diagram
       - Logic Component Sequence Diagram
     - Added details of product scope, user stories and non-functional requirements.

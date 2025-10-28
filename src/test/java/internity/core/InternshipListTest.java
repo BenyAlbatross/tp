@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import internity.commands.ListCommand;
+import internity.logic.commands.ListCommand;
 
 
 class InternshipListTest {
