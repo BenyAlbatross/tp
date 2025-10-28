@@ -125,7 +125,7 @@ The `Model` component:
 * does not depend on the other three components (i.e. `UI`, `Logic`, `Storage`)
 
 The following sequence diagram illustrates how the Model Component processes an Add command:
-![Model Component: Sequence Diagram](diagrams/ModelComponentSD.png)
+*coming soon*
 
 ### Storage Component
 
