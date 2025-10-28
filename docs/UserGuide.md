@@ -70,6 +70,7 @@ September 2025, and an annual salary of $100000.
 <li>No duplicate parameter type, so only exactly one of each parameter type.</li>
 <li><code>DEADLINE</code> must be in <code>DD-MM-YYYY</code> format.</li>
 <li><code>PAY_AMOUNT</code> must be a non-negative integer.</li>
+<li> By default, when an internship is added, the status is set to Pending. Use the update command to change the status.</li>
 </ul>
 </div>
 
