@@ -160,6 +160,18 @@ This distinction is represented in the above sequence diagram's `alt` block, sho
 
 ### Model Component
 
+**API**: [`internity.core`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/) (exclude Storage.java)
+
+![Model Component: Class Diagram](diagrams/ModelComponentCD.png)
+
+The `Model` component:
+* stores internship data i.e. all `Internship` objects in an `InternshipList` object
+* provides operations to manipulate that data e.g. `add`, `delete`, `update`, `find`, `list` internships
+* does not depend on the other three components (i.e. `UI`, `Logic`, `Storage`)
+
+The following sequence diagram illustrates how the Model Component processes an Add command:
+*coming soon*
+
 ### Storage Component
 
 **API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/Storage.java)
@@ -239,6 +251,13 @@ The sequence diagram shows how the delete command flows through multiple layers:
 2. **Parsing Layer**: `CommandParser` and `CommandFactory` work with `ArgumentParser` to create the command
 3. **Execution Layer**: `DeleteCommand` interacts with `InternshipList` and `Ui`
 4. **Persistence Layer**: Changes are automatically saved via `Storage`
+
+### List feature
+
+The list mechanism is implemented by the `ListCommand` class, which allows users to view all internships in their list.
+
+Below is the sequence diagram for a common usage of the list feature:
+![List Feature: Sequence Diagram](diagrams/ListFeatureSD.png)
 
 #### Design considerations
 
@@ -657,6 +676,23 @@ Given below are instructions to test the app manually.
 ### Deleting an internship
 
 ### Listing and sorting all internships
+
+Test case 1: List all internships in the order they were added
+
+- Action: Add several internships with varying details. Then, execute the command `list`.
+- Expected:
+  - All internships are displayed in the order they were added, with their details correctly shown.
+
+Test case 2: List all internships sorted by deadline ascending
+
+- Action: Add several internships with varying deadlines. Then, execute the command `list sort/asc`.
+- Expected:
+  - All internships are displayed sorted by their deadlines in ascending order (earliest deadline first).
+
+Test case 3: List all internships sorted by deadline descending
+- Action: Add several internships with varying deadlines. Then, execute the command `list sort/desc`.
+- Expected:
+  - All internships are displayed sorted by their deadlines in descending order (latest deadline first).
 
 ### Finding an internship by keyword
 
