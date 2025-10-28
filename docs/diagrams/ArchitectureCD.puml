@@ -1,33 +1,35 @@
 @startuml@startuml
+!include Style.puml
+
 title Architecture - Class Diagram
 
 ' === Core Controller ===
-class InternityManager
+class InternityManager LOGIC_COLOR
 
 ' === Logic Layer ===
-class CommandParser
-class CommandFactory
-abstract class Command
-class AddCommand
-class DeleteCommand
-class FindCommand
-class UpdateCommand
-class ListCommand
-class UsernameCommand
-class DashboardCommand
-class ExitCommand
-class ArgumentParser
+class CommandParser LOGIC_COLOR
+class CommandFactory LOGIC_COLOR
+abstract class Command LOGIC_COLOR
+class AddCommand LOGIC_COLOR
+class DeleteCommand LOGIC_COLOR
+class FindCommand LOGIC_COLOR
+class UpdateCommand LOGIC_COLOR
+class ListCommand LOGIC_COLOR
+class UsernameCommand LOGIC_COLOR
+class DashboardCommand LOGIC_COLOR
+class ExitCommand LOGIC_COLOR
+class ArgumentParser LOGIC_COLOR
 
 ' === Model Layer ===
-class InternshipList
-class Internship
-class Storage
-class Date
-enum Status
+class InternshipList MODEL_COLOR
+class Internship MODEL_COLOR
+class Storage STORAGE_COLOR
+class Date MODEL_COLOR
+enum Status MODEL_COLOR
 
 ' === UI Layer ===
-class Ui
-class DashboardUi
+class Ui UI_COLOR
+class DashboardUi UI_COLOR
 
 ' === Utilities ===
 class DateFormatter

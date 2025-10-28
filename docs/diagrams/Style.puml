@@ -1,15 +1,4 @@
-@startuml
-'https://plantuml.com/sequence-diagram
-
-autonumber
-
-== Initialization ==
-
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-== Repetition ==
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-@enduml
+!define LOGIC_COLOR #FF8F8F
+!define UI_COLOR #C2E2FA
+!define MODEL_COLOR #FFF1CB
+!define STORAGE_COLOR #B7A3E3
