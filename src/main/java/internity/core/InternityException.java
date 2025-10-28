@@ -62,6 +62,14 @@ public class InternityException extends Exception {
         return new InternityException(tag + " cannot be empty");
     }
 
+    public static InternityException exceedFieldLength(String tag, int maxLength, int givenLength) {
+        return new InternityException(tag + " cannot exceed " + maxLength + " characters : given " + givenLength + " characters");
+    }
+
+    public static InternityException exceedFieldValue(String tag, String criteria, String givenValue) {
+        return new InternityException(tag + " cannot exceed " + criteria + " : given " + givenValue);
+    }
+
     public static InternityException invalidIndexForUpdate() {
         return new InternityException(
                 "Invalid index. Use a positive integer, for example: update 1 company/Google"
