@@ -1,15 +1,36 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+title Add Command - Sequence Diagram
 
-autonumber
+participant ":AddCommand" as AC
+participant ":Internship" as IN
+participant "<<class>>\nInternshipList" as IL
+participant "List<Internship>" as LI
+participant ":Ui" as Ui
 
-== Initialization ==
+activate AC
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+== Create a new Internship object ==
+AC -> IN: Internship()
+activate IN
+IN --> AC
+deactivate IN
 
-== Repetition ==
+== Add to InternshipList ==
+AC -> IL: add()
+activate IL
+IL -> LI: add()
+activate LI
+LI --> IL
+IL --> AC
+deactivate LI
+deactivate IL
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+== Display Confirmation ==
+AC -> Ui: printAddInternship()
+activate Ui
+Ui --> AC
+deactivate Ui
+
+deactivate AC
+
 @enduml
