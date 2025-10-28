@@ -4,7 +4,7 @@ title Add Command - Sequence Diagram
 participant ":AddCommand" as AC
 participant ":Internship" as IN
 participant "<<class>>\nInternshipList" as IL
-participant "List<Internship>" as LI
+participant "List:ArrayList<Internship>" as LI
 participant ":Ui" as Ui
 
 activate AC

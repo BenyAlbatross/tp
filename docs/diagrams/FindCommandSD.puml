@@ -3,7 +3,7 @@ title Find Command - Sequence Diagram
 
 participant ":FindCommand" as FC
 participant "<<class>>\nInternshipList" as IL
-participant "ArrayList<Internship>" as LI
+participant "List:ArrayList<Internship>" as LI
 participant ":Internship" as IN
 participant ":Collectors" as CO
 participant ":Ui" as Ui
