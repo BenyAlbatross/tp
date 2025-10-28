@@ -12,7 +12,6 @@
 4. [Appendix: Requirements](#appendix-requirements)
    - [Product Scope](#product-scope)
    - [User Stories](#user-stories)
-   - [Use Cases](#use-cases)
    - [Non-Functional Requirements](#non-functional-requirements)
    - [Glossary](#glossary)
 5. [Instructions for Manual Testing](#instructions-for-manual-testing)
