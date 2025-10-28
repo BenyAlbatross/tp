@@ -161,6 +161,13 @@ Step 5. `DeleteCommand.execute()` retrieves the internship at index 1, removes i
 
 Step 6. After execution, `Storage.save()` is automatically called to persist the changes to disk.
 
+### List feature
+
+The list mechanism is implemented by the `ListCommand` class, which allows users to view all internships in their list.
+
+Below is the sequence diagram for a common usage of the list feature:
+![List Feature: Sequence Diagram](diagrams/ListFeatureSD.png)
+
 #### Design considerations
 
 **Aspect: Index base convention**
@@ -368,6 +375,23 @@ or unpaid, part-time or full-time, and can occur during or after academic study.
 ### Deleting an internship
 
 ### Listing and sorting all internships
+
+Test case 1: List all internships in the order they were added
+
+- Action: Add several internships with varying details. Then, execute the command `list`.
+- Expected:
+  - All internships are displayed in the order they were added, with their details correctly shown.
+
+Test case 2: List all internships sorted by deadline ascending
+
+- Action: Add several internships with varying deadlines. Then, execute the command `list sort/asc`.
+- Expected:
+  - All internships are displayed sorted by their deadlines in ascending order (earliest deadline first).
+
+Test case 3: List all internships sorted by deadline descending
+- Action: Add several internships with varying deadlines. Then, execute the command `list sort/desc`.
+- Expected:
+  - All internships are displayed sorted by their deadlines in descending order (latest deadline first).
 
 ### Finding an internship by keyword
 
