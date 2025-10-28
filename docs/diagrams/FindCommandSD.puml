@@ -8,6 +8,7 @@ participant ":Internship" as IN
 participant ":Collectors" as CO
 participant ":Ui" as Ui
 
+-> FC: FindCommand()
 activate FC
 FC -> IL: findInternship()
 activate IL

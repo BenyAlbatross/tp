@@ -7,8 +7,8 @@ participant "<<class>>\nInternshipList" as IL
 participant "List:ArrayList<Internship>" as LI
 participant ":Ui" as Ui
 
+-> AC: AddCommand()
 activate AC
-
 == Create a new Internship object ==
 AC -> IN: Internship()
 activate IN
