@@ -354,9 +354,6 @@ status breakdowns.
 | v2.0    | user     | view a condensed dashboard                                             | to see the current status of my applications                                     |
 
 
-## Use Cases
-
-
 ## Non-Functional Requirements
 
 1. Should work on any mainstream OS (Windows, macOS, Linux) as long as it has Java `17` or above installed.
