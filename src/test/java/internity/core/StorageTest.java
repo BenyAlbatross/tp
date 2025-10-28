@@ -1,8 +1,5 @@
 package internity.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class StorageTest {
 
@@ -53,7 +52,8 @@ class StorageTest {
 
         assertTrue(Files.exists(Path.of(testFilePath)));
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(0, lines.size());
+        assertEquals(2, lines.size()); // Username header + username line
+        assertEquals("Username (in line below):", lines.get(0));
     }
 
     @Test
@@ -65,8 +65,9 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(1, lines.size());
-        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(0));
+        assertEquals(3, lines.size()); // Username header + username + 1 internship
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
     }
 
     @Test
@@ -79,10 +80,11 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(3, lines.size());
-        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(0));
-        assertEquals("Meta | Data Scientist | 20-04-2025 | 7000 | Pending", lines.get(1));
-        assertEquals("Amazon | DevOps | 01-05-2025 | 5500 | Pending", lines.get(2));
+        assertEquals(5, lines.size()); // Username header + username + 3 internships
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
+        assertEquals("Meta | Data Scientist | 20-04-2025 | 7000 | Pending", lines.get(3));
+        assertEquals("Amazon | DevOps | 01-05-2025 | 5500 | Pending", lines.get(4));
     }
 
     @Test
@@ -95,8 +97,9 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(1, lines.size());
-        assertTrue(lines.get(0).endsWith("Accepted"));
+        assertEquals(3, lines.size()); // Username header + username + 1 internship
+        assertEquals("Username (in line below):", lines.get(0));
+        assertTrue(lines.get(2).endsWith("Accepted"));
     }
 
     /**
@@ -128,17 +131,23 @@ class StorageTest {
     }
 
     @Test
-    void load_emptyFile_returnsEmptyList() throws InternityException, IOException {
+    void load_emptyFile_throwsException() throws IOException {
         Files.createFile(Path.of(testFilePath));
 
-        ArrayList<Internship> internships = storage.load();
+        InternityException thrown = org.junit.jupiter.api.Assertions.assertThrows(
+                InternityException.class,
+                () -> storage.load()
+        );
 
-        assertEquals(0, internships.size());
+        assertEquals("Invalid storage file format", thrown.getMessage());
     }
 
     @Test
     void load_validSingleEntry_loadsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath), "Google | SWE | 15-03-2025 | 6000 | Pending\n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -151,7 +160,9 @@ class StorageTest {
 
     @Test
     void load_multipleValidEntries_loadsAll() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | 7000 | Accepted\n"
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -178,7 +189,9 @@ class StorageTest {
 
     @Test
     void load_fewerFields_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025\n"  // Missing pay and status
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -193,7 +206,9 @@ class StorageTest {
 
     @Test
     void load_invalidPayFormat_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | NotANumber | Accepted\n"
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -206,7 +221,9 @@ class StorageTest {
 
     @Test
     void load_negativePay_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | -1000 | Accepted\n"  // Negative pay
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -221,7 +238,10 @@ class StorageTest {
 
     @Test
     void load_invalidStatus_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content =
+                "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | 7000 | InvalidStatus\n"  // Invalid status
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -236,7 +256,9 @@ class StorageTest {
 
     @Test
     void load_invalidDateFormat_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 2025/04/20 | 7000 | Accepted\n"  // Wrong date format
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -252,7 +274,9 @@ class StorageTest {
 
     @Test
     void load_impossibleDate_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 31-02-2025 | 7000 | Accepted\n"  // Feb 31 doesn't exist
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -270,7 +294,9 @@ class StorageTest {
 
     @Test
     void load_nonNumericDate_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 1a-03-2025 | 7000 | Accepted\n"  // Contains 'a' in day
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -288,7 +314,9 @@ class StorageTest {
 
     @Test
     void load_zeroPay_loadsCorrectly() throws InternityException, IOException {
-        String content = "Google | SWE Intern | 15-03-2025 | 0 | Pending\n";
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE Intern | 15-03-2025 | 0 | Pending\n";
         Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
@@ -302,7 +330,9 @@ class StorageTest {
 
     @Test
     void load_emptyCompany_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + " | Data Scientist | 20-04-2025 | 7000 | Accepted\n"  // Empty company
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -317,7 +347,9 @@ class StorageTest {
 
     @Test
     void load_emptyRole_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta |  | 20-04-2025 | 7000 | Accepted\n"  // Empty role
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -332,7 +364,9 @@ class StorageTest {
 
     @Test
     void load_extraFields_loadsFirstFiveFields() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending | Extra | MoreExtra\n";
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending | Extra | MoreExtra\n";
         Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
@@ -361,7 +395,10 @@ class StorageTest {
 
     @Test
     void load_extraWhitespace_trimsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath), "  Google  |  SWE  |  15-03-2025  |  6000  |  Pending  \n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "  Google  |  SWE  |  15-03-2025  |  6000  |  Pending  \n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -372,8 +409,10 @@ class StorageTest {
 
     @Test
     void load_multiWordFields_loadsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath),
-                "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Interviewing\n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Interviewing\n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -465,7 +504,7 @@ class StorageTest {
         ArrayList<Internship> internships = storage.load();
 
         assertEquals(1, internships.size());
-        assertEquals(null, InternshipList.getUsername());
+        assertNull(InternshipList.getUsername());
         assertEquals("Meta", internships.get(0).getCompany());
     }
 
