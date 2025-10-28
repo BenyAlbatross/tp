@@ -119,16 +119,19 @@ Use this command to update any field (company, role, deadline, pay, status) of a
 Format:
 
 ```
-update INDEX status/STATUS
+update INDEX field1/VALUE1 field2/VALUE2 ...
 ```
 
 Example:
 
 ```
 update 1 status/Accepted
+update 2 company/Microsoft status/Interviewing
 ```
 
-This command updates the status of the internship application at index 1 to "Accepted".
+The 1st command updates the status of the internship application at index 1 to "Accepted".
+
+The 2nd command updates the company of the internship application at index 2 to "Microsoft" and its status to "Interviewing".
 
 <div style="background-color: #331c16; color: #c3b091; padding: 15px; border-radius: 8px; border-left: 5px solid #966919;">
 <h4>Notes</h4>
@@ -167,9 +170,6 @@ list sort/desc
 - `list sort/desc` → sorts applications by deadline descending
 
 ---
-
-<!-- explicit anchor for TOC link -->
-<a name="finding-by-keyword"></a>
 
 ### Finding by keyword: `find`
 
@@ -273,3 +273,5 @@ exit
 | **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                         |
 | **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                       |
 | **Exit Internity**      | `exit`      | `exit`                                                                                                                                                      | `exit`                                                                            |
+
+
