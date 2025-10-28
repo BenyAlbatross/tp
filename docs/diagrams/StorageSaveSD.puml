@@ -1,0 +1,81 @@
+@startuml
+title Storage Save Operation - Sequence Diagram
+
+participant ":InternityManager" as IM
+participant "<<class>>\nInternshipList" as IL
+participant ":Storage" as S
+participant ":PrintWriter" as PW
+participant ":Internship" as Intern
+
+IM -> IL: saveToStorage()
+activate IL
+
+IL -> S: save(List)
+activate S
+
+S -> S: check if parent directory exists
+alt parent directory does not exist
+    S -> S: Files.createDirectories(parent)
+end
+
+S -> PW: new PrintWriter(filePath)
+activate PW
+
+S -> PW: println("Username (in line below):")
+PW --> S:
+
+S -> IL: getUsername()
+activate IL
+IL --> S: return username
+deactivate IL
+
+S -> PW: println(username)
+PW --> S:
+
+loop for each internship in List
+    S -> S: formatInternshipForFile(internship)
+    activate S
+
+    S -> Intern: getCompany()
+    activate Intern
+    Intern --> S: return company
+    deactivate Intern
+
+    S -> Intern: getRole()
+    activate Intern
+    Intern --> S: return role
+    deactivate Intern
+
+    S -> Intern: getDeadline()
+    activate Intern
+    Intern --> S: return deadline
+    deactivate Intern
+
+    S -> Intern: getPay()
+    activate Intern
+    Intern --> S: return pay
+    deactivate Intern
+
+    S -> Intern: getStatus()
+    activate Intern
+    Intern --> S: return status
+    deactivate Intern
+
+    S -> S: format as:\n"company | role | deadline | pay | status"
+    S --> S: return formatted string
+    deactivate S
+
+    S -> PW: println(formattedLine)
+    PW --> S:
+end
+
+S -> PW: close()
+deactivate PW
+
+S --> IL:
+deactivate S
+
+IL --> IM:
+deactivate IL
+
+@enduml

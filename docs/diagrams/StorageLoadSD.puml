@@ -1,0 +1,102 @@
+@startuml
+title Storage Load Operation - Sequence Diagram
+
+participant ":InternityManager" as IM
+participant "<<class>>\nInternshipList" as IL
+participant ":Storage" as S
+participant ":BufferedReader" as BR
+participant "<<class>>\nDateFormatter" as DF
+participant ":Internship" as Intern
+
+IM -> IL: loadFromStorage()
+activate IL
+
+IL -> S: load()
+activate S
+
+S -> S: check if file exists
+alt file does not exist
+    S --> IL: return empty ArrayList
+else file exists
+    S -> BR: new BufferedReader(filePath)
+    activate BR
+
+    S -> BR: readLine()
+    BR --> S: "Username (in line below):"
+
+    S -> S: validate header
+
+    S -> BR: readLine()
+    BR --> S: username
+
+    S -> IL: setUsername(username)
+    activate IL
+    IL --> S:
+    deactivate IL
+
+    loop for each remaining line
+        S -> BR: readLine()
+        BR --> S: line (or null if EOF)
+
+        alt line is not null
+            S -> S: parseInternshipFromFile(line, internships)
+            activate S
+
+            S -> S: split line by "|"
+            S -> S: trim all parts
+            S -> S: validate field count
+
+            alt valid field count
+                S -> S: parseAndValidateFields(parts, line, internships)
+                activate S
+
+                S -> S: validate company and role not empty
+                S -> S: parse and validate pay
+                S -> S: validate status
+
+                S -> DF: parse(deadlineStr)
+                activate DF
+                alt valid date format
+                    DF --> S: return Date
+                    deactivate DF
+
+                    S -> Intern: new Internship(company, role, deadline, pay)
+                    activate Intern
+                    Intern --> S: return internship
+                    deactivate Intern
+
+                    S -> Intern: setStatus(status)
+                    activate Intern
+                    Intern --> S:
+                    deactivate Intern
+
+                    S -> S: add internship to list
+                else invalid date
+                    DF --> S: throw InternityException
+                    deactivate DF
+                    S -> S: log warning and skip line
+                end
+
+                deactivate S
+            else invalid field count
+                S -> S: log warning and skip line
+            end
+
+            deactivate S
+        end
+    end
+
+    S -> BR: close()
+    deactivate BR
+end
+
+S --> IL: return ArrayList<Internship>
+deactivate S
+
+IL -> IL: clear current list
+IL -> IL: addAll(loadedInternships)
+
+IL --> IM:
+deactivate IL
+
+@enduml
