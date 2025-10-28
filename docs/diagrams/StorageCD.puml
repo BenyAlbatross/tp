@@ -1,0 +1,89 @@
+@startuml
+title Storage Component - Class Diagram
+
+class Storage {
+    - filePath: Path
+    - {static} logger: Logger
+    - {static} IDX_COMPANY: int = 0
+    - {static} IDX_ROLE: int = 1
+    - {static} IDX_DEADLINE: int = 2
+    - {static} IDX_PAY: int = 3
+    - {static} IDX_STATUS: int = 4
+    - {static} LEN_REQUIRED_FIELDS: int = 5
+    __
+    + Storage(filePath: String)
+    + load(): ArrayList<Internship>
+    + save(internships: ArrayList<Internship>): void
+    - parseInternshipFromFile(line: String, internships: ArrayList<Internship>): String
+    - parseAndValidateFields(parts: String[], line: String, internships: ArrayList<Internship>): String
+    - formatInternshipForFile(internship: Internship): String
+}
+
+class InternshipList {
+    - {static} List: ArrayList<Internship>
+    - {static} storage: Storage
+    - {static} username: String
+    __
+    + {static} setStorage(storageInstance: Storage): void
+    + {static} loadFromStorage(): void
+    + {static} saveToStorage(): void
+    + {static} add(item: Internship): void
+    + {static} delete(index: int): void
+    + {static} get(index: int): Internship
+    + {static} size(): int
+}
+
+class Internship {
+    - company: String
+    - role: String
+    - deadline: Date
+    - pay: int
+    - status: String
+    __
+    + Internship(company: String, role: String, deadline: Date, pay: int)
+    + getCompany(): String
+    + getRole(): String
+    + getDeadline(): Date
+    + getPay(): int
+    + getStatus(): String
+    + setStatus(status: String): void
+    + {static} isValidStatus(status: String): boolean
+}
+
+class Date {
+    - day: int
+    - month: int
+    - year: int
+    __
+    + Date(day: int, month: int, year: int)
+    + toString(): String
+}
+
+class DateFormatter {
+    + {static} parse(dateStr: String): Date
+}
+
+class InternityException {
+    + InternityException(message: String)
+}
+
+note right of Storage
+  File Format:
+  Line 1: "Username (in line below):"
+  Line 2: <username>
+  Line 3+: company | role | DD-MM-YYYY | pay | status
+
+  Features:
+  - Auto-creates parent directories
+  - Skips corrupted lines with warnings
+  - Validates date, pay, and status
+end note
+
+Storage "1" - "*" Internship : loads/saves >
+Storage ..> DateFormatter : uses >
+Storage ..> InternityException : throws >
+InternshipList "1" - "1" Storage : uses >
+InternshipList "1" - "*" Internship : contains >
+Internship "1" - "1" Date : has >
+
+@enduml

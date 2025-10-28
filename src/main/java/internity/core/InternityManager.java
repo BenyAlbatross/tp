@@ -3,8 +3,9 @@ package internity.core;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-import internity.cli.CommandParser;
-import internity.commands.Command;
+import internity.logic.cli.CommandParser;
+import internity.logic.commands.Command;
+import internity.storage.Storage;
 import internity.ui.Ui;
 
 /**
