@@ -7,7 +7,7 @@ rectangle "Logic" {
     [Command]
 }
 
-rectangle "Core" {
+rectangle "Model" {
     [InternshipList]
 }
 

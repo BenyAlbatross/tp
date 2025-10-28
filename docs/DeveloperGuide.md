@@ -9,14 +9,13 @@
     - [Storage Component](#storage-component)
     - [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-4. [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
-5. [Appendix: Requirements](#appendix-requirements)
+4. [Appendix: Requirements](#appendix-requirements)
    - [Product Scope](#product-scope)
    - [User Stories](#user-stories)
    - [Use Cases](#use-cases)
    - [Non-Functional Requirements](#non-functional-requirements)
    - [Glossary](#glossary)
-6. [Instructions for Manual Testing](#instructions-for-manual-testing)
+5. [Instructions for Manual Testing](#instructions-for-manual-testing)
 
 
 ## Acknowledgements
@@ -41,7 +40,7 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
    - Responsibilities:
      - Launches and shuts down the application.
      - Receives input from the user and delegates parsing to the `Logic` layer.
-     - Commands executed by `Logic` layer may modify the `Core` or trigger UI updates.
+     - Commands executed by `Logic` layer may modify the `Model` or trigger UI updates.
      - It also handles reading from and writing to the `Storage` layer.
      - Simplifies interactions between all layers and maintains a clear separation of concerns.
 2. UI (User Interface)
@@ -49,16 +48,16 @@ The diagram below shows a simplified **Class Diagram** of all of Internity's cla
     - Responsibilities:
         - Handles all user-facing output (printing, dashboards, etc.).
         - Does not perform any logic or state changes.
-        - Displays information passed from the `Logic` or `Core` layers in a user-friendly format.
+        - Displays information passed from the `Logic` or `Model` layers in a user-friendly format.
         - Invoked by Commands to show feedback or results.
 3. Logic
    - Classes: `CommandParser`, `CommandFactory`, `ArgumentParser`, `Command` subclasses
    - Responsibilities:
-       - Acts as the intermediary between user input and `Core` operations.
+       - Acts as the intermediary between user input and `Model` operations.
        - Parses and validates user commands.
        - Constructs the appropriate `Command` object through the `CommandFactory`.
-       - Executes commands, which modify the `Core` or trigger the `UI` to display information.
-4. Core
+       - Executes commands, which modify the `Model` or trigger the `UI` to display information.
+4. Model
    - Classes: `InternshipList`, `Internship`, `Date`, `Status`
    - Responsibilities:
      - Stores internship data
