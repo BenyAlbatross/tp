@@ -69,9 +69,10 @@ September 2025, and an annual salary of $100000.
 <ul>
 <li>The parameters should be entered in the specified order i.e. company, role, deadline, followed by pay.</li>
 <li>No duplicate parameter type, so only exactly one of each parameter type.</li>
+<li>By default, when an internship is added, the status is set to Pending. Use the update command to change the status.</li>
+<li>Field character limits: <code>COMPANY</code> ≤ 15 characters, <code>ROLE</code> ≤ 30 characters.</li>
 <li><code>DEADLINE</code> must be in <code>DD-MM-YYYY</code> format.</li>
-<li><code>PAY_AMOUNT</code> must be a non-negative integer.</li>
-<li> By default, when an internship is added, the status is set to Pending. Use the update command to change the status.</li>
+<li><code>PAY_AMOUNT</code> must be a non-negative integer that fits within Java's 32-bit signed integer range (maximum 2,147,483,647).</li>
 </ul>
 </div>
 
@@ -99,24 +100,26 @@ This command deletes the internship application at index 2 from the list.
 
 ### Updating an application: `update`
 
-Use this command to update the **status** of an internship application.  
-For v1.0, only the `status` field can be updated. Updating other fields (company, role, deadline, pay) will be added in
-future iterations.
+Use this command to update any field (company, role, deadline, pay, status) of an internship application.  
 
-**Valid `status` values:**
 
-- `Pending` -> You’re considering the internship but haven’t applied yet.
-- `Interested` → You’ve found the internship and might apply.
-- `Applied` → You’ve submitted your application.
-- `Interviewing` → You’re currently in the interview process.
-- `Offer` → You’ve received an internship offer.
-- `Accepted` → You’ve accepted the offer.
-- `Rejected` → The application was unsuccessful or withdrawn.
+<div style="background-color: #331c16; color: #c3b091; padding: 15px; border-radius: 8px; border-left: 5px solid #966919;">
+<h4><strong>Valid <code>STATUS</code> values</strong></h4>
+<ul>
+<li><code>Pending</code> - You’re considering the internship but haven’t applied yet.</li>
+<li><code>Interested</code> - You’ve found the internship and might apply.</li>
+<li><code>Applied</code> - You’ve submitted your application.</li>
+<li><code>Interviewing</code> - You’re currently in the interview process.</li>
+<li><code>Offer</code> - You’ve received an internship offer.</li>
+<li><code>Accepted</code> - You’ve accepted the offer.</li>
+<li><code>Rejected</code> - The application was unsuccessful or withdrawn.</li>
+</ul>
+</div>
 
 Format:
 
 ```
-update INDEX status/NEW_STATUS
+update INDEX status/STATUS
 ```
 
 Example:
@@ -126,6 +129,15 @@ update 1 status/Accepted
 ```
 
 This command updates the status of the internship application at index 1 to "Accepted".
+
+<div style="background-color: #331c16; color: #c3b091; padding: 15px; border-radius: 8px; border-left: 5px solid #966919;">
+<h4>Notes</h4>
+<ul>
+<li>For v1.0, only the <code>status</code> field can be updated. Updating other fields (company, role, deadline, pay) will be added in
+future iterations.</li>
+<li>All field values must adhere to the constraints specified in the <code>add</code> feature.</li>
+</ul>
+</div>
 
 ---
 
@@ -155,6 +167,9 @@ list sort/desc
 - `list sort/desc` → sorts applications by deadline descending
 
 ---
+
+<!-- explicit anchor for TOC link -->
+<a name="finding-by-keyword"></a>
 
 ### Finding by keyword: `find`
 
@@ -223,15 +238,26 @@ exit
 ## FAQ
 
 * **Q: How do I transfer my data to another computer?**
-  A: Make a copy of the data folder of the home directory that runs `Internity.jar` to the new computer. Ensure that
+<br> A: Make a copy of the `data/` folder of the home directory that runs `Internity.jar` to the new computer. Ensure that
   the folder structure remains intact.
 
+
 * **Q: I have encountered an invalid command error. What do I do?** 
-  A: Refer to the [Features](#features) section for details on using a command.
+  <br> A: Refer to the [Features](#features) section for details on using a command.
+
 
 * **Q: Does Internity work without Internet?**
-  A: Yes, Internity does not require an active internet connection, allowing you to manage your internships
+  <br> A: Yes, Internity does not require an active internet connection, allowing you to manage your internships
   seamlessly!
+
+
+* **Q: My application unexpectedly closed. Will my previous entries be saved?**
+  <br> A: Yes, Internity automatically saves your data after each command, ensuring that your entries are preserved even in the event of an unexpected closure.
+
+
+* **Q: How can I reset my data to start fresh?**
+  <br> A: Close the app and delete or rename the `data/internships.txt` file. On next start, the app will create a new empty data file. Be careful: this deletes all saved internships.
+
 
 ---
 
