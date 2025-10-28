@@ -27,7 +27,7 @@ manage hundreds of applications.
 2. Download the latest version of `Internity` from [here](http://link.to/Internity).
 3. Copy the file to the folder you want to use as the home folder for Internity.
 4. Open a terminal, cd into the folder with the jar file.
-5. Run: `java -jar Paddington.jar`
+5. Run: `java -jar Internity.jar`
 6. Type a command and press Enter to execute it.  
    You may refer to the Features below for details of each command.
 
