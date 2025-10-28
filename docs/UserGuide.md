@@ -2,17 +2,18 @@
 
 ## Introduction
 
-Internity is a CLI based app for managing internship applications. Internity can help you manage and keep track 
-of your internship applications more efficiently, perfect for Computer Science students who need to 
+Internity is a CLI based app for managing internship applications. Internity can help you manage and keep track
+of your internship applications more efficiently, perfect for Computer Science students who need to
 manage hundreds of applications.
 
 # Table of Contents
+
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Adding an application](#adding-an-application-add)
-  - [Deleting an application](#deleting-an-application-delete)
-  - [Updating an application](#updating-an-application-update)
-  - [Viewing all applications](#listing-all-applications-list)
+    - [Adding an application](#adding-an-application-add)
+    - [Deleting an application](#deleting-an-application-delete)
+    - [Updating an application](#updating-an-application-update)
+    - [Viewing all applications](#listing-all-applications-list)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
 
@@ -24,11 +25,12 @@ manage hundreds of applications.
 
 1. Ensure that you have Java 17 or above installed.
 2. Download the latest version of `Internity` from [here](http://link.to/Internity).
-3. Copy the file to the folder you want to use as the home folder for Internity. 
-4. Open a terminal, cd into the folder with the jar file. 
+3. Copy the file to the folder you want to use as the home folder for Internity.
+4. Open a terminal, cd into the folder with the jar file.
 5. Run: `java -jar Paddington.jar`
 6. Type a command and press Enter to execute it.  
-You may refer to the Features below for details of each command.
+   You may refer to the Features below for details of each command.
+
 ---
 
 ## Features
@@ -42,20 +44,24 @@ Example: <code>delete INDEX</code> → Please input <code>delete 1</code></li>
 </ul>
 </div>
 
-
 ### Adding an application: `add`
+
 Add a new internship application with company, role, deadline and pay amount
 
 Format
+
 ```
 add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT
 ```
 
 Example:
+
 ```
 add company/Google role/Software Engineer Intern deadline/17-09-2025 pay/100000
 ```
-This command adds an internship application at Google for the role of Software Engineer Intern with a deadline of 17 September 2025, and an annual salary of $100000.
+
+This command adds an internship application at Google for the role of Software Engineer Intern with a deadline of 17
+September 2025, and an annual salary of $100000.
 
 <div style="background-color: #331c16; color: #c3b091; padding: 15px; border-radius: 8px; border-left: 5px solid #966919;">
 <h4>Notes</h4>
@@ -70,14 +76,17 @@ This command adds an internship application at Google for the role of Software E
 ---
 
 ### Deleting an application: `delete`
+
 Delete an existing internship application from the internship list
 
 Format:
+
 ```
 delete INDEX
 ```
 
 Example:
+
 ```
 delete 2
 ```
@@ -87,10 +96,13 @@ This command deletes the internship application at index 2 from the list.
 ---
 
 ### Updating an application: `update`
+
 Use this command to update the **status** of an internship application.  
-For v1.0, only the `status` field can be updated. Updating other fields (company, role, deadline, pay) will be added in future iterations.
+For v1.0, only the `status` field can be updated. Updating other fields (company, role, deadline, pay) will be added in
+future iterations.
 
 **Valid `status` values:**
+
 - `Pending` -> You’re considering the internship but haven’t applied yet.
 - `Interested` → You’ve found the internship and might apply.
 - `Applied` → You’ve submitted your application.
@@ -100,11 +112,13 @@ For v1.0, only the `status` field can be updated. Updating other fields (company
 - `Rejected` → The application was unsuccessful or withdrawn.
 
 Format:
+
 ```
 update INDEX status/NEW_STATUS
 ```
 
 Example:
+
 ```
 update 1 status/Accepted
 ```
@@ -114,17 +128,20 @@ This command updates the status of the internship application at index 1 to "Acc
 ---
 
 ### Listing all applications: `list`
+
 Use this command to view all internship applications.  
-By default, the list shows applications in the **order they were added**. 
+By default, the list shows applications in the **order they were added**.
 You can optionally sort them by deadline in ascending or descending order.
 
 Format:
+
 ```
 list
 list sort/ORDER
 ```
 
 Example:
+
 ```
 list
 list sort/asc
@@ -138,30 +155,38 @@ list sort/desc
 ---
 
 ### Finding by keyword: `find`
+
 Search for internship applications by keyword. The search is case-insensitive.
 
 Format:
+
 ```
 find KEYWORD
 ```
 
 Example:
+
 ```
 find Software Engineer
 ```
-This command lists all internship applications that contain the keyword "Software Engineer" in either its company or role details. 
+
+This command lists all internship applications that contain the keyword "Software Engineer" in either its company or
+role details.
 
 ---
 
 ### Setting/Changing username: `username`
+
 Use this command to set or change the username for the Internity application.
 
 Format:
+
 ```
 username USERNAME
 ```
 
 Example:
+
 ```
 username Yoshikage Kira
 ```
@@ -169,10 +194,12 @@ username Yoshikage Kira
 ---
 
 ### Displaying dashboard: `dashboard`
-Use this command to display a dashboard showing the current user's information, total internships, nearest deadline, 
+
+Use this command to display a dashboard showing the current user's information, total internships, nearest deadline,
 and a breakdown of internships by status.
 
 Format:
+
 ```
 dashboard
 ```
@@ -180,9 +207,11 @@ dashboard
 ---
 
 ### Exit Internity: `exit`
+
 Quit the program. Your data is saved.
 
 Format:
+
 ```
 exit
 ```
@@ -192,13 +221,15 @@ exit
 ## FAQ
 
 * **Q**: How do I transfer my data to another computer?  
-**A**: Make a copy of the data folder of the home directory that runs `Internity.jar` to the new computer. Ensure that the folder structure remains intact.
+  **A**: Make a copy of the data folder of the home directory that runs `Internity.jar` to the new computer. Ensure that
+  the folder structure remains intact.
 
 * **Q**: I have encountered an invalid command error. What do I do?  
   **A**: Refer to the [Features](#features) section for details on using a command.
 
 * **Q**: Does Internity work without Internet?  
-  **A**: Yes, Internity does not require an active internet connection, allowing you to manage your internships seamlessly! 
+  **A**: Yes, Internity does not require an active internet connection, allowing you to manage your internships
+  seamlessly!
 
 ---
 
@@ -213,4 +244,4 @@ exit
 | **Find Application**    | `find`      | `find KEYWORD`                                                                                                                                              | `find Software Engineer`                                                          |
 | **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                         |
 | **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                       |
-
+| **Exit Internity**      | `exit`      | `exit`                                                                                                                                                      | `exit`                                                                            |
