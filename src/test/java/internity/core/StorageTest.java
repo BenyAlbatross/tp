@@ -605,4 +605,39 @@ class StorageTest {
         assertEquals(0, internships.size());
         assertEquals("OnlyUsername", InternshipList.getUsername());
     }
+
+    @Test
+    void saveAndLoad_changeUsername_newUsernameIsPersisted() throws InternityException, IOException {
+        // Initial save with username "OriginalUser"
+        InternshipList.setUsername("OriginalUser");
+        ArrayList<Internship> internships = new ArrayList<>();
+        internships.add(new Internship("Google", "SWE", new Date(15, 3, 2025), 6000));
+        storage.save(internships);
+
+        // Load and verify original username
+        InternshipList.clear();
+        InternshipList.setUsername(null);
+        ArrayList<Internship> loadedInternships1 = storage.load();
+        assertEquals("OriginalUser", InternshipList.getUsername());
+        assertEquals(1, loadedInternships1.size());
+
+        // Change username and save again with the same internships
+        InternshipList.setUsername("NewUser");
+        storage.save(loadedInternships1);
+
+        // Load again and verify new username is persisted
+        InternshipList.clear();
+        InternshipList.setUsername(null); // Simulate fresh start
+        ArrayList<Internship> loadedInternships2 = storage.load(); // Simulate load from file
+
+        assertEquals("NewUser", InternshipList.getUsername());
+        assertEquals(1, loadedInternships2.size());
+        assertEquals("Google", loadedInternships2.get(0).getCompany());
+
+        // Verify file content directly
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("NewUser", lines.get(1));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
+    }
 }
