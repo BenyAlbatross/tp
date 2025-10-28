@@ -20,7 +20,7 @@
 
 
 ## Acknowledgements
-We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team.
+We would like to thank our TA Nigel Yeo, Prof Akshay and the CS2113 Team for their guidance.
 
 ## Design
 
@@ -127,7 +127,7 @@ The class diagram above shows the main classes involved in parsing, creating, an
 - All Command subclasses implement the execute() method, following the Command Pattern.
 
 #### How it Works
-1. User input (e.g. `add company/Google role/SWE deadline/10-10-2025 pay/1000`) is received by CommandParser.
+1. User input (e.g. `add company/Google role/Software Engineer deadline/17-09-2025 pay/1000`) is received by CommandParser.
 2. The `CommandParser`:
    - Validates that the input is not empty or malformed.
    - Splits the input into a command keyword and arguments.
@@ -379,6 +379,12 @@ or unpaid, part-time or full-time, and can occur during or after academic study.
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+
+Given below are instructions to test the app manually.
+
+### Launch and shutdown
+1. Initial launch
+   1. Download the jar file and copy it into an empty folder.
 
 ### Adding an internship
 

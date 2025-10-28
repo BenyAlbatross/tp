@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
+import internity.core.InternshipList;
 import internity.utils.DateFormatter;
 
 /**
@@ -53,6 +54,9 @@ public class Storage {
 
     /**
      * Loads internships from the storage file.
+     * The first line should contain "Username (in line below):"
+     * The second line should contain the actual username.
+     * Remaining lines contain internship entries.
      *
      * @return ArrayList of internships loaded from the file.
      * @throws InternityException If there is an error reading the file.
@@ -67,8 +71,22 @@ public class Storage {
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
-            String line;
-            int lineNumber = 0;
+            // Read first line (username header)
+            String line = br.readLine();
+            if (line == null || !line.equals("Username (in line below):")) {
+                logger.warning("Invalid file format: missing username header");
+                throw new InternityException("Invalid storage file format");
+            }
+
+            // Read second line (actual username)
+            String username = br.readLine();
+            if (username != null && !username.trim().isEmpty()) {
+                InternshipList.setUsername(username.trim());
+                logger.info("Loaded username: " + username.trim());
+            }
+
+            // Read remaining lines as internship data
+            int lineNumber = 2;
             while ((line = br.readLine()) != null) {
                 lineNumber++;
                 String errorMessage = parseInternshipFromFile(line, internships);
@@ -180,6 +198,9 @@ public class Storage {
 
     /**
      * Saves internships to the storage file.
+     * The first line contains "Username (in line below):"
+     * The second line contains the actual username.
+     * Followed by internship entries on subsequent lines.
      *
      * @param internships The list of internships to save.
      * @throws InternityException If there is an error writing to the file.
@@ -197,6 +218,12 @@ public class Storage {
             }
 
             try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filePath.toFile())))) {
+                // Write username header and value
+                pw.println("Username (in line below):");
+                String username = InternshipList.getUsername();
+                pw.println(username != null ? username : "");
+
+                // Write internships
                 for (Internship internship : internships) {
                     pw.println(formatInternshipForFile(internship));
                 }

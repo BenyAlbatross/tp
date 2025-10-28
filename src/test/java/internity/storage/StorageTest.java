@@ -1,6 +1,7 @@
 package internity.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +20,7 @@ import java.util.List;
 import internity.core.Date;
 import internity.core.InternityException;
 import internity.core.Internship;
+import internity.core.InternshipList;
 
 class StorageTest {
 
@@ -46,6 +48,8 @@ class StorageTest {
     void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
+        InternshipList.clear();
+        InternshipList.setUsername(null);
     }
 
     @Test
@@ -55,7 +59,8 @@ class StorageTest {
 
         assertTrue(Files.exists(Path.of(testFilePath)));
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(0, lines.size());
+        assertEquals(2, lines.size()); // Username header + username line
+        assertEquals("Username (in line below):", lines.get(0));
     }
 
     @Test
@@ -67,8 +72,9 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(1, lines.size());
-        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(0));
+        assertEquals(3, lines.size()); // Username header + username + 1 internship
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
     }
 
     @Test
@@ -81,10 +87,11 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(3, lines.size());
-        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(0));
-        assertEquals("Meta | Data Scientist | 20-04-2025 | 7000 | Pending", lines.get(1));
-        assertEquals("Amazon | DevOps | 01-05-2025 | 5500 | Pending", lines.get(2));
+        assertEquals(5, lines.size()); // Username header + username + 3 internships
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
+        assertEquals("Meta | Data Scientist | 20-04-2025 | 7000 | Pending", lines.get(3));
+        assertEquals("Amazon | DevOps | 01-05-2025 | 5500 | Pending", lines.get(4));
     }
 
     @Test
@@ -97,8 +104,9 @@ class StorageTest {
         storage.save(internships);
 
         List<String> lines = Files.readAllLines(Path.of(testFilePath));
-        assertEquals(1, lines.size());
-        assertTrue(lines.get(0).endsWith("Accepted"));
+        assertEquals(3, lines.size()); // Username header + username + 1 internship
+        assertEquals("Username (in line below):", lines.get(0));
+        assertTrue(lines.get(2).endsWith("Accepted"));
     }
 
     /**
@@ -130,17 +138,23 @@ class StorageTest {
     }
 
     @Test
-    void load_emptyFile_returnsEmptyList() throws InternityException, IOException {
+    void load_emptyFile_throwsException() throws IOException {
         Files.createFile(Path.of(testFilePath));
 
-        ArrayList<Internship> internships = storage.load();
+        InternityException thrown = org.junit.jupiter.api.Assertions.assertThrows(
+                InternityException.class,
+                () -> storage.load()
+        );
 
-        assertEquals(0, internships.size());
+        assertEquals("Invalid storage file format", thrown.getMessage());
     }
 
     @Test
     void load_validSingleEntry_loadsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath), "Google | SWE | 15-03-2025 | 6000 | Pending\n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -153,7 +167,9 @@ class StorageTest {
 
     @Test
     void load_multipleValidEntries_loadsAll() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | 7000 | Accepted\n"
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -180,7 +196,9 @@ class StorageTest {
 
     @Test
     void load_fewerFields_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025\n"  // Missing pay and status
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -195,7 +213,9 @@ class StorageTest {
 
     @Test
     void load_invalidPayFormat_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | NotANumber | Accepted\n"
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -208,7 +228,9 @@ class StorageTest {
 
     @Test
     void load_negativePay_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | -1000 | Accepted\n"  // Negative pay
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -223,7 +245,10 @@ class StorageTest {
 
     @Test
     void load_invalidStatus_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content =
+                "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 20-04-2025 | 7000 | InvalidStatus\n"  // Invalid status
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -238,7 +263,9 @@ class StorageTest {
 
     @Test
     void load_invalidDateFormat_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 2025/04/20 | 7000 | Accepted\n"  // Wrong date format
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -254,7 +281,9 @@ class StorageTest {
 
     @Test
     void load_impossibleDate_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 31-02-2025 | 7000 | Accepted\n"  // Feb 31 doesn't exist
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -272,7 +301,9 @@ class StorageTest {
 
     @Test
     void load_nonNumericDate_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta | Data Scientist | 1a-03-2025 | 7000 | Accepted\n"  // Contains 'a' in day
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -290,7 +321,9 @@ class StorageTest {
 
     @Test
     void load_zeroPay_loadsCorrectly() throws InternityException, IOException {
-        String content = "Google | SWE Intern | 15-03-2025 | 0 | Pending\n";
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE Intern | 15-03-2025 | 0 | Pending\n";
         Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
@@ -304,7 +337,9 @@ class StorageTest {
 
     @Test
     void load_emptyCompany_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + " | Data Scientist | 20-04-2025 | 7000 | Accepted\n"  // Empty company
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -319,7 +354,9 @@ class StorageTest {
 
     @Test
     void load_emptyRole_skipsLine() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n"
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n"
                 + "Meta |  | 20-04-2025 | 7000 | Accepted\n"  // Empty role
                 + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
         Files.writeString(Path.of(testFilePath), content);
@@ -334,7 +371,9 @@ class StorageTest {
 
     @Test
     void load_extraFields_loadsFirstFiveFields() throws InternityException, IOException {
-        String content = "Google | SWE | 15-03-2025 | 6000 | Pending | Extra | MoreExtra\n";
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending | Extra | MoreExtra\n";
         Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
@@ -363,7 +402,10 @@ class StorageTest {
 
     @Test
     void load_extraWhitespace_trimsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath), "  Google  |  SWE  |  15-03-2025  |  6000  |  Pending  \n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "  Google  |  SWE  |  15-03-2025  |  6000  |  Pending  \n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -374,8 +416,10 @@ class StorageTest {
 
     @Test
     void load_multiWordFields_loadsCorrectly() throws InternityException, IOException {
-        Files.writeString(Path.of(testFilePath),
-                "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Interviewing\n");
+        String content = "Username (in line below):\n"
+                + "TestUser\n"
+                + "Jane Street | Quantitative Researcher | 25-12-2025 | 10000 | Interviewing\n";
+        Files.writeString(Path.of(testFilePath), content);
 
         ArrayList<Internship> internships = storage.load();
 
@@ -383,5 +427,224 @@ class StorageTest {
         assertEquals("Jane Street", internships.get(0).getCompany());
         assertEquals("Quantitative Researcher", internships.get(0).getRole());
         assertEquals("Interviewing", internships.get(0).getStatus());
+    }
+
+    // Username persistence tests
+
+    @Test
+    void save_withUsername_writesUsernameHeader() throws InternityException, IOException {
+        InternshipList.setUsername("JohnDoe");
+        ArrayList<Internship> internships = new ArrayList<>();
+        internships.add(new Internship("Google", "SWE", new Date(15, 3, 2025), 6000));
+
+        storage.save(internships);
+
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals(3, lines.size());
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("JohnDoe", lines.get(1));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
+    }
+
+    @Test
+    void save_withNullUsername_writesEmptyUsername() throws InternityException, IOException {
+        InternshipList.setUsername(null);
+        ArrayList<Internship> internships = new ArrayList<>();
+        internships.add(new Internship("Meta", "Data Scientist", new Date(20, 4, 2025), 7000));
+
+        storage.save(internships);
+
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals(3, lines.size());
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("", lines.get(1));
+        assertEquals("Meta | Data Scientist | 20-04-2025 | 7000 | Pending", lines.get(2));
+    }
+
+    @Test
+    void save_withEmptyUsername_writesEmptyUsername() throws InternityException, IOException {
+        InternshipList.setUsername("");
+        ArrayList<Internship> internships = new ArrayList<>();
+
+        storage.save(internships);
+
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals(2, lines.size());
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("", lines.get(1));
+    }
+
+    @Test
+    void save_usernameWithSpaces_trimsAndSaves() throws InternityException, IOException {
+        InternshipList.setUsername("John Doe");
+        ArrayList<Internship> internships = new ArrayList<>();
+
+        storage.save(internships);
+
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals(2, lines.size());
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("John Doe", lines.get(1));
+    }
+
+    @Test
+    void load_withValidUsername_loadsUsername() throws InternityException, IOException {
+        String content = "Username (in line below):\n"
+                + "Alice\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(1, internships.size());
+        assertEquals("Alice", InternshipList.getUsername());
+        assertEquals("Google", internships.get(0).getCompany());
+    }
+
+    @Test
+    void load_withEmptyUsername_loadsEmptyUsername() throws InternityException, IOException {
+        String content = "Username (in line below):\n"
+                + "\n"
+                + "Meta | Data Scientist | 20-04-2025 | 7000 | Accepted\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(1, internships.size());
+        assertNull(InternshipList.getUsername());
+        assertEquals("Meta", internships.get(0).getCompany());
+    }
+
+    @Test
+    void load_usernameWithWhitespace_trimsUsername() throws InternityException, IOException {
+        String content = "Username (in line below):\n"
+                + "  BobSmith  \n"
+                + "Amazon | DevOps | 01-05-2025 | 5500 | Rejected\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(1, internships.size());
+        assertEquals("BobSmith", InternshipList.getUsername());
+    }
+
+    @Test
+    void load_usernameWithMultipleWords_loadsCorrectly() throws InternityException, IOException {
+        String content = "Username (in line below):\n"
+                + "Jane Marie Doe\n"
+                + "Tesla | ML Engineer | 10-06-2025 | 8000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(1, internships.size());
+        assertEquals("Jane Marie Doe", InternshipList.getUsername());
+    }
+
+    @Test
+    void load_missingUsernameHeader_throwsException() throws IOException {
+        String content = "Google | SWE | 15-03-2025 | 6000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        InternityException thrown = org.junit.jupiter.api.Assertions.assertThrows(
+                InternityException.class,
+                () -> storage.load()
+        );
+
+        assertEquals("Invalid storage file format", thrown.getMessage());
+    }
+
+    @Test
+    void load_invalidUsernameHeader_throwsException() throws IOException {
+        String content = "Username:\n"
+                + "JohnDoe\n"
+                + "Google | SWE | 15-03-2025 | 6000 | Pending\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        InternityException thrown = org.junit.jupiter.api.Assertions.assertThrows(
+                InternityException.class,
+                () -> storage.load()
+        );
+
+        assertEquals("Invalid storage file format", thrown.getMessage());
+    }
+
+    @Test
+    void saveAndLoad_usernameRoundTrip_preservesUsername() throws InternityException {
+        InternshipList.setUsername("TestUser123");
+        ArrayList<Internship> originalInternships = new ArrayList<>();
+        originalInternships.add(new Internship("Google", "SWE", new Date(15, 3, 2025), 6000));
+        originalInternships.add(new Internship("Meta", "Data Scientist", new Date(20, 4, 2025), 7000));
+
+        storage.save(originalInternships);
+
+        // Clear username to ensure it's loaded from file
+        InternshipList.setUsername(null);
+        ArrayList<Internship> loadedInternships = storage.load();
+
+        assertEquals("TestUser123", InternshipList.getUsername());
+        assertEquals(2, loadedInternships.size());
+        assertEquals("Google", loadedInternships.get(0).getCompany());
+        assertEquals("Meta", loadedInternships.get(1).getCompany());
+    }
+
+    @Test
+    void save_emptyListWithUsername_writesOnlyUsername() throws InternityException, IOException {
+        InternshipList.setUsername("EmptyListUser");
+        ArrayList<Internship> internships = new ArrayList<>();
+
+        storage.save(internships);
+
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals(2, lines.size());
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("EmptyListUser", lines.get(1));
+    }
+
+    @Test
+    void load_onlyUsernameNoInternships_loadsUsername() throws InternityException, IOException {
+        String content = "Username (in line below):\n"
+                + "OnlyUsername\n";
+        Files.writeString(Path.of(testFilePath), content);
+
+        ArrayList<Internship> internships = storage.load();
+
+        assertEquals(0, internships.size());
+        assertEquals("OnlyUsername", InternshipList.getUsername());
+    }
+
+    @Test
+    void saveAndLoad_changeUsername_newUsernameIsPersisted() throws InternityException, IOException {
+        // Initial save with username "OriginalUser"
+        InternshipList.setUsername("OriginalUser");
+        ArrayList<Internship> internships = new ArrayList<>();
+        internships.add(new Internship("Google", "SWE", new Date(15, 3, 2025), 6000));
+        storage.save(internships);
+
+        // Load and verify original username
+        InternshipList.clear();
+        InternshipList.setUsername(null);
+        ArrayList<Internship> loadedInternships1 = storage.load();
+        assertEquals("OriginalUser", InternshipList.getUsername());
+        assertEquals(1, loadedInternships1.size());
+
+        // Change username and save again with the same internships
+        InternshipList.setUsername("NewUser");
+        storage.save(loadedInternships1);
+
+        // Load again and verify new username is persisted
+        InternshipList.clear();
+        InternshipList.setUsername(null); // Simulate fresh start
+        ArrayList<Internship> loadedInternships2 = storage.load(); // Simulate load from file
+
+        assertEquals("NewUser", InternshipList.getUsername());
+        assertEquals(1, loadedInternships2.size());
+        assertEquals("Google", loadedInternships2.get(0).getCompany());
+
+        // Verify file content directly
+        List<String> lines = Files.readAllLines(Path.of(testFilePath));
+        assertEquals("Username (in line below):", lines.get(0));
+        assertEquals("NewUser", lines.get(1));
+        assertEquals("Google | SWE | 15-03-2025 | 6000 | Pending", lines.get(2));
     }
 }
