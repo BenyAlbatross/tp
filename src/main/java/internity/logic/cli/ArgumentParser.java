@@ -71,10 +71,13 @@ public final class ArgumentParser {
             }
 
             // throw exception on exceeding max length
-            if (company.length() > InternshipList.COMPANY_MAXLEN ||
-                    role.length() > InternshipList.ROLE_MAXLEN) {
-                logger.severe("One or more arguments exceeded max length.");
-                throw InternityException.invalidAddCommand();
+            if (company.length() > InternshipList.COMPANY_MAXLEN) {
+                logger.severe("Company name exceeded max length.");
+                throw InternityException.exceedFieldLength("Company", InternshipList.COMPANY_MAXLEN, company.length());
+            }
+            if (role.length() > InternshipList.ROLE_MAXLEN) {
+                logger.severe("Role exceeded max length.");
+                throw InternityException.exceedFieldLength("Role", InternshipList.ROLE_MAXLEN, role.length());
             }
 
             return new AddCommand(company, role, deadline, pay);
@@ -150,12 +153,22 @@ public final class ArgumentParser {
                 if (p.startsWith("company/")) {
                     company = valueAfterTag(p, "company/");
                     if (company.isEmpty()) {
+                        logger.severe("Company name is empty.");
                         throw InternityException.emptyField("company/");
+                    }
+                    if (company.length() > InternshipList.COMPANY_MAXLEN) {
+                        logger.severe("Company name exceeded max length.");
+                        throw InternityException.exceedFieldLength("Company", InternshipList.COMPANY_MAXLEN, company.length());
                     }
                 } else if (p.startsWith("role/")) {
                     role = valueAfterTag(p, "role/");
                     if (role.isEmpty()) {
+                        logger.severe("Role is empty.");
                         throw InternityException.emptyField("role/");
+                    }
+                    if (role.length() > InternshipList.ROLE_MAXLEN) {
+                        logger.severe("Role exceeded max length.");
+                        throw InternityException.exceedFieldLength("Role", InternshipList.ROLE_MAXLEN, role.length());
                     }
                 } else if (p.startsWith("deadline/")) {
                     String d = valueAfterTag(p, "deadline/");
