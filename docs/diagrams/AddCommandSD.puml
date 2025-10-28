@@ -7,16 +7,16 @@ participant "<<class>>\nInternshipList" as IL
 participant "List:ArrayList<Internship>" as LI
 participant ":Ui" as Ui
 
--> AC: AddCommand()
+-> AC: new AddCommand(...)
 activate AC
 == Create a new Internship object ==
-AC -> IN: Internship()
+AC -> IN: Internship(...)
 activate IN
 IN --> AC
 deactivate IN
 
 == Add to InternshipList ==
-AC -> IL: add()
+AC -> IL: add(...)
 activate IL
 IL -> LI: add()
 activate LI
@@ -26,7 +26,7 @@ deactivate LI
 deactivate IL
 
 == Display Confirmation ==
-AC -> Ui: printAddInternship()
+AC -> Ui: print added internship
 activate Ui
 Ui --> AC
 deactivate Ui

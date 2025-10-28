@@ -4,34 +4,41 @@ title Find Command - Sequence Diagram
 participant ":FindCommand" as FC
 participant "<<class>>\nInternshipList" as IL
 participant "List:ArrayList<Internship>" as LI
+participant "Stream<Internship>" as ST
 participant ":Internship" as IN
 participant ":Collectors" as CO
 participant ":Ui" as Ui
 
--> FC: FindCommand()
+-> FC: new FindCommand(...)
 activate FC
-FC -> IL: findInternship()
+FC -> IL: findInternship(...)
 activate IL
-IL -> LI: stream()
-activate LI
 
-== Filtering Process ==
-loop for each Internship in List<Internship>
-    LI -> IN: get company and role
+== Filtering ==
+IL -> LI: filters for matching internship
+activate LI
+LI -> ST: stream()
+activate ST
+loop for each Internship in List
+    ST -> IN: get company and role
     activate IN
-    IN --> LI: return company and role
+    IN --> ST: return company and role
     deactivate IN
-    LI --> IL: check if companyName or roleName\ncontains keyword (case-insensitive)
-    deactivate LI
+    ST -> ST: check if companyName or roleName\ncontains keyword (case-insensitive)
 end
 
-== Collecting Results ==
-IL -> CO: Create new ArrayList of matching internships
+== Collecting Matches ==
+ST -> CO: Create new ArrayList of matching internships
 activate CO
-CO --> IL: create and collect matching internships
+CO --> ST
 deactivate CO
+ST --> LI
+deactivate ST
+LI --> IL
+deactivate LI
 
-IL -> Ui: printFindInternship(matchingInternships)
+
+IL -> Ui: print matching internships
 activate Ui
 Ui --> IL
 deactivate Ui
