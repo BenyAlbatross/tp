@@ -123,41 +123,110 @@ The `Storage` component:
 * automatically creates the data directory and file if they don't exist.
 * handles corrupted data gracefully by skipping invalid entries and logging warnings instead of crashing the application.
 
+The following class diagram shows the Storage component and its relationships:
+
+![Storage Component Class Diagram](diagrams/StorageCD.png)
+
+The class diagram illustrates:
+* **Storage** manages file I/O operations and uses helper methods for parsing and formatting
+* **InternshipList** acts as a facade, coordinating between Storage and the in-memory list
+* **Internship** and **Date** are the data models that get serialized/deserialized
+* **DateFormatter** provides date parsing utilities used during the load operation
+* **InternityException** is thrown when storage operations encounter errors
+
 ### Common Classes
 
 ## Implementation
 
 ### Delete feature
 
-The delete mechanism is facilitated by `DeleteCommand`. It extends `Command` with an index field, internally stored as a 0-based integer. Additionally, it implements the following operation:
+**API**: [`DeleteCommand.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/commands/DeleteCommand.java)
 
-* `DeleteCommand.execute()` — Removes the internship at the specified index from the `InternshipList`.
+The delete mechanism allows users to remove internship entries from their tracking list. This feature is essential for maintaining an up-to-date list of relevant internship applications by removing entries that are no longer needed.
+
+#### Implementation
+
+The delete mechanism is facilitated by `DeleteCommand`, which extends the abstract `Command` class. It stores an index field internally as a 0-based integer, although users interact with 1-based indices for a more natural experience.
+
+**Key components involved:**
+
+* `DeleteCommand` — Encapsulates the delete operation with validation and execution logic
+* `ArgumentParser.parseDeleteCommandArgs()` — Converts user input to a 0-based index
+* `InternshipList.delete()` — Removes the internship from the static list with bounds checking
+* `InternshipList.get()` — Retrieves internship details before deletion for user feedback
+* `Storage.save()` — Automatically persists changes after successful deletion
+
+#### How the delete operation works
 
 Given below is an example usage scenario and how the delete mechanism behaves at each step.
 
-Step 1. The user launches the application and the `InternshipList` contains 3 internships. The user executes `delete 2` to delete the 2nd internship in the list.
+**Step 1.** The user launches the application and the `InternshipList` contains 3 internships. The user executes `delete 2` to delete the 2nd internship in the list.
 
-Step 2. The `CommandParser` parses the input and extracts the command word "delete" and arguments "2".
+**Step 2.** The `CommandParser` validates the input and splits it into command word `"delete"` and arguments `"2"`.
 
-Step 3. The `CommandFactory` uses `ArgumentParser` to convert the user's 1-based index (2) to a 0-based index (1) and validates that it is within bounds.
+**Step 3.** The `CommandFactory` delegates to `ArgumentParser.parseDeleteCommandArgs("2")`, which:
+* Parses `"2"` as an integer
+* Converts the 1-based index (2) to 0-based index (1)
+* Creates and returns a new `DeleteCommand(1)`
 
-Step 4. A `DeleteCommand` object is created with index 1 and its `execute()` method is called.
+**Step 4.** `InternityManager` calls `DeleteCommand.execute()`, which:
+* Calls `InternshipList.get(1)` to retrieve the internship details (for displaying to the user)
+* Calls `InternshipList.delete(1)` to remove the internship from the list
+  * This method validates that the index is within bounds before removal
+* Calls `InternshipList.size()` to get the updated list size
+* Calls `Ui.printRemoveInternship()` to display a confirmation message
 
-Step 5. `DeleteCommand.execute()` retrieves the internship at index 1, removes it from `InternshipList`, and displays a success message showing the deleted internship details and the updated list size.
+**Step 5.** After the command completes, `InternityManager` automatically calls `InternshipList.saveToStorage()`, which in turn calls `Storage.save()` to persist the changes to disk.
 
-Step 6. After execution, `Storage.save()` is automatically called to persist the changes to disk.
+The following sequence diagram illustrates the complete delete operation flow:
+
+![Delete Command Sequence Diagram](diagrams/DeleteCommandSD.png)
+
+The sequence diagram shows how the delete command flows through multiple layers:
+1. **Input Layer**: User input is received by `InternityManager`
+2. **Parsing Layer**: `CommandParser` and `CommandFactory` work with `ArgumentParser` to create the command
+3. **Execution Layer**: `DeleteCommand` interacts with `InternshipList` and `Ui`
+4. **Persistence Layer**: Changes are automatically saved via `Storage`
 
 #### Design considerations
 
 **Aspect: Index base convention**
 
 * **Alternative 1 (current choice):** Users provide 1-based indices, converted to 0-based internally in `ArgumentParser`.
-  * Pros: More intuitive for users who see numbered lists starting from 1.
-  * Cons: Requires conversion logic and careful management of the conversion point.
+  * Pros: More intuitive for users who see numbered lists starting from 1 in the UI
+  * Pros: Follows common conventions in user-facing applications
+  * Cons: Requires conversion logic and careful management of the conversion point to avoid off-by-one errors
+  * Cons: Developers must be careful to use the correct index type throughout the codebase
 
 * **Alternative 2:** Use 0-based indices throughout, including in user-facing output.
-  * Pros: Simpler implementation with no conversion needed.
-  * Cons: Less intuitive for users unfamiliar with programming conventions.
+  * Pros: Simpler implementation with no conversion needed
+  * Pros: Consistent with Java's ArrayList indexing
+  * Cons: Less intuitive for users unfamiliar with programming conventions
+  * Cons: May lead to user confusion and errors when entering indices
+
+**Aspect: When to retrieve internship details**
+
+* **Alternative 1 (current choice):** Retrieve internship details before deletion.
+  * Pros: Allows displaying specific internship information (company, role) in the success message
+  * Pros: Better user experience with more informative feedback
+  * Cons: Requires an additional `get()` call before deletion
+
+* **Alternative 2:** Only validate index, delete, and show generic success message.
+  * Pros: Simpler implementation with fewer method calls
+  * Cons: Less informative user feedback
+  * Cons: User cannot verify which internship was actually deleted
+
+**Aspect: Index validation location**
+
+* **Alternative 1 (current choice):** Perform bounds checking in `InternshipList.delete()` and `InternshipList.get()`.
+  * Pros: Centralized validation logic in the model layer
+  * Pros: Ensures all access to the list is safe, regardless of caller
+  * Pros: Follows encapsulation principles
+  * Cons: May result in duplicate checks if both `get()` and `delete()` are called
+
+* **Alternative 2:** Validate index only in `ArgumentParser` before creating `DeleteCommand`.
+  * Pros: Early validation could provide faster feedback
+  * Cons: Violates encapsulation - the model layer should protect its own invariants
 
 ### Find feature
 
@@ -175,7 +244,7 @@ The search looks for matching company or role names.
 - **Purpose**: Initialises a `FindCommand` object with a given keyword.
 - **Signature**:
     ```java
-    public FindCommand(String keyword)
+    public FindCommand(String keyword);
     ```
 - **Parameters**:
     - `keyword`: The keyword to search for in the company or role fields of the internships.
@@ -186,7 +255,7 @@ The search looks for matching company or role names.
 - **Signature**:
     ```java
     @Override
-    public void execute() throws InternityException
+    public void execute() throws InternityException;
     ```
 - **Steps**:
     1. Logs the command execution start.
@@ -198,7 +267,7 @@ The search looks for matching company or role names.
 - **Purpose**: Filters and returns internships whose company or role contains the given keyword, case-insensitively.
 - **Signature**:
     ```java
-    public static void findInternship(String keyword)
+    public static void findInternship(String keyword);
     ```
 - **Parameters**:
     - `keyword`: The string to search for in the company or role names of internships.
@@ -268,6 +337,200 @@ for moderate-sized datasets but may require optimisation for larger datasets.
 
 Since this is a search command and does not modify the underlying data, no changes are persisted to disk
 during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
+
+### Storage feature
+
+**API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/Storage.java)
+
+The Storage feature provides persistent data storage for Internity, allowing users to save their internship data across application sessions. Without this feature, users would lose all their internship data when closing the application. This is a critical feature that transforms Internity from a temporary session-based tool to a reliable long-term tracking system.
+
+#### Implementation
+
+The Storage mechanism uses a human-readable, pipe-delimited text file format that can be easily inspected and manually edited if needed. The implementation is split between the `Storage` class (which handles file I/O) and `InternshipList` (which coordinates the loading and saving operations).
+
+**Key components involved:**
+
+* `Storage` — Handles all file I/O operations, parsing, validation, and formatting
+* `InternshipList.loadFromStorage()` — Coordinates the loading process during application startup
+* `InternshipList.saveToStorage()` — Coordinates the saving process after each command
+* `InternityManager` — Calls load on startup and auto-saves after each command execution
+* `DateFormatter` — Parses date strings during loading
+* `InternityException` — Signals storage-related errors
+
+**File format specification:**
+
+```
+Username (in line below):
+<username>
+<company> | <role> | <DD-MM-YYYY> | <pay> | <status>
+<company> | <role> | <DD-MM-YYYY> | <pay> | <status>
+...
+```
+
+**Example:**
+```
+Username (in line below):
+John Doe
+Google | Software Engineer | 15-12-2025 | 5000 | Pending
+Meta | Data Analyst | 20-01-2026 | 4500 | Applied
+Amazon | Backend Developer | 10-11-2025 | 6000 | Interview
+```
+
+#### How the storage operations work
+
+##### Load Operation
+
+The load operation occurs once during application startup, before the user sees the welcome message.
+
+**Step 1.** `InternityManager.start()` calls `InternityManager.loadData()` which invokes `InternshipList.loadFromStorage()`.
+
+**Step 2.** `InternshipList.loadFromStorage()` calls `Storage.load()`, which returns an `ArrayList<Internship>`.
+
+**Step 3.** Inside `Storage.load()`:
+* Check if the file exists. If not, return an empty list (first-time users).
+* Open a `BufferedReader` to read the file line by line.
+* Read and validate the first line (must be `"Username (in line below):"`).
+* Read the second line as the username and call `InternshipList.setUsername()`.
+* For each subsequent line:
+  * Call `parseInternshipFromFile()` to parse the line.
+  * Split the line by `"|"` delimiter and trim all parts.
+  * Validate that there are exactly 5 fields.
+  * Call `parseAndValidateFields()` to validate each field:
+    * Company and role must not be empty.
+    * Pay must be a valid non-negative integer.
+    * Status must be a valid status value (Pending/Applied/Interview/Offer/Rejected).
+    * Deadline must be in DD-MM-YYYY format and represent a valid date.
+  * If validation passes, create an `Internship` object and add it to the list.
+  * If validation fails, print a warning message to stderr and skip the line (graceful degradation).
+
+**Step 4.** `Storage.load()` returns the ArrayList of successfully parsed internships.
+
+**Step 5.** `InternshipList.loadFromStorage()` clears the static list and adds all loaded internships.
+
+The following sequence diagram illustrates the load operation:
+
+![Storage Load Sequence Diagram](diagrams/StorageLoadSD.png)
+
+The load sequence diagram demonstrates the robust error-handling approach: corrupted lines are skipped with warnings rather than causing the entire load operation to fail. This design choice prioritizes availability over strict consistency, ensuring users can still access their valid data even if some entries are corrupted.
+
+##### Save Operation
+
+The save operation occurs automatically after every command that modifies data (add, delete, update, username).
+
+**Step 1.** After a command completes execution, `InternityManager` calls `InternityManager.saveData()`, which invokes `InternshipList.saveToStorage()`.
+
+**Step 2.** `InternshipList.saveToStorage()` calls `Storage.save(List)`, passing the static ArrayList.
+
+**Step 3.** Inside `Storage.save()`:
+* Check if the parent directory exists. If not, create it using `Files.createDirectories()`.
+* Open a `PrintWriter` to write to the file (overwrites existing content).
+* Write the username header (`"Username (in line below):"`).
+* Retrieve and write the username via `InternshipList.getUsername()`.
+* For each internship in the list:
+  * Call `formatInternshipForFile()` to create the pipe-delimited string.
+  * Retrieve company, role, deadline, pay, and status from the internship.
+  * Format as: `"company | role | DD-MM-YYYY | pay | status"`.
+  * Write the formatted line to the file.
+* Close the `PrintWriter` to flush and finalize the file.
+
+**Step 4.** If any `IOException` occurs, wrap it in an `InternityException` and throw it. `InternityManager` catches this and displays a warning (but doesn't crash the application).
+
+The following sequence diagram illustrates the save operation:
+
+![Storage Save Sequence Diagram](diagrams/StorageSaveSD.png)
+
+The save sequence diagram shows the straightforward serialization process. Note that the entire file is rewritten on each save operation, which is acceptable for the target use case (up to 1000 internships) but would require optimization for larger datasets.
+
+#### Design considerations
+
+**Aspect: File format choice**
+
+* **Alternative 1 (current choice):** Pipe-delimited text format.
+  * Pros: Human-readable, easy to debug and manually edit if needed.
+  * Pros: Simple parsing logic without external dependencies.
+  * Pros: Works across all platforms without binary compatibility issues.
+  * Cons: Slightly larger file size compared to binary formats.
+  * Cons: No built-in schema validation.
+  * Cons: Performance degrades with very large files (not an issue for target use case of ~1000 entries).
+
+* **Alternative 2:** JSON format using a library.
+  * Pros: Structured format with built-in validation.
+  * Pros: Easier to extend with new fields.
+  * Pros: Better for complex nested data structures.
+  * Cons: Less human-readable due to verbose syntax.
+  * Cons: Overkill for simple tabular data.
+
+* **Alternative 3:** Binary serialization using Java's `ObjectOutputStream`.
+  * Pros: Compact file size.
+  * Pros: Fast serialization/deserialization.
+  * Cons: Not human-readable or editable.
+  * Cons: Platform-dependent binary format could cause issues.
+
+**Aspect: Error handling strategy**
+
+* **Alternative 1 (current choice):** Skip corrupted lines with warnings, continue loading valid entries.
+  * Pros: Maximizes data recovery - users don't lose all data due to one corrupted line.
+  * Pros: Application remains usable even with partial data corruption.
+  * Pros: Warnings inform users of data issues without blocking usage.
+  * Cons: Silent data loss is possible if users don't notice warnings.
+  * Cons: Corrupted data is permanently lost on next save.
+  * Cons: Code complexity increases as edge cases need to be accounted for.
+
+* **Alternative 2:** Fail fast - throw exception and abort load on any corrupted line.
+  * Pros: No silent data loss - users are immediately aware of corruption.
+  * Pros: Forces users to fix or remove corrupted data.
+  * Cons: Users cannot access any data if even one line is corrupted.
+  * Cons: Poor user experience for a minor data issue.
+
+* **Alternative 3:** Load all lines (including corrupted ones) into a separate "invalid entries" list for user review.
+  * Pros: No data loss - even corrupted entries are preserved.
+  * Pros: Users can manually review and fix corrupted entries.
+  * Cons: Significantly more complex implementation.
+  * Cons: Requires additional UI for managing invalid entries.
+  * Cons: Invalid entries could accumulate over time.
+
+**Aspect: When to save**
+
+* **Alternative 1 (current choice):** Auto-save after every command that modifies data.
+  * Pros: Minimizes data loss risk - data is never more than one command out of sync.
+  * Pros: Simple mental model for users - changes are always saved.
+  * Pros: No need for users to remember to save manually.
+  * Cons: Higher I/O overhead (mitigated by small file sizes).
+  * Cons: Performance impact if storage is slow (e.g., network drive).
+
+* **Alternative 2:** Save only on explicit "save" command or application exit.
+  * Pros: Better performance with fewer write operations.
+  * Pros: Users have control over when data is persisted.
+  * Cons: Risk of data loss if application crashes or user forgets to save.
+  * Cons: Inconsistent with modern application expectations.
+  * Cons: More complex implementation (need to track dirty state).
+
+* **Alternative 3:** Periodic auto-save every N seconds or N operations.
+  * Pros: Balances performance and data safety.
+  * Pros: Reduces risk of data loss compared to manual save.
+  * Cons: More complex implementation (requires background thread or operation counter).
+  * Cons: Users could still lose up to N operations of data.
+  * Cons: Unpredictable save timing could confuse users.
+
+**Aspect: File location and structure**
+
+* **Alternative 1 (current choice):** Single file at `./data/internships.txt` with both username and internships.
+  * Pros: Simple file structure, easy to locate and backup.
+  * Pros: All data in one place for easy migration.
+  * Pros: Atomic writes ensure consistency (file is completely written or not at all).
+  * Cons: Single point of failure - if file is corrupted, all data is affected.
+
+* **Alternative 2:** Separate files for username and internships.
+  * Pros: Better separation of concerns.
+  * Pros: Reduces risk of username corruption affecting internship data.
+  * Cons: More complex file management.
+  * Cons: Two files must be kept in sync.
+
+* **Alternative 3:** User-home directory with platform-specific application data folder.
+  * Pros: Follows OS conventions for application data storage.
+  * Pros: Better for multi-user systems.
+  * Cons: Harder for users to locate and backup data.
+  * Cons: More complex path resolution logic.
 
 ## Documentation, logging, testing, configuration, dev-ops
 

@@ -1,0 +1,90 @@
+@startuml
+title Delete Command - Sequence Diagram
+
+actor User
+participant ":InternityManager" as IM
+participant ":CommandParser" as CP
+participant ":CommandFactory" as CF
+participant "<<class>>\nArgumentParser" as AP
+participant ":DeleteCommand" as DC
+participant "<<class>>\nInternshipList" as IL
+participant ":Internship" as Intern
+participant ":Ui" as UI
+participant ":Storage" as S
+
+User -> IM: input
+activate IM
+
+IM -> CP: parseInput()
+activate CP
+
+CP -> CP: split into commandWord and args
+
+CP -> CF: createCommand(commandWord, args)
+activate CF
+
+CF -> AP: parseDeleteCommandArgs()
+activate AP
+
+AP -> AP: parse index and convert\n1-based to 0-based
+AP -> DC: new DeleteCommand()
+activate DC
+DC --> AP:
+deactivate DC
+
+AP --> CF: return DeleteCommand
+deactivate AP
+
+CF --> CP: return DeleteCommand
+deactivate CF
+
+CP --> IM: return DeleteCommand
+deactivate CP
+
+IM -> DC: execute()
+activate DC
+
+DC -> IL: get()
+activate IL
+IL --> DC: return Internship
+deactivate IL
+
+DC -> IL: delete()
+activate IL
+IL -> IL: List.remove()
+IL --> DC:
+deactivate IL
+
+DC -> IL: size()
+activate IL
+IL --> DC: return new size
+deactivate IL
+
+DC -> UI: printRemoveInternship()
+activate UI
+UI --> DC:
+deactivate UI
+
+DC --> IM:
+deactivate DC
+
+IM -> IL: saveToStorage()
+activate IL
+
+IL -> S: save()
+activate S
+
+loop for each internship
+    S -> S: formatInternshipForFile()
+end
+
+S --> IL:
+deactivate S
+
+IL --> IM:
+deactivate IL
+
+IM --> User: display success message
+deactivate IM
+
+@enduml
