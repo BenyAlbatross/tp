@@ -150,11 +150,11 @@ The delete mechanism is facilitated by `DeleteCommand`, which extends the abstra
 
 **Key components involved:**
 
-* `DeleteCommand` — Encapsulates the delete operation with validation and execution logic
-* `ArgumentParser.parseDeleteCommandArgs()` — Converts user input to a 0-based index
-* `InternshipList.delete()` — Removes the internship from the static list with bounds checking
-* `InternshipList.get()` — Retrieves internship details before deletion for user feedback
-* `Storage.save()` — Automatically persists changes after successful deletion
+* `DeleteCommand` - Encapsulates the delete operation with validation and execution logic
+* `ArgumentParser.parseDeleteCommandArgs()` - Converts user input to a 0-based index
+* `InternshipList.delete()` - Removes the internship from the static list with bounds checking
+* `InternshipList.get()` - Retrieves internship details before deletion for user feedback
+* `Storage.save()` - Automatically persists changes after successful deletion
 
 #### How the delete operation works
 
@@ -234,7 +234,7 @@ The find mechanism is implemented by the `FindCommand` class, which allows users
 keyword that matches either the company name or the role of the internship.
 
 The FindCommand class extends Command and consists of the following key components and operations:
-* FindCommand.execute() — Executes the command by searching for internships that match the provided keyword.
+* FindCommand.execute() - Executes the command by searching for internships that match the provided keyword.
 The search looks for matching company or role names.
 
 ### Class and Method Breakdown
@@ -350,12 +350,12 @@ The Storage mechanism uses a human-readable, pipe-delimited text file format tha
 
 **Key components involved:**
 
-* `Storage` — Handles all file I/O operations, parsing, validation, and formatting
-* `InternshipList.loadFromStorage()` — Coordinates the loading process during application startup
-* `InternshipList.saveToStorage()` — Coordinates the saving process after each command
-* `InternityManager` — Calls load on startup and auto-saves after each command execution
-* `DateFormatter` — Parses date strings during loading
-* `InternityException` — Signals storage-related errors
+* `Storage` - Handles all file I/O operations, parsing, validation, and formatting
+* `InternshipList.loadFromStorage()` - Coordinates the loading process during application startup
+* `InternshipList.saveToStorage()` - Coordinates the saving process after each command
+* `InternityManager` - Calls load on startup and auto-saves after each command execution
+* `DateFormatter` - Parses date strings during loading
+* `InternityException` - Signals storage-related errors
 
 **File format specification:**
 
