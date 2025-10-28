@@ -124,7 +124,7 @@ The `Model` component:
 * provides operations to manipulate that data e.g. `add`, `delete`, `update`, `find`, `list` internships
 * does not depend on the other three components (i.e. `UI`, `Logic`, `Storage`)
 
-The sequence diagram below shows how Logic component delegates add Internship to the Model component:
+The following sequence diagram illustrates how the Model Component processes an Add command:
 ![Model Component: Sequence Diagram](diagrams/ModelComponentSD.png)
 
 ### Storage Component
