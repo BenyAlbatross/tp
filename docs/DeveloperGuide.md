@@ -185,6 +185,11 @@ The class diagram illustrates:
 
 ## Implementation
 
+### Add feature
+
+![Add Command: Sequence Diagram](diagrams/AddCommandSD.png)
+
+
 ### Delete feature
 
 **API**: [`DeleteCommand.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/commands/DeleteCommand.java)
@@ -276,6 +281,8 @@ The sequence diagram shows how the delete command flows through multiple layers:
   * Cons: Violates encapsulation - the model layer should protect its own invariants
 
 ### Find feature
+
+![Find Command: Sequence Diagram](diagrams/FindCommandSD.png)
 
 The find mechanism is implemented by the `FindCommand` class, which allows users to search for internships based on a
 keyword that matches either the company name or the role of the internship.

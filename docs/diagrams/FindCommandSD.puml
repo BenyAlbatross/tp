@@ -1,0 +1,50 @@
+@startuml
+title Find Command - Sequence Diagram
+
+participant ":FindCommand" as FC
+participant "<<class>>\nInternshipList" as IL
+participant "List:ArrayList<Internship>" as LI
+participant "Stream<Internship>" as ST
+participant ":Internship" as IN
+participant ":Collectors" as CO
+participant ":Ui" as Ui
+
+-> FC: new FindCommand(...)
+activate FC
+FC -> IL: findInternship(...)
+activate IL
+
+== Filtering ==
+IL -> LI: filters for matching internship
+activate LI
+LI -> ST: stream()
+activate ST
+loop for each Internship in List
+    ST -> IN: get company and role
+    activate IN
+    IN --> ST: return company and role
+    deactivate IN
+    ST -> ST: check if companyName or roleName\ncontains keyword (case-insensitive)
+end
+
+== Collecting Matches ==
+ST -> CO: Create new ArrayList of matching internships
+activate CO
+CO --> ST
+deactivate CO
+ST --> LI
+deactivate ST
+LI --> IL
+deactivate LI
+
+
+IL -> Ui: print matching internships
+activate Ui
+Ui --> IL
+deactivate Ui
+
+IL --> FC
+deactivate IL
+deactivate FC
+
+@enduml
