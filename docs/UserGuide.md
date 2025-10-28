@@ -48,22 +48,22 @@ Add a new internship application with company, role, deadline and pay amount
 
 Format
 ```
-add company/COMPANY_NAME role/ROLE_NAME deadline/DD-MM-YYYY pay/PAY_AMOUNT
+add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT
 ```
 
 Example:
 ```
-add company/Google role/Software Engineer deadline/17-09-2025 pay/100000
+add company/Google role/Software Engineer Intern deadline/17-09-2025 pay/100000
 ```
-This command adds an internship application at Google for the role of Software Engineer with a deadline of 17 September 2025, and an annual salary of $100000.
+This command adds an internship application at Google for the role of Software Engineer Intern with a deadline of 17 September 2025, and an annual salary of $100000.
 
 <div style="background-color: #331c16; color: #c3b091; padding: 15px; border-radius: 8px; border-left: 5px solid #966919;">
 <h4>Notes</h4>
 <ul>
 <li>The parameters should be entered in the specified order i.e. company, role, deadline, followed by pay.</li>
 <li>No duplicate parameter type, so only exactly one of each parameter type.</li>
-<li>Deadline must be in <code>DD-MM-YYYY</code> format.</li>
-<li>Pay must be a non-negative integer.</li>
+<li><code>DEADLINE</code> must be in <code>DD-MM-YYYY</code> format.</li>
+<li><code>PAY_AMOUNT</code> must be a non-negative integer.</li>
 </ul>
 </div>
 
@@ -204,13 +204,13 @@ exit
 
 ## Command Summary
 
-| **Action**              | **Command** | **Format**                                                                                                                                                  | **Example**                                                                     |
-|-------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **Add Application**     | `add`       | `add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_DETAILS`                                                                                 | `add company/Google role/Software Engineer Intern deadline/2025-10-20 pay/1000` |
-| **Delete Application**  | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                      |
-| **Update Application**  | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                  |
-| **List Applications**   | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                               |
-| **Find Application**    | `find`      | `find KEYWORD`                                                                                                                                              | `find Software Engineer`                                                        |
-| **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                       |
-| **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                     |
+| **Action**              | **Command** | **Format**                                                                                                                                                  | **Example**                                                                       |
+|-------------------------|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Add Application**     | `add`       | `add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT`                                                                                  | `add company/Google role/Software Engineer Intern deadline/17-09-2025 pay/100000` |
+| **Delete Application**  | `delete`    | `delete INDEX`                                                                                                                                              | `delete 2`                                                                        |
+| **Update Application**  | `update`    | `update INDEX FIELD/VALUE`                                                                                                                                  | `update 1 status/Interviewing`                                                    |
+| **List Applications**   | `list`      | `list` → list all applications in the order they were added <br> `list sort/ORDER` → sort applications by deadline ascending (`asc`) or descending (`desc`) | `list` <br> `list sort/asc` <br> `list sort/desc`                                 |
+| **Find Application**    | `find`      | `find KEYWORD`                                                                                                                                              | `find Software Engineer`                                                          |
+| **Set/Change username** | `username`  | `username USERNAME`                                                                                                                                         | `username Yoshikage Kira`                                                         |
+| **Display Dashboard**   | `dashboard` | `dashboard`                                                                                                                                                 | `dashboard`                                                                       |
 
