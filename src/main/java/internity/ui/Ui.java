@@ -12,16 +12,27 @@ import static internity.core.InternshipList.PAY_MAXLEN;
 import static internity.core.InternshipList.STATUS_MAXLEN;
 
 /**
- * The Ui Class provides user interface methods for the Internity chatbot.
- * Handles printing messages.
+ * The {@code Ui} class provides methods for interacting with the user in the Internity chatbot.
+ * <p>
+ * It handles all user-facing output such as greetings, status updates, and responses to user actions
+ * (e.g. adding, removing, or finding internships). This class is designed to centralise
+ * all print-related functionality for consistent formatting and easy maintenance.
+ * </p>
  */
 public class Ui {
+    /** Horizontal line used to visually separate sections in the console output. */
     static final String LINE = "____________________________________________________________\n";
 
+    /**
+     * Prints a horizontal divider line to the console.
+     */
     public static void printHorizontalLine() {
         System.out.print(LINE);
     }
 
+    /**
+     * Prints the welcome message and ASCII logo for the Internity chatbot.
+     */
     public static void printWelcomeMessage() {
         final String logo = " ___       _                  _ _\n" +
                 "|_ _|_ __ | |_ ___ _ __ _ __ (_) |_ _   _\n" +
@@ -33,14 +44,33 @@ public class Ui {
         System.out.println("Be on top of your internships management with the Internity chatbot!");
     }
 
+    /**
+     * Prints a personalised greeting message to the user.
+     *
+     * @param input the username entered by the user
+     */
     public static void printGreeting(String input) {
         System.out.println("Hello, " + input + "!");
     }
 
+    /**
+     * Prints a farewell message when the user exits the chatbot.
+     */
     public static void printExit() {
         System.out.println("Thank you for using Internity! Goodbye!");
     }
 
+    /**
+     * Prints a confirmation message after successfully adding an internship.
+     *
+     * <p>
+     * This method displays a message acknowledging that a new internship has been added,
+     * followed by the internship's details, which are obtained by invoking the
+     * {@link Internship#toString()} method of the given {@code Internship} object.
+     * </p>
+     *
+     * @param internship the internship that was added
+     */
     public static void printAddInternship(Internship internship) {
         System.out.println("Noted. I've added this internship:");
         System.out.println(internship.toString());
@@ -56,6 +86,20 @@ public class Ui {
         System.out.println("Internship status updated successfully!");
     }
 
+    /**
+     * Prints a formatted list of internships that match the user's search keyword.
+     *
+     * <p>
+     * This method first prints a header row and horizontal lines for clear table formatting.
+     * It then iterates through the provided list of {@link Internship} objects, displaying each
+     * internship's details in a tabular format. The internship details are obtained via the
+     * {@link Internship#getCompany()}, {@link Internship#getRole()},
+     * {@link Internship#getDeadline()}, {@link Internship#getPay()}
+     * and {@link Internship#getStatus()} methods.
+     * </p>
+     *
+     * @param list the list of matching {@code Internship} objects to display
+     */
     public static void printFindInternship(ArrayList<Internship> list) {
         System.out.println("These are the matching internships in your list:");
 
