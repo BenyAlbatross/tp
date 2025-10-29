@@ -13,9 +13,9 @@ return (created)
 Logic-> AC: execute()
 activate AC
 
-AC -> IN: Internship(...)
+AC -> IN**: new Internship(...)
 activate IN
-IN --> AC
+return (created)
 deactivate IN
 
 AC -> IL: add(...)
