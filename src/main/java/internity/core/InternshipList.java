@@ -25,7 +25,7 @@ public class InternshipList {
     public static final int PAY_MAXLEN = 10;
     public static final int STATUS_MAXLEN = 10;
 
-    private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> internshipList = new ArrayList<>();
     private static Storage storage;
     private static String username;
@@ -80,9 +80,9 @@ public class InternshipList {
      * @param item the {@code Internship} object to be added to the list
      */
     public static void add(Internship item) {
-        logger.info("Adding new internship to the ArrayList");
+        LOGGER.info("Adding new internship to the ArrayList");
         internshipList.add(item);
-        logger.info("New internship has been added successfully.");
+        LOGGER.info("New internship has been added successfully.");
     }
 
     /**
@@ -149,7 +149,7 @@ public class InternshipList {
      * @throws InternityException if there is an error during listing
      */
     public static void listAll(ListCommand.orderType order) throws InternityException {
-        logger.info("Listing all internships");
+        LOGGER.info("Listing all internships");
 
 
         String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
@@ -159,7 +159,7 @@ public class InternshipList {
 
 
         if (InternshipList.isEmpty()) {
-            logger.warning("No internships found to list");
+            LOGGER.warning("No internships found to list");
             System.out.println("No internships found. Please add an internship first.");
             assert (size() == 0) : "Internship list should be empty";
             return;
@@ -173,7 +173,7 @@ public class InternshipList {
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
-            logger.fine("Listing internship at index: " + i);
+            LOGGER.fine("Listing internship at index: " + i);
             System.out.printf(formatContent,
                     i + 1,
                     internship.getCompany(),
@@ -183,7 +183,7 @@ public class InternshipList {
                     internship.getStatus()
             );
         }
-        logger.info("Finished listing internships. Total: " + i);
+        LOGGER.info("Finished listing internships. Total: " + i);
         assert (i == size()) : "All internships should be listed";
     }
 
@@ -255,25 +255,25 @@ public class InternshipList {
      * @param keyword the search keyword to look for within the company or role fields
      */
     public static void findInternship(String keyword) {
-        logger.info("Searching for internships that match keyword.");
+        LOGGER.info("Searching for internships that match keyword.");
         ArrayList<Internship> matchingInternships = internshipList.stream()
                 .filter(internship ->
                         internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
                                 internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
                 .collect(Collectors.toCollection(ArrayList::new)
                 );
-        logger.info("Search completed successfully.");
+        LOGGER.info("Search completed successfully.");
 
         if (matchingInternships.isEmpty()) {
-            logger.info("No matching internships were found.");
+            LOGGER.info("No matching internships were found.");
             System.out.println("No internships with this company or role found.");
             return;
         }
 
-        logger.info("Matching internships found.");
-        logger.info("Printing matching internships.");
+        LOGGER.info("Matching internships found.");
+        LOGGER.info("Printing matching internships.");
         Ui.printFindInternship(matchingInternships);
-        logger.info("Matching internships printed successfully.");
+        LOGGER.info("Matching internships printed successfully.");
     }
 
     public static void clear() {
