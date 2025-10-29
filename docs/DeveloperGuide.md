@@ -7,7 +7,6 @@
     - [Logic Component](#logic-component)
     - [Model Component](#model-component)
     - [Storage Component](#storage-component)
-    - [Common Classes](#common-classes)
 3. [Implementation](#implementation)
     - [Feature: Add](#add-feature)
     - [Feature: Update](#update-feature)
@@ -201,7 +200,6 @@ The class diagram illustrates:
 * **DateFormatter** provides date parsing utilities used during the load operation
 * **InternityException** is thrown when storage operations encounter errors
 
-### Common Classes
 
 ## Implementation
 
@@ -707,8 +705,11 @@ status breakdowns.
 for typical usage.
 3. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) 
 should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. User data should not be shared or transmitted externally. All storage is local to the user's system.
-5. The architecture should allow easy addition of new commands without breaking existing functionality.
+4. User data should not be shared or transmitted externally. 
+5. All user data shall be stored locally on the user's device.
+6. The architecture should allow easy addition of new commands without breaking existing functionality.
+7. New commands should follow a consistent Command Pattern (`execute()`, `isExit()`).
+8. The application shall handle invalid user inputs gracefully without crashing.
 
 
 ## Glossary
