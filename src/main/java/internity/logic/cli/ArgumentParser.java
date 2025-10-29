@@ -23,6 +23,7 @@ public final class ArgumentParser {
     private static final int IDX_ROLE = 1;
     private static final int IDX_DEADLINE = 2;
     private static final int IDX_PAY = 3;
+    private static final String ADD_COMMAND_PARSE_LOGIC = "\\s+(?=company/|role/|deadline/|pay/)";
 
     private static final Logger logger = Logger.getLogger(ArgumentParser.class.getName());
 
@@ -47,7 +48,7 @@ public final class ArgumentParser {
         assert !args.isBlank() : "Arguments cannot be blank after validation";
 
         try {
-            String[] parts = args.split("\\s+(?=company/|role/|deadline/|pay/)");
+            String[] parts = args.split(ADD_COMMAND_PARSE_LOGIC);
             if (parts.length != ADD_COMMAND_PARTS ||
                     !parts[IDX_COMPANY].startsWith("company/") ||
                     !parts[IDX_ROLE].startsWith("role/") ||
