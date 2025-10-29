@@ -9,6 +9,14 @@
     - [Storage Component](#storage-component)
     - [Common Classes](#common-classes)
 3. [Implementation](#implementation)
+    - [Feature: Add](#add-feature)
+    - [Feature: Update](#update-feature)
+    - [Feature: Delete](#delete-feature)
+    - [Feature: List](#list-feature)
+    - [Feature: Find](#find-feature)
+    - [Feature: Username](#username-feature)
+    - [Feature: Dashboard](#dashboard-feature)
+    - [Feature: Storage](#storage-feature)
 4. [Appendix: Requirements](#appendix-requirements)
    - [Product Scope](#product-scope)
    - [User Stories](#user-stories)
@@ -201,6 +209,7 @@ The class diagram illustrates:
 
 ![Add Command: Sequence Diagram](diagrams/AddCommandSD.png)
 
+### Update feature
 
 ### Delete feature
 
@@ -410,6 +419,15 @@ for moderate-sized datasets but may require optimisation for larger datasets.
 
 Since this is a search command and does not modify the underlying data, no changes are persisted to disk
 during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
+
+### Username feature
+
+![Username Command: Sequence Diagram](diagrams/UsernameCommandSD.png)
+
+
+### Dashboard feature
+
+![Dashboard Command: Sequence Diagram](diagrams/DashboardCommandSD.png)
 
 ### Storage feature
 
@@ -660,8 +678,6 @@ or unpaid, part-time or full-time, and can occur during or after academic study.
 
 
 ## Instructions for manual testing
-
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
 
 Given below are instructions to test the app manually.
 

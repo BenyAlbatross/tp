@@ -14,13 +14,11 @@ return (created)
 Logic-> AC: execute()
 activate AC
 
-== Create a new Internship object ==
 AC -> IN: Internship(...)
 activate IN
 IN --> AC
 deactivate IN
 
-== Add to InternshipList ==
 AC -> IL: add(...)
 activate IL
 IL -> LI: add()
@@ -30,7 +28,6 @@ IL --> AC
 deactivate LI
 deactivate IL
 
-== Display Confirmation ==
 AC -> Ui: print added internship
 activate Ui
 Ui --> AC
@@ -38,6 +35,4 @@ deactivate Ui
 
 AC->Logic
 deactivate AC
-
-
 @enduml
