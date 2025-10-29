@@ -676,10 +676,13 @@ Internity provides a centralized and efficient way to manage internship applicat
 It allows users to:
 - Store and organize internships along with key attributes such as company name, role, deadline, pay and
 application status
-- Find internships by keyword
+- Edit or delete existing internships to keep records accurate and up-to-date.
+- Find internships quickly by searching for company or role keywords.
 - Sort internships by date in ascending or descending order.
 - View an automatically generated dashboard showing key statistics such as total applications, nearest deadlines and
 status breakdowns.
+- Store internship data persistently, ensuring progress is retained between sessions.
+
 
 ## User Stories
 
