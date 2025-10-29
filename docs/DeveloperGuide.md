@@ -15,13 +15,14 @@
     - [Feature: Find](#find-feature)
     - [Feature: Username](#username-feature)
     - [Feature: Dashboard](#dashboard-feature)
+    - [Feature: Exit](#exit-feature)
     - [Feature: Storage](#storage-feature)
 4. [Appendix: Requirements](#appendix-requirements)
    - [Product Scope](#product-scope)
    - [User Stories](#user-stories)
    - [Non-Functional Requirements](#non-functional-requirements)
    - [Glossary](#glossary)
-5. [Instructions for Manual Testing](#instructions-for-manual-testing)
+5. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
 
 
 ## Acknowledgements
@@ -81,6 +82,8 @@ The Sequence Diagram below shows a simplified version of how the components inte
 `delete 1`.
 ![User Interaction: Sequence Diagram](diagrams/UserInteractionSD.png)
 
+---
+
 ### UI Component
 #### Overview
 The UI component is responsible for all interactions between the user and the application.
@@ -108,7 +111,9 @@ For example:
 - Loose coupling
   - The UI does not directly modify model or logic components. 
   - It only displays results based on data passed to it.
- 
+
+---
+
 ### Logic Component
 
 #### Overview
@@ -165,6 +170,8 @@ This distinction is represented in the above sequence diagram's `alt` block, sho
 - Top path (commands requiring arguments) -> parsed via `ArgumentParser`.
 - Bottom path (commands not requiring arguments) -> instantiated directly.
 
+---
+
 ### Model Component
 
 **API**: [`internity.core`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/) (exclude Storage.java)
@@ -178,6 +185,8 @@ The `Model` component:
 
 The following sequence diagram illustrates how the Model Component processes an Add command:
 *coming soon*
+
+---
 
 ### Storage Component
 
@@ -200,6 +209,7 @@ The class diagram illustrates:
 * **DateFormatter** provides date parsing utilities used during the load operation
 * **InternityException** is thrown when storage operations encounter errors
 
+---
 
 ## Implementation
 
@@ -207,7 +217,11 @@ The class diagram illustrates:
 
 ![Add Command: Sequence Diagram](diagrams/AddCommandSD.png)
 
+---
+
 ### Update feature
+
+---
 
 ### Delete feature
 
@@ -259,6 +273,8 @@ The sequence diagram shows how the delete command flows through multiple layers:
 3. **Execution Layer**: `DeleteCommand` interacts with `InternshipList` and `Ui`
 4. **Persistence Layer**: Changes are automatically saved via `Storage`
 
+---
+
 ### List feature
 
 The list mechanism is implemented by the `ListCommand` class, which allows users to view all internships in their list.
@@ -305,6 +321,8 @@ Below is the sequence diagram for a common usage of the list feature:
 * **Alternative 2:** Validate index only in `ArgumentParser` before creating `DeleteCommand`.
   * Pros: Early validation could provide faster feedback
   * Cons: Violates encapsulation - the model layer should protect its own invariants
+
+---
 
 ### Find feature
 
@@ -418,6 +436,8 @@ for moderate-sized datasets but may require optimisation for larger datasets.
 Since this is a search command and does not modify the underlying data, no changes are persisted to disk
 during the `find` operation. However, any modifications (such as deletion or addition of internships) will require a subsequent call to `Storage.save()` to persist the changes.
 
+---
+
 ### Username feature
 
 The Username feature allows the user to set a personalized username that is stored within the application's
@@ -441,6 +461,7 @@ persistent data model and displayed in future interactions.
 1. Single Responsibility: The command only handles username updates.
 2. User feedback: `Ui.printSetUsername()` provides clear confirmation of a successful command execution.
 
+---
 
 ### Dashboard feature
 
@@ -467,6 +488,23 @@ the username, total internships, status overview and nearest deadline.
 2. Read-only operation: The dashboard performs only data retrieval, ensuring no side effects.
 3. Extensibility: The `DashboardUi` class can easily be expanded to include additional statistics in the future.
 
+---
+
+### Exit feature
+
+The ExitCommand allows the user to gracefully terminate the Internity application. Upon execution, it ensures that the user is notified
+and the main command loop in InternityManager is stopped.
+
+![Exit Command: Sequence Diagram](diagrams/ExitCommandSD.png)
+
+#### Implementation
+1. When the user enters `exit`, the `CommandParser` returns an `ExitCommand` instance.
+2. `InternityManager` calls `execute()` on the command, which triggers an interaction with the `Ui` class to display a friendly exit message before
+termination.
+3. Since `isExit()` returns true, the main loop breaks, ending the program.
+4. ExitCommand is the only `Command` subclass that returns true for `isExit()`.
+
+---
 
 ### Storage feature
 
@@ -662,6 +700,8 @@ The save sequence diagram shows the straightforward serialization process. Note 
   * Cons: Harder for users to locate and backup data.
   * Cons: More complex path resolution logic.
 
+---
+
 ## Appendix: Requirements
 
 ## Product scope
@@ -721,8 +761,9 @@ A temporary work experience offered by a company or organization that allows a s
 to gain practical skills, industry knowledge and professional exposure in a specific field. Internships may be paid
 or unpaid, part-time or full-time, and can occur during or after academic study.
 
+---
 
-## Instructions for manual testing
+## Appendix: Instructions for manual testing
 
 Given below are instructions to test the app manually.
 
