@@ -21,7 +21,8 @@ import static internity.core.InternshipList.STATUS_MAXLEN;
  */
 public class Ui {
     /** Horizontal line used to visually separate sections in the console output. */
-    static final String LINE = "____________________________________________________________\n";
+    static final String LINE = "____________________________________________________" +
+            "_____________________________________\n";
 
     /**
      * Prints a horizontal divider line to the console.
