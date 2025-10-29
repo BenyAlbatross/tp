@@ -174,7 +174,7 @@ The following sequence diagram illustrates how the Model Component processes an 
 
 ### Storage Component
 
-**API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/core/Storage.java)
+**API**: [`Storage.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/storage/Storage.java)
 
 The `Storage` component:
 * can save internship data in a pipe-delimited text format, and read it back into corresponding objects.
@@ -204,7 +204,7 @@ The class diagram illustrates:
 
 ### Delete feature
 
-**API**: [`DeleteCommand.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/commands/DeleteCommand.java)
+**API**: [`DeleteCommand.java`](https://github.com/AY2526S1-CS2113-W14-4/tp/blob/master/src/main/java/internity/logic/commands/DeleteCommand.java)
 
 The delete mechanism allows users to remove internship entries from their tracking list. This feature is essential for maintaining an up-to-date list of relevant internship applications by removing entries that are no longer needed.
 
