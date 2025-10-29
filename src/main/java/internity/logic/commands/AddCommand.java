@@ -38,7 +38,7 @@ public class AddCommand extends Command {
      *
      * @param company  the name of the company offering the internship
      * @param role     the internship role or position
-     * @param deadline the application deadline for the internship in DD-MM-YYYY
+     * @param deadline the application deadline for the internship in dd-MM-yyyy
      * @param pay      the monthly pay for the internship
      */
     public AddCommand(String company, String role, Date deadline, int pay) {
