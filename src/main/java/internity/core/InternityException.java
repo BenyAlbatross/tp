@@ -128,6 +128,14 @@ public class InternityException extends Exception {
         return new InternityException(tag + " cannot be empty");
     }
 
+    /**
+     * Returns an exception indicating that a field exceeds its maximum allowed length.
+     *
+     * @param tag         the name of the field
+     * @param maxLength   the maximum allowed length for the field
+     * @param givenLength the actual length of the provided field value
+     * @return an {@code InternityException} for a field exceeding maximum length
+     */
     public static InternityException exceedFieldLength(String tag, int maxLength, int givenLength) {
         return new InternityException(tag + " cannot exceed " +
                 maxLength + " characters : given " +
@@ -139,7 +147,6 @@ public class InternityException extends Exception {
      *
      * @return an {@code InternityException} for an invalid update index
      */
-
     public static InternityException invalidIndexForUpdate() {
         return new InternityException(
                 "Invalid index. Use a positive integer, for example: update 1 company/Google"
