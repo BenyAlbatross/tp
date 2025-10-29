@@ -158,11 +158,17 @@ public final class ArgumentParser {
     }
 
     /**
-     * Parses the arguments for Find Command to create a {@link FindCommand} instance.
+     * Parses the arguments provided for the {@link FindCommand} and constructs a corresponding
+     *  {@code FindCommand} instance.
      *
-     * @param args arguments for {@link FindCommand}
-     * @return an instance of {@link FindCommand} constructed from the parsed arguments.
-     * @throws InternityException if the arguments are missing.
+     * <p>
+     * This method expects a non-empty string representing the keyword to search for in the
+     * company name or role of internships. The search is case-insensitive.
+     * </p>
+     *
+     * @param args the search keyword provided by the user for the find command
+     * @return a new {@link FindCommand} instance constructed from the parsed keyword
+     * @throws InternityException if the argument string is {@code null} or blank
      */
     public static FindCommand parseFindCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
