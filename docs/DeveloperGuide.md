@@ -422,12 +422,53 @@ during the `find` operation. However, any modifications (such as deletion or add
 
 ### Username feature
 
+The Username feature allows the user to set a personalized username that is stored within the application's
+persistent data model and displayed in future interactions.
+
 ![Username Command: Sequence Diagram](diagrams/UsernameCommandSD.png)
+
+
+#### Implementation
+1. The `UsernameCommand` is created by the `CommandParser` after recognizing the `username` keyword from user input.
+    ```sh
+    username Jane Doe
+    ```
+2. The `UsernameCommand` constructor validates that the argument is non-null and non-blank.
+3. When `execute()` is called:
+   - The provided username is stored via `InternshipList.setUSername(username)`.
+   - The UI is updated through `Ui.printSetUsername(username)` to show the change.
+4. The command does not modify any internship data and does not terminate the application.
+
+#### Design Considerations
+1. Single Responsibility: The command only handles username updates.
+2. User feedback: `Ui.printSetUsername()` provides clear confirmation of a successful command execution.
 
 
 ### Dashboard feature
 
+The Dashboard feature presents a comprehensive summary of the user's internship tracking data, including
+the username, total internships, status overview and nearest deadline.
+
 ![Dashboard Command: Sequence Diagram](diagrams/DashboardCommandSD.png)
+
+#### Implementation
+1. The `DashboardCommand` serves as a simple trigger to call the UI layer.
+      ```sh
+      dashboard
+      ```
+2. The `DashboardUi` class handles all the logic for displaying information retrieved from `InternshipList`.
+3. Inside `DashboardUi.printDashboard()`, the following occurs:
+   - User display: Prints the current username using `InternshipList.getUsername()`.
+   - Internship count: Fetches and displays total internships via `InternshipList.size()`.
+   - Nearest deadline: Iterates through internships to find the one with the earliest `Date`.
+   - Status overview: Aggregates internship statuses into categories (Pending, Applied, etc.) and displays a summary.
+4. If no internships exist, a meaningful fallback message is shown (e.g. "No internships found.").
+
+#### Design Considerations
+1. Separation of concerns: `DashboardCommand` delegates all display logic to `DashboardUi`.
+2. Read-only operation: The dashboard performs only data retrieval, ensuring no side effects.
+3. Extensibility: The `DashboardUi` class can easily be expanded to include additional statistics in the future.
+
 
 ### Storage feature
 
