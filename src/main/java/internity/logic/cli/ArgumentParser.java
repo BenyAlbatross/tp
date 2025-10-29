@@ -158,7 +158,9 @@ public final class ArgumentParser {
                     }
                     if (company.length() > InternshipList.COMPANY_MAXLEN) {
                         logger.severe("Company name exceeded max length.");
-                        throw InternityException.exceedFieldLength("Company", InternshipList.COMPANY_MAXLEN, company.length());
+                        throw InternityException.exceedFieldLength("Company",
+                                InternshipList.COMPANY_MAXLEN,
+                                company.length());
                     }
                 } else if (p.startsWith("role/")) {
                     role = valueAfterTag(p, "role/");

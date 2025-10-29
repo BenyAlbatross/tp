@@ -63,7 +63,9 @@ public class InternityException extends Exception {
     }
 
     public static InternityException exceedFieldLength(String tag, int maxLength, int givenLength) {
-        return new InternityException(tag + " cannot exceed " + maxLength + " characters : given " + givenLength + " characters");
+        return new InternityException(tag + " cannot exceed " +
+                maxLength + " characters : given " +
+                givenLength + " characters");
     }
 
     public static InternityException exceedFieldValue(String tag, String criteria, String givenValue) {
