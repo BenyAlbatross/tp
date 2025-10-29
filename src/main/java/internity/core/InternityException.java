@@ -43,7 +43,7 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid date format
      */
     public static InternityException invalidDateFormat() {
-        return new InternityException("Invalid date format.\nExpected dd-MM-yyyy (e.g. 08-10-2025)");
+        return new InternityException("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)");
     }
 
     /**
