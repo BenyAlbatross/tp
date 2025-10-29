@@ -16,9 +16,9 @@ activate DC
 DC -> DUi : printDashboard()
 activate DUi
 
-DUi -> IL : getInternships(), getStatistics(), getNearestDeadline()
+DUi -> IL : get internship info
 activate IL
-IL --> DUi
+IL --> DUi : return info
 deactivate IL
 
 DUi --> DC
