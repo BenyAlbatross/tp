@@ -53,9 +53,9 @@ public class InternityException extends Exception {
      */
     public static InternityException invalidAddCommand() {
         return new InternityException("Invalid add command.\n" +
-                "Usage: add company/COMPANY_NAME " +
-                " role/ROLE_NAME " +
-                " deadline/DEADLINE " +
+                "Usage: add company/COMPANY_NAME" +
+                " role/ROLE_NAME" +
+                " deadline/DEADLINE" +
                 " pay/PAY_AMOUNT"
         );
     }
