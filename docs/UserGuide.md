@@ -17,7 +17,7 @@ manage hundreds of applications. This guide explains how to install and use Inte
   - [Setting/Changing username : `username`](#settingchanging-username-username)
   - [Displaying dashboard : `dashboard`](#displaying-dashboard-dashboard)
   - [Help : `help`](#help)
-  - [Exit Internity : `exit`](#exit-internity-exit)
+  - [Exiting the program : `exit`](#exit-internity-exit)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
 
@@ -75,7 +75,7 @@ September 2025, and an annual salary of $100000.
 <li>No duplicate parameter type, so only exactly one of each parameter type.</li>
 <li>By default, when an internship is added, the status is set to Pending. Use the update command to change the status.</li>
 <li>Field character limits: <code>COMPANY</code> ≤ 15 characters, <code>ROLE</code> ≤ 30 characters.</li>
-<li><code>DEADLINE</code> must be in <code>DD-MM-YYYY</code> format.</li>
+<li><code>DEADLINE</code> must be in <code>dd-MM-yyyy</code> format.</li>
 <li><code>PAY_AMOUNT</code> must be a non-negative integer that fits within Java's 32-bit signed integer range (maximum 2,147,483,647).</li>
 </ul>
 </div>
