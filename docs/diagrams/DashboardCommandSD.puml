@@ -3,7 +3,7 @@ title Dashboard Command - Sequence Diagram
 
 participant Logic
 create ":DashboardCommand" as DC
-participant ":DashboardUi" as DUi
+participant "<<class>> DashboardUi" as DUi
 participant "<<class>>\nInternshipList" as IL
 
 Logic -> DC** : new DashboardCommand()

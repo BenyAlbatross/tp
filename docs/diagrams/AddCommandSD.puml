@@ -5,7 +5,7 @@ create ":AddCommand" as AC
 participant ":Internship" as IN
 participant "<<class>>\nInternshipList" as IL
 participant "List:ArrayList<Internship>" as LI
-participant ":Ui" as Ui
+participant "<<class>>\nUi" as Ui
 
 Logic-> AC**: new AddCommand(...)
 activate AC
