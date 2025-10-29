@@ -20,7 +20,7 @@ deactivate IN
 
 AC -> IL: add(...)
 activate IL
-note right of IL: Internally adds the internship\nto list:ArrayList<Internship>
+note right of IL: Internally adds the internship\nto internshipList:ArrayList<Internship>
 IL --> AC
 deactivate IL
 
