@@ -18,11 +18,12 @@ public class InternshipList {
     public static final int STATUS_MAXLEN = 10;
 
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
-    private static final ArrayList<Internship> List = new ArrayList<>();
+    private static final ArrayList<Internship> internshipList = new ArrayList<>();
     private static Storage storage;
     private static String username;
 
-    private InternshipList() {}
+    private InternshipList() {
+    }
 
     /**
      * Sets the storage instance for auto-saving.
@@ -43,8 +44,8 @@ public class InternshipList {
             return;
         }
         ArrayList<Internship> loadedInternships = storage.load();
-        List.clear();
-        List.addAll(loadedInternships);
+        internshipList.clear();
+        internshipList.addAll(loadedInternships);
     }
 
     /**
@@ -56,36 +57,48 @@ public class InternshipList {
         if (storage == null) {
             return;
         }
-        storage.save(List);
+        storage.save(internshipList);
     }
 
+    /**
+     * Adds a new {@link Internship} to the {@code ArrayList} of internships.
+     *
+     * <p>
+     * This method appends the specified {@code Internship} object to the
+     * internal list that stores all internship applications.
+     * </p>
+     *
+     * @param item the {@code Internship} object to be added to the list
+     */
     public static void add(Internship item) {
-        List.add(item);
+        logger.info("Adding new internship to the ArrayList");
+        internshipList.add(item);
+        logger.info("New internship has been added successfully.");
     }
 
     public static void delete(int index) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
         }
-        List.remove(index);
+        internshipList.remove(index);
     }
 
     public static Internship get(int index) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
         }
-        return List.get(index);
+        return internshipList.get(index);
     }
 
     public static int size() {
-        return List.size();
+        return internshipList.size();
     }
 
     public static void sortInternships(ListCommand.orderType order) {
         if (order == ListCommand.orderType.DESCENDING) {
-            List.sort(Comparator.comparing(Internship::getDeadline).reversed());
+            internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
         } else if (order == ListCommand.orderType.ASCENDING) {
-            List.sort(Comparator.comparing(Internship::getDeadline));
+            internshipList.sort(Comparator.comparing(Internship::getDeadline));
         }
     }
 
@@ -94,9 +107,9 @@ public class InternshipList {
         logger.info("Listing all internships");
 
 
-        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatContent = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
 
 
@@ -130,7 +143,7 @@ public class InternshipList {
     }
 
     private static boolean isEmpty() {
-        return List.isEmpty();
+        return internshipList.isEmpty();
     }
 
 
@@ -142,7 +155,7 @@ public class InternshipList {
             throw InternityException.invalidStatus(String.valueOf(newStatus));
         }
         final String normalized = Status.canonical(newStatus);
-        Internship internship = List.get(index);
+        Internship internship = internshipList.get(index);
         internship.setStatus(normalized);
         System.out.println("Updated internship " + (index + 1) + " status to: " + normalized);
     }
@@ -151,7 +164,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setCompany(newCompany);
         System.out.println("Updated internship " + (index + 1) + " company to: " + newCompany);
     }
@@ -160,7 +173,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setRole(newRole);
         System.out.println("Updated internship " + (index + 1) + " role to: " + newRole);
     }
@@ -169,7 +182,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setDeadline(newDeadline);
         System.out.println("Updated internship " + (index + 1) + " deadline to: " + newDeadline);
     }
@@ -178,28 +191,47 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setPay(newPay);
         System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
     }
 
+    /**
+     * Searches for internships that match the specified keyword in either the company name or the role.
+     *
+     * <p>
+     * This method performs a case-insensitive search across all stored internships by filtering those whose
+     * company name or role contains the given keyword. If no matches are found, a message is printed to
+     * indicate that no internships match the criteria. Otherwise, the matching internships are displayed
+     * through the {@link Ui#printFindInternship(ArrayList)} method.
+     * </p>
+     *
+     * @param keyword the search keyword to look for within the company or role fields
+     */
     public static void findInternship(String keyword) {
-        ArrayList<Internship> matchingInternships = List.stream()
+        logger.info("Searching for internships that match keyword.");
+        ArrayList<Internship> matchingInternships = internshipList.stream()
                 .filter(internship ->
                         internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
                                 internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(ArrayList::new)
+                );
+        logger.info("Search completed successfully.");
 
         if (matchingInternships.isEmpty()) {
+            logger.info("No matching internships were found.");
             System.out.println("No internships with this company or role found.");
             return;
         }
 
+        logger.info("Matching internships found.");
+        logger.info("Printing matching internships.");
         Ui.printFindInternship(matchingInternships);
+        logger.info("Matching internships printed successfully.");
     }
 
     public static void clear() {
-        List.clear();
+        internshipList.clear();
     }
 
     public static void setUsername(String username) {
