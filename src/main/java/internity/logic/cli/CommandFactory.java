@@ -29,6 +29,7 @@ import internity.core.InternityException;
  *   <li>{@link UpdateCommand}</li>
  *   <li>{@link ListCommand}</li>
  *   <li>{@link UsernameCommand}</li>
+ *   <li>{@link DashboardCommand}</li>
  *   <li>{@link ExitCommand}</li>
  * </ul>
  */

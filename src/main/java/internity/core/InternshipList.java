@@ -9,6 +9,14 @@ import internity.logic.commands.ListCommand;
 import internity.storage.Storage;
 import internity.ui.Ui;
 
+/**
+ * The {@code InternshipList} class manages a collection of {@link Internship}
+ * objects representing internship applications.
+ * <p>
+ * It provides methods to add, delete, retrieve, list, sort, and search internships.
+ * The class also handles persistence by loading from and saving to storage.
+ * </p>
+ */
 public class InternshipList {
     public static final int INDEX_MAXLEN = 5;
     public static final int COMPANY_MAXLEN = 15;
@@ -60,6 +68,7 @@ public class InternshipList {
         storage.save(internshipList);
     }
 
+    // @@author {V1T0bh}
     /**
      * Adds a new {@link Internship} to the {@code ArrayList} of internships.
      *
@@ -76,6 +85,18 @@ public class InternshipList {
         logger.info("New internship has been added successfully.");
     }
 
+    /**
+     * Deletes an {@link Internship} from the {@code ArrayList} based on the given index.
+     *
+     * <p>
+     * This method removes the {@code Internship} object located at the specified
+     * index from the internal list of internships. If the index is invalid,
+     * an {@code InternityException} is thrown.
+     * </p>
+     *
+     * @param index the index of the {@code Internship} to be deleted
+     * @throws InternityException if the provided index is out of bounds
+     */
     public static void delete(int index) throws InternityException {
         if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
@@ -83,6 +104,18 @@ public class InternshipList {
         internshipList.remove(index);
     }
 
+    /**
+     * Deletes an {@link Internship} from the {@code ArrayList} based on the given index.
+     *
+     * <p>
+     * This method removes the {@code Internship} object located at the specified
+     * index from the internal list of internships. If the index is invalid,
+     * an {@code InternityException} is thrown.
+     * </p>
+     *
+     * @param index the index of the {@code Internship} to be deleted
+     * @throws InternityException if the provided index is out of bounds
+     */
     public static Internship get(int index) throws InternityException {
         if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
@@ -94,6 +127,12 @@ public class InternshipList {
         return internshipList.size();
     }
 
+    // @@author {V1T0bh}
+    /**
+     * Sort internships by deadline in the specified order.
+     *
+     * @param order the order type (ASCENDING or DESCENDING)
+     */
     public static void sortInternships(ListCommand.orderType order) {
         if (order == ListCommand.orderType.DESCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
@@ -102,7 +141,13 @@ public class InternshipList {
         }
     }
 
-    // list all
+    // @@author {V1T0bh}
+    /**
+     * Lists all internships in a formatted table.
+     *
+     * @param order the order type for sorting the internships
+     * @throws InternityException if there is an error during listing
+     */
     public static void listAll(ListCommand.orderType order) throws InternityException {
         logger.info("Listing all internships");
 
@@ -142,6 +187,7 @@ public class InternshipList {
         assert (i == size()) : "All internships should be listed";
     }
 
+    // @@author {V1T0bh}
     private static boolean isEmpty() {
         return internshipList.isEmpty();
     }
