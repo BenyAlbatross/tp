@@ -22,7 +22,8 @@ public class InternshipList {
     private static Storage storage;
     private static String username;
 
-    private InternshipList() {}
+    private InternshipList() {
+    }
 
     /**
      * Sets the storage instance for auto-saving.
@@ -59,8 +60,20 @@ public class InternshipList {
         storage.save(List);
     }
 
+    /**
+     * Adds a new {@link Internship} to the {@code ArrayList} of internships.
+     *
+     * <p>
+     * This method appends the specified {@code Internship} object to the
+     * internal list that stores all internship applications.
+     * </p>
+     *
+     * @param item the {@code Internship} object to be added to the list
+     */
     public static void add(Internship item) {
+        logger.info("Adding new internship to the ArrayList");
         List.add(item);
+        logger.info("New internship has been added successfully.");
     }
 
     public static void delete(int index) throws InternityException {
@@ -94,9 +107,9 @@ public class InternshipList {
         logger.info("Listing all internships");
 
 
-        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+        String formatContent = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
                 + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
 
 
@@ -183,19 +196,38 @@ public class InternshipList {
         System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
     }
 
+    /**
+     * Searches for internships that match the specified keyword in either the company name or the role.
+     *
+     * <p>
+     * This method performs a case-insensitive search across all stored internships by filtering those whose
+     * company name or role contains the given keyword. If no matches are found, a message is printed to
+     * indicate that no internships match the criteria. Otherwise, the matching internships are displayed
+     * through the {@link Ui#printFindInternship(ArrayList)} method.
+     * </p>
+     *
+     * @param keyword the search keyword to look for within the company or role fields
+     */
     public static void findInternship(String keyword) {
+        logger.info("Searching for internships that match keyword.");
         ArrayList<Internship> matchingInternships = List.stream()
                 .filter(internship ->
                         internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
                                 internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(ArrayList::new)
+                );
+        logger.info("Search completed successfully.");
 
         if (matchingInternships.isEmpty()) {
+            logger.info("No matching internships were found.");
             System.out.println("No internships with this company or role found.");
             return;
         }
 
+        logger.info("Matching internships found.");
+        logger.info("Printing matching internships.");
         Ui.printFindInternship(matchingInternships);
+        logger.info("Matching internships printed successfully.");
     }
 
     public static void clear() {
