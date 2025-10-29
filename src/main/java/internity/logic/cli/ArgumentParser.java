@@ -41,7 +41,7 @@ public final class ArgumentParser {
      * This method expects a single string containing all required fields of the
      * add command in the following format:
      * <pre>
-     * company/COMPANY_NAME role/ROLE_NAME deadline/DD-MM-YYYY pay/PAY_AMOUNT
+     * company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT
      * </pre>
      * The fields must appear in this order and be separated by whitespace.
      * </p>

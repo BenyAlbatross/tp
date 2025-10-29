@@ -13,7 +13,7 @@ import internity.ui.Ui;
  * <p>
  * The command parses a user input string in the following format:
  * <pre>
- *     add company/COMPANY_NAME role/ROLE_NAME deadline/DD-MM-YYYY pay/PAY_AMOUNT
+ *     add company/COMPANY_NAME role/ROLE_NAME deadline/DEADLINE pay/PAY_AMOUNT
  * </pre>
  * Example:
  * <pre>

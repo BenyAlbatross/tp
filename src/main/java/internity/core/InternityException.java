@@ -43,7 +43,7 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid date format
      */
     public static InternityException invalidDateFormat() {
-        return new InternityException("Invalid date format. Expected dd-MM-yyyy (e.g. 08-10-2025)");
+        return new InternityException("Invalid date format.\nExpected dd-MM-yyyy (e.g. 08-10-2025)");
     }
 
     /**
@@ -52,10 +52,10 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid add command format
      */
     public static InternityException invalidAddCommand() {
-        return new InternityException("Invalid add command." +
+        return new InternityException("Invalid add command.\n" +
                 "Usage: add company/COMPANY_NAME " +
                 " role/ROLE_NAME " +
-                " deadline/DD-MM-YYYY " +
+                " deadline/DEADLINE " +
                 " pay/PAY_AMOUNT"
         );
     }
@@ -66,7 +66,7 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid delete command format
      */
     public static InternityException invalidDeleteCommand() {
-        return new InternityException("Invalid delete command. Usage: delete INDEX");
+        return new InternityException("Invalid delete command.\nUsage: delete INDEX");
     }
 
     /**
@@ -75,7 +75,7 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid find command format
      */
     public static InternityException invalidFindCommand() {
-        return new InternityException("Invalid find command. Usage: find KEYWORD");
+        return new InternityException("Invalid find command.\nUsage: find KEYWORD");
     }
 
     /**
@@ -93,7 +93,7 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid list command format
      */
     public static InternityException invalidListCommand() {
-        return new InternityException("Invalid list command. Usage: list [sort/asc|sort/desc]");
+        return new InternityException("Invalid list command.\nUsage: list [sort/asc|sort/desc]");
     }
 
     /**
@@ -103,7 +103,7 @@ public class InternityException extends Exception {
      */
     public static InternityException invalidUpdateFormat() {
         return new InternityException(
-                "Invalid update command. Usage: update INDEX field/VALUE"
+                "Invalid update command.\nUsage: update INDEX field/VALUE"
         );
     }
 
@@ -181,6 +181,6 @@ public class InternityException extends Exception {
      * @return an {@code InternityException} for an invalid username command format
      */
     public static InternityException invalidUsernameCommand() {
-        return new InternityException("Invalid username command. Usage: username USERNAME");
+        return new InternityException("Invalid username command.\nUsage: username USERNAME");
     }
 }
