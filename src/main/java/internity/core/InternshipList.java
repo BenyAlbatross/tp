@@ -18,7 +18,7 @@ public class InternshipList {
     public static final int STATUS_MAXLEN = 10;
 
     private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
-    private static final ArrayList<Internship> List = new ArrayList<>();
+    private static final ArrayList<Internship> internshipList = new ArrayList<>();
     private static Storage storage;
     private static String username;
 
@@ -44,8 +44,8 @@ public class InternshipList {
             return;
         }
         ArrayList<Internship> loadedInternships = storage.load();
-        List.clear();
-        List.addAll(loadedInternships);
+        internshipList.clear();
+        internshipList.addAll(loadedInternships);
     }
 
     /**
@@ -57,7 +57,7 @@ public class InternshipList {
         if (storage == null) {
             return;
         }
-        storage.save(List);
+        storage.save(internshipList);
     }
 
     /**
@@ -72,33 +72,33 @@ public class InternshipList {
      */
     public static void add(Internship item) {
         logger.info("Adding new internship to the ArrayList");
-        List.add(item);
+        internshipList.add(item);
         logger.info("New internship has been added successfully.");
     }
 
     public static void delete(int index) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
         }
-        List.remove(index);
+        internshipList.remove(index);
     }
 
     public static Internship get(int index) throws InternityException {
-        if (index < 0 || index >= List.size()) {
+        if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
         }
-        return List.get(index);
+        return internshipList.get(index);
     }
 
     public static int size() {
-        return List.size();
+        return internshipList.size();
     }
 
     public static void sortInternships(ListCommand.orderType order) {
         if (order == ListCommand.orderType.DESCENDING) {
-            List.sort(Comparator.comparing(Internship::getDeadline).reversed());
+            internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
         } else if (order == ListCommand.orderType.ASCENDING) {
-            List.sort(Comparator.comparing(Internship::getDeadline));
+            internshipList.sort(Comparator.comparing(Internship::getDeadline));
         }
     }
 
@@ -143,7 +143,7 @@ public class InternshipList {
     }
 
     private static boolean isEmpty() {
-        return List.isEmpty();
+        return internshipList.isEmpty();
     }
 
 
@@ -155,7 +155,7 @@ public class InternshipList {
             throw InternityException.invalidStatus(String.valueOf(newStatus));
         }
         final String normalized = Status.canonical(newStatus);
-        Internship internship = List.get(index);
+        Internship internship = internshipList.get(index);
         internship.setStatus(normalized);
         System.out.println("Updated internship " + (index + 1) + " status to: " + normalized);
     }
@@ -164,7 +164,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setCompany(newCompany);
         System.out.println("Updated internship " + (index + 1) + " company to: " + newCompany);
     }
@@ -173,7 +173,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setRole(newRole);
         System.out.println("Updated internship " + (index + 1) + " role to: " + newRole);
     }
@@ -182,7 +182,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setDeadline(newDeadline);
         System.out.println("Updated internship " + (index + 1) + " deadline to: " + newDeadline);
     }
@@ -191,7 +191,7 @@ public class InternshipList {
         if (index < 0 || index >= size()) {
             throw InternityException.invalidInternshipIndex();
         }
-        Internship it = List.get(index);
+        Internship it = internshipList.get(index);
         it.setPay(newPay);
         System.out.println("Updated internship " + (index + 1) + " pay to: " + newPay);
     }
@@ -210,7 +210,7 @@ public class InternshipList {
      */
     public static void findInternship(String keyword) {
         logger.info("Searching for internships that match keyword.");
-        ArrayList<Internship> matchingInternships = List.stream()
+        ArrayList<Internship> matchingInternships = internshipList.stream()
                 .filter(internship ->
                         internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
                                 internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
@@ -231,7 +231,7 @@ public class InternshipList {
     }
 
     public static void clear() {
-        List.clear();
+        internshipList.clear();
     }
 
     public static void setUsername(String username) {
