@@ -24,15 +24,17 @@ activate IL
 IL -> LI: add()
 activate LI
 LI --> IL
-IL --> AC
 deactivate LI
+IL --> AC
 deactivate IL
+
+
 
 AC -> Ui: print added internship
 activate Ui
 Ui --> AC
 deactivate Ui
 
-AC->Logic
+AC -->Logic
 deactivate AC
 @enduml

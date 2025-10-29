@@ -23,6 +23,6 @@ activate Ui
 Ui --> UC
 deactivate Ui
 
-UC -> Logic
+UC --> Logic
 deactivate UC
 @enduml

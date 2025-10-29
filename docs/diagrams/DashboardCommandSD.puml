@@ -24,6 +24,6 @@ deactivate IL
 DUi --> DC
 deactivate DUi
 
-DC -> Logic
+DC --> Logic
 deactivate DC
 @enduml
