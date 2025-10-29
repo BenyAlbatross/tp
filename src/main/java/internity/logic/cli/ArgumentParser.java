@@ -81,13 +81,13 @@ public final class ArgumentParser {
      * @param args the raw argument string provided by the user for the add command
      * @return a new {@link AddCommand} instance constructed from the parsed and validated arguments
      * @throws InternityException if:
-     * <ul>
-     *     <li>The argument string is null or blank.</li>
-     *     <li>One or more required fields are missing, empty or in the wrong order.</li>
-     *     <li>Any field exceeds its maximum allowed length.</li>
-     *     <li>The pay amount is invalid (negative or non-numeric).</li>
-     *     <li>Parsing of the deadline fails.</li>
-     * </ul>
+     *     <ul>
+     *         <li>The argument string is null or blank.</li>
+     *         <li>One or more required fields are missing, empty or in the wrong order.</li>
+     *         <li>Any field exceeds its maximum allowed length.</li>
+     *         <li>The pay amount is invalid (negative or non-numeric).</li>
+     *         <li>Parsing of the deadline fails.</li>
+     *     </ul>
      */
     public static AddCommand parseAddCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
