@@ -4,8 +4,7 @@
 ' Additional abstract components: Logic (parses commands) and Storage (persists data)
 '
 actor User as "User"
-participant UI as "UI (User Interface)"
-participant CommandParser as "CommandParser (parses commands)"
+participant Logic as "Logic (CommandParser / UI)"
 participant Model as "Model (InternityManager)"
 
 box Model
@@ -19,34 +18,40 @@ participant Storage as "<<class>>\nStorage"
 
 ' --- Scenario 1: Adding a new internship ---
 == Adding a new internship ==
-' User types an `add` command; UI receives user input and forwards to CommandParser, which hands off a semantic request to Model
-User -> UI: `add company/COMP role/ROLE deadline/DD-MM-YYYY pay/AMOUNT`
-UI -> CommandParser: parseInput(input)
-CommandParser -> Model: addInternship(company, role, deadlineStr, pay)
+' User types an `add` command; Logic parses and hands off a semantic request to Model
+User -> Logic: add ...
+Logic -> Model: addInternship(...)
 ' Model validates high-level constraints then delegates to the list component
-Model -> InternshipList: add(company, role, deadlineStr, pay)
+Model -> InternshipList: add(...)
 ' InternshipList constructs a new Internship object (calls constructor)
-InternshipList -> Internship: new(company, role, deadlineStr, pay)
+create Internship
+InternshipList -> Internship: new Internship(...)
+activate Internship
 ' Internship object parses and stores a Date and Status internally
-Internship -> Date: parse(deadlineStr) : Date
-Internship -> Status: initDefault() : Status (Pending)
+create Date
+Internship -> Date: parse(deadline) : Date
+activate Date
+Date --> Internship: (created)
+deactivate Date
+
+Internship -> Status: Status (Pending)
 ' Construction returns the Internship instance to InternshipList
-Internship --> InternshipList: Internship
+Internship --> InternshipList: (created)
+deactivate Internship
+
 ' InternshipList appends to internal collection
-InternshipList -> InternshipList: addToCollection(Internship)
+InternshipList -> InternshipList: add(Internship)
 ' After mutation, Model requests Storage to persist the updated list
-InternshipList -> Storage: save(internships.txt, currentState)
-Storage --> InternshipList: success
+InternshipList -> Storage: save(InternshipList)
+Storage --> InternshipList: (success)
 Model <-- InternshipList: addedConfirmation
-CommandParser <-- Model: successMessage("Added: COMPANY - ROLE")
-UI <-- CommandParser: display(successMessage)
-User <-- UI: display(successMessage)
+Logic <-- Model: successMessage("Added: COMPANY - ROLE")
+User <-- Logic: display(successMessage)
 
 ' --- Scenario 2: Updating status of an existing internship ---
 == Updating status of an existing internship ==
-User -> UI: `update 3 status/Interviewing`
-UI -> CommandParser: parseInput(input)
-CommandParser -> Model: updateStatus(index=3, newStatus="Interviewing")
+User -> Logic: `update 3 status/Interviewing`
+Logic -> Model: updateStatus(index=3, newStatus="Interviewing")
 Model -> InternshipList: get(index=3)
 InternshipList --> Model: Internship@3
 Model -> Internship: setStatus("Interviewing")
@@ -56,30 +61,20 @@ Model -> InternshipList: replace(index=3, updatedInternship)
 ' Persist change
 InternshipList -> Storage: save(internships.txt, currentState)
 Storage --> InternshipList: success
-CommandParser <-- Model: successMessage("Updated status")
-UI <-- CommandParser: display(successMessage)
-UI --> User: display(successMessage)
+Model --> Logic: successMessage("Updated status")
+Logic --> User: display(successMessage)
 
 ' --- Scenario 3: Querying nearest deadline ---
 == Querying nearest deadline ==
-User -> UI: `dashboard` or `nearest`
-UI -> CommandParser: parseInput(input)
-CommandParser -> Model: getNearestDeadline()
+User -> Logic: `dashboard` or `nearest`
+Logic -> Model: getNearestDeadline()
 Model -> InternshipList: getAll()
 InternshipList --> Model: [Internship@1, Internship@2, ...]
 Model -> Internship: getDeadline() ' calls getDeadline on each internship in loop
 Internship -> Date: compareTo(dateOther) ' Date handles comparison logic
 ' Model computes nearest and returns formatted result
-CommandParser <-- Model: nearestDeadlineInfo
-UI <-- CommandParser: nearestDeadlineInfo
-UI --> User: display(nearestDeadlineInfo)
-
-' Notes:
-' - `Date` here represents the model class responsible for parsing, storing and comparing deadline values.
-' - `Status` is modelled as a small value object or enum wrapper that enforces valid status values.
-' - `UI` is the user-facing component responsible for I/O and forwarding raw input to `CommandParser`.
-' - `CommandParser` is responsible for parsing raw input into semantic requests (commands) and interacting with `Model`.
-' - `Storage` is shown as an abstract persistence component (file or DB). Model / InternshipList calls it after any persistent mutation.
-' - All persistence (save) calls are intentional points where data is written to disk; startup load would be the reverse interaction (Storage -> Model -> InternshipList).
+Model --> Logic: nearestDeadlineInfo
+Logic --> User: display(nearestDeadlineInfo)
 
 @enduml
+
