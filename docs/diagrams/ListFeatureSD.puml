@@ -1,20 +1,20 @@
 @startuml ModelComponentSD
-title List Feature - Sequence Diagram
+title List Command - Sequence Diagram
 
-box Logic #FFFFFF
 participant ":InternityManager" as Manager
 participant ":CommandParser" as Parser
 participant "command : ListCommand" as Command
-end box
 
 box Model #F0F0F0
 participant "internship : Internship" as internship
 participant "<<class>> InternshipList" as Model
 end box
 
+
 Parser -> Manager : create List Command
-activate Command
+create Command
 Manager -> Command : execute()
+activate Command
 
 Model -> Model : check if list is empty
 alt list is empty
@@ -31,6 +31,7 @@ else list is not empty
     end
     Model --> Command
     Command --> Manager
+    deactivate Command
 end
 
 @enduml
