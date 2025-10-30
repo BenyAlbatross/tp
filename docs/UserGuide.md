@@ -16,7 +16,7 @@ manage hundreds of applications. This guide explains how to install and use Inte
   - [Finding by keyword: `find`](#finding-by-keyword-find)
   - [Setting/Changing username : `username`](#settingchanging-username-username)
   - [Displaying dashboard : `dashboard`](#displaying-dashboard-dashboard)
-  - [Help : `help`](#help)
+  - [Help : `help`](#help-help)
   - [Exiting the program : `exit`](#exit-internity-exit)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
