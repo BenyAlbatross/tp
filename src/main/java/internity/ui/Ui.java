@@ -171,4 +171,22 @@ public class Ui {
         System.out.println("Username set to " + username);
     }
 
+    public static void printHelp() {
+        String commandList = """
+                Here are the available commands:
+
+                  • add       : Add a new internship application with company, role, deadline, and pay.
+                  • delete    : Remove an internship application at the specified index.
+                  • list      : Display all internship applications, optionally sorted by deadline.
+                  • find      : Search and list internship applications matching a keyword.
+                  • update    : Update the status of an internship application at the specified index.
+                  • username  : Set your username for personalised greetings.
+                  • dashboard : View statistics about your internship applications.
+                  • help      : Display this list again. Your guide to managing internships.
+                  • exit      : Terminate this session. Your progress will be saved.
+
+                For verbose instructions, refer to the user guide.
+                """;
+        System.out.println(commandList);
+    }
 }
