@@ -197,7 +197,21 @@ The class diagram above shows the main classes involved in manipulating `Interns
 #### Sequence Diagram
 
 The following sequence diagram illustrates how the Model Component processes an Add command:
-*coming soon*
+![Model Component: Sequence Diagram (Adding a new Internship)](diagrams/ModelComponentSD_Add.png)
+
+The sequence diagram above shows how the `AddCommand` interacts with the `InternshipList` to add a new internship.
+1. The `InternshipList.add()` method is called with the necessary parameters (company, role, deadline, pay).
+2. `InternshipList` creates a new `Internship` object with those parameters.
+3. `InternshipList` calls `add()` to add the new internship to the static list.
+
+
+The following sequence diagram illustrates how the Model Component processes an Update command:
+![Model Component: Sequence Diagram (Updating status of an existing internship)](diagrams/ModelComponentSD_Update.png)
+
+The sequence diagram above shows how the `UpdateCommand` interacts with the `InternshipList` to update an existing internship.
+1. The `InternshipList.update()` method is called with the index of the internship to update and the new status.
+2. `InternshipList` retrieves the existing `Internship` object at that index.
+3. `InternshipList` calls the `setStatus()` method on the `Internship` object to update its status.
 
 ---
 
