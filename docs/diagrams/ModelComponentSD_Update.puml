@@ -6,23 +6,21 @@ title Model Component - Sequence Diagram (Updating status of an existing interns
 '
 participant Logic as "Logic"
 
-participant Model as ":InternityManager"
-
 box Model
 participant InternshipList as "<<class>>\nInternshipList"
 participant Internship as ":Internship"
-participant Date as "Date"
-participant Status as "<<enum>>\nStatus"
 endbox
 
 ' --- Scenario 2: Updating status of an existing internship ---
 Logic -> InternshipList: updateStatus(...)
+activate InternshipList
 InternshipList -> Internship: setStatus(...)
 activate Internship
-Internship <-- Status: Status (...)
+Internship -> Internship : Set Status
 Internship --> InternshipList
 deactivate Internship
 ' Persist change
 InternshipList --> Logic
+deactivate InternshipList
 
 @enduml

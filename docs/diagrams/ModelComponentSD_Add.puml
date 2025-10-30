@@ -6,19 +6,18 @@ title Model Component - Sequence Diagram (Adding a new Internship)
 '
 participant Logic as "Logic"
 
-participant Model as ":InternityManager"
 
 box Model
 participant InternshipList as "<<class>>\nInternshipList"
 participant Internship as ":Internship"
 participant Date as "Date"
-participant Status as "<<enum>>\nStatus"
 endbox
 
 ' --- Scenario 1: Adding a new internship ---
 ' User types an `add` command; Logic parses and hands off a semantic request to Model
 ' Model validates high-level constraints then delegates to the list component
 Logic -> InternshipList: add(...)
+activate InternshipList
 ' InternshipList constructs a new Internship object (calls constructor)
 create Internship
 InternshipList -> Internship: new Internship(...)
@@ -30,7 +29,7 @@ activate Date
 Date --> Internship: (created)
 deactivate Date
 
-Internship <-- Status: Status (Pending)
+Internship -> Internship : set Status to Pending
 ' Construction returns the Internship instance to InternshipList
 Internship --> InternshipList: (created)
 deactivate Internship
@@ -45,5 +44,6 @@ InternshipList --> InternshipList
 deactivate InternshipList
 
 Logic <-- InternshipList
+deactivate InternshipList
 
 @enduml
