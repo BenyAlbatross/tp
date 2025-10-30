@@ -1,36 +1,50 @@
 @startuml ModelComponentSD
+!include Style.puml
 title List Command - Sequence Diagram
 
-participant ":InternityManager" as Manager
-participant ":CommandParser" as Parser
+'abstracted Logic components
+participant "Logic" as Logic
 participant "command : ListCommand" as Command
 
-box Model #F0F0F0
+' Model components
+participant "<<class>>\nInternshipList" as Model
 participant "internship : Internship" as internship
-participant "<<class>> InternshipList" as Model
-end box
 
+' Ui component
+participant "<<class>>\nUi" as Ui
 
-Parser -> Manager : create List Command
+' creation of ListCommand
 create Command
-Manager -> Command : execute()
+Logic -> Command : new ListCommand(OrderType)
 activate Command
+Command --> Logic : (created)
+deactivate Command
 
+' execution of ListCommand
+Logic -> Command : execute()
+activate Command
 Model -> Model : check if list is empty
 alt list is empty
-    Model -> Model : print "List is empty" message
+    Model -> Ui : printInternshipListEmpty()
+    Ui -> Ui : print empty list message
+    Ui --> Model
     Model --> Command
-    Command --> Manager
+    Command --> Logic
 else list is not empty
-    Model -> Model : sortInternships(orderType)
-    Model -> Model : print internship list table header
+    Model -> Model : sortInternships(OrderType)
+    Model -> Ui : printInternshipListHeader(messsage)
+    Ui -> Ui : print header message
+    Ui --> Model
     loop for each internship in List
-        Model -> internship : get internship details
-        internship --> Model : return details
-        Model -> Model : format and print internship details
+
+        Model -> Ui : printInternshipListContent(internship)
+        Ui -> internship : get internship details
+        internship --> Ui : return details
+        Ui -> Ui : print internship details
+        Ui --> Model
     end
     Model --> Command
-    Command --> Manager
+    Command --> Logic
     deactivate Command
 end
 
