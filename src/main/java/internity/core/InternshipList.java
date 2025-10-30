@@ -18,13 +18,6 @@ import internity.ui.Ui;
  * </p>
  */
 public class InternshipList {
-    public static final int INDEX_MAXLEN = 5;
-    public static final int COMPANY_MAXLEN = 15;
-    public static final int ROLE_MAXLEN = 30;
-    public static final int DEADLINE_MAXLEN = 15;
-    public static final int PAY_MAXLEN = 10;
-    public static final int STATUS_MAXLEN = 10;
-
     private static final Logger LOGGER = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> internshipList = new ArrayList<>();
     private static Storage storage;
@@ -133,10 +126,10 @@ public class InternshipList {
      *
      * @param order the order type (ASCENDING or DESCENDING)
      */
-    public static void sortInternships(ListCommand.orderType order) {
-        if (order == ListCommand.orderType.DESCENDING) {
+    public static void sortInternships(ListCommand.OrderType order) {
+        if (order == ListCommand.OrderType.DESCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
-        } else if (order == ListCommand.orderType.ASCENDING) {
+        } else if (order == ListCommand.OrderType.ASCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline));
         }
     }
@@ -148,40 +141,25 @@ public class InternshipList {
      * @param order the order type for sorting the internships
      * @throws InternityException if there is an error during listing
      */
-    public static void listAll(ListCommand.orderType order) throws InternityException {
+    public static void listAll(ListCommand.OrderType order) throws InternityException {
         LOGGER.info("Listing all internships");
 
-
-        String formatHeader = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
-                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-        String formatContent = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
-                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
-
-
         if (InternshipList.isEmpty()) {
-            LOGGER.warning("No internships found to list");
-            System.out.println("No internships found. Please add an internship first.");
+            logger.warning("No internships found to list");
+            Ui.printInternshipListEmpty();
             assert (size() == 0) : "Internship list should be empty";
             return;
         }
-
         assert (size() > 0) : "Internship list should not be empty";
+
         sortInternships(order);
-        System.out.printf(formatHeader,
-                "No.", "Company", "Role", "Deadline", "Pay", "Status");
-        Ui.printHorizontalLine();
+
+        Ui.printInternshipListHeader("Here are the internships in your list:");
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
-            LOGGER.fine("Listing internship at index: " + i);
-            System.out.printf(formatContent,
-                    i + 1,
-                    internship.getCompany(),
-                    internship.getRole(),
-                    internship.getDeadline().toString(),
-                    internship.getPay(),
-                    internship.getStatus()
-            );
+            logger.fine("Listing internship at index: " + i);
+            Ui.printInternshipListContent(i, internship);
         }
         LOGGER.info("Finished listing internships. Total: " + i);
         assert (i == size()) : "All internships should be listed";

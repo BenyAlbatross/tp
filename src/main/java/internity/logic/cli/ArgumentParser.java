@@ -10,7 +10,7 @@ import internity.logic.commands.UpdateCommand;
 import internity.logic.commands.UsernameCommand;
 import internity.core.Date;
 import internity.core.InternityException;
-import internity.core.InternshipList;
+import internity.ui.Ui;
 import internity.utils.DateFormatter;
 
 
@@ -78,7 +78,7 @@ public final class ArgumentParser {
      *     <li>Ensures none of the extracted values are empty or missing.</li>
      *     <li>Ensures the pay amount is a non-negative integer.</li>
      *     <li>Ensures that the length of the company and role strings does not exceed the
-     *         maximum allowed lengths defined in {@link InternshipList} constants
+     *         maximum allowed lengths defined in {@link Ui} constants
      *         ({@code COMPANY_MAXLEN} and {@code ROLE_MAXLEN}).</li>
      * </ul>
      * </p>
@@ -132,13 +132,13 @@ public final class ArgumentParser {
             }
 
             // throw exception on exceeding max length
-            if (company.length() > InternshipList.COMPANY_MAXLEN) {
+            if (company.length() > Ui.COMPANY_MAXLEN) {
                 logger.severe("Company name exceeded max length.");
-                throw InternityException.exceedFieldLength("Company", InternshipList.COMPANY_MAXLEN, company.length());
+                throw InternityException.exceedFieldLength("Company", Ui.COMPANY_MAXLEN, company.length());
             }
-            if (role.length() > InternshipList.ROLE_MAXLEN) {
+            if (role.length() > Ui.ROLE_MAXLEN) {
                 logger.severe("Role exceeded max length.");
-                throw InternityException.exceedFieldLength("Role", InternshipList.ROLE_MAXLEN, role.length());
+                throw InternityException.exceedFieldLength("Role", Ui.ROLE_MAXLEN, role.length());
             }
 
             return new AddCommand(company, role, deadline, pay);
@@ -223,10 +223,10 @@ public final class ArgumentParser {
                         logger.severe("Company name is empty.");
                         throw InternityException.emptyField("company/");
                     }
-                    if (company.length() > InternshipList.COMPANY_MAXLEN) {
+                    if (company.length() > Ui.COMPANY_MAXLEN) {
                         logger.severe("Company name exceeded max length.");
                         throw InternityException.exceedFieldLength("Company",
-                                InternshipList.COMPANY_MAXLEN,
+                                Ui.COMPANY_MAXLEN,
                                 company.length());
                     }
                 } else if (p.startsWith("role/")) {
@@ -235,9 +235,9 @@ public final class ArgumentParser {
                         logger.severe("Role is empty.");
                         throw InternityException.emptyField("role/");
                     }
-                    if (role.length() > InternshipList.ROLE_MAXLEN) {
+                    if (role.length() > Ui.ROLE_MAXLEN) {
                         logger.severe("Role exceeded max length.");
-                        throw InternityException.exceedFieldLength("Role", InternshipList.ROLE_MAXLEN, role.length());
+                        throw InternityException.exceedFieldLength("Role", Ui.ROLE_MAXLEN, role.length());
                     }
                 } else if (p.startsWith("deadline/")) {
                     String d = valueAfterTag(p, "deadline/");
@@ -279,7 +279,7 @@ public final class ArgumentParser {
      */
     public static ListCommand parseListCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
-            return new ListCommand(ListCommand.orderType.DEFAULT); // Default order
+            return new ListCommand(ListCommand.OrderType.DEFAULT); // Default order
         }
 
         if (!args.startsWith("sort/")) {
@@ -293,9 +293,9 @@ public final class ArgumentParser {
 
         String order = splitArgs[0].substring("sort/".length()).trim();
         if (order.equals("asc")) {
-            return new ListCommand(ListCommand.orderType.ASCENDING);
+            return new ListCommand(ListCommand.OrderType.ASCENDING);
         } else if (order.equals("desc")) {
-            return new ListCommand(ListCommand.orderType.DESCENDING);
+            return new ListCommand(ListCommand.OrderType.DESCENDING);
         } else {
             throw InternityException.invalidListCommand();
         }
