@@ -9,8 +9,16 @@ import internity.logic.commands.ListCommand;
 import internity.storage.Storage;
 import internity.ui.Ui;
 
+/**
+ * The {@code InternshipList} class manages a collection of {@link Internship}
+ * objects representing internship applications.
+ * <p>
+ * It provides methods to add, delete, retrieve, list, sort, and search internships.
+ * The class also handles persistence by loading from and saving to storage.
+ * </p>
+ */
 public class InternshipList {
-    private static final Logger logger = Logger.getLogger(InternshipList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(InternshipList.class.getName());
     private static final ArrayList<Internship> internshipList = new ArrayList<>();
     private static Storage storage;
     private static String username;
@@ -53,6 +61,7 @@ public class InternshipList {
         storage.save(internshipList);
     }
 
+    // @@author {V1T0bh}
     /**
      * Adds a new {@link Internship} to the {@code ArrayList} of internships.
      *
@@ -64,11 +73,23 @@ public class InternshipList {
      * @param item the {@code Internship} object to be added to the list
      */
     public static void add(Internship item) {
-        logger.info("Adding new internship to the ArrayList");
+        LOGGER.info("Adding new internship to the ArrayList");
         internshipList.add(item);
-        logger.info("New internship has been added successfully.");
+        LOGGER.info("New internship has been added successfully.");
     }
 
+    /**
+     * Deletes an {@link Internship} from the {@code ArrayList} based on the given index.
+     *
+     * <p>
+     * This method removes the {@code Internship} object located at the specified
+     * index from the internal list of internships. If the index is invalid,
+     * an {@code InternityException} is thrown.
+     * </p>
+     *
+     * @param index the index of the {@code Internship} to be deleted
+     * @throws InternityException if the provided index is out of bounds
+     */
     public static void delete(int index) throws InternityException {
         if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
@@ -76,6 +97,18 @@ public class InternshipList {
         internshipList.remove(index);
     }
 
+    /**
+     * Deletes an {@link Internship} from the {@code ArrayList} based on the given index.
+     *
+     * <p>
+     * This method removes the {@code Internship} object located at the specified
+     * index from the internal list of internships. If the index is invalid,
+     * an {@code InternityException} is thrown.
+     * </p>
+     *
+     * @param index the index of the {@code Internship} to be deleted
+     * @throws InternityException if the provided index is out of bounds
+     */
     public static Internship get(int index) throws InternityException {
         if (index < 0 || index >= internshipList.size()) {
             throw new InternityException("Invalid internship index: " + (index + 1));
@@ -87,6 +120,12 @@ public class InternshipList {
         return internshipList.size();
     }
 
+    // @@author {V1T0bh}
+    /**
+     * Sort internships by deadline in the specified order.
+     *
+     * @param order the order type (ASCENDING or DESCENDING)
+     */
     public static void sortInternships(ListCommand.OrderType order) {
         if (order == ListCommand.OrderType.DESCENDING) {
             internshipList.sort(Comparator.comparing(Internship::getDeadline).reversed());
@@ -95,12 +134,18 @@ public class InternshipList {
         }
     }
 
-    // list all
+    // @@author {V1T0bh}
+    /**
+     * Lists all internships in a formatted table.
+     *
+     * @param order the order type for sorting the internships
+     * @throws InternityException if there is an error during listing
+     */
     public static void listAll(ListCommand.OrderType order) throws InternityException {
-        logger.info("Listing all internships");
+        LOGGER.info("Listing all internships");
 
         if (InternshipList.isEmpty()) {
-            logger.warning("No internships found to list");
+            LOGGER.warning("No internships found to list");
             Ui.printInternshipListEmpty();
             assert (size() == 0) : "Internship list should be empty";
             return;
@@ -113,14 +158,14 @@ public class InternshipList {
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
-            logger.fine("Listing internship at index: " + i);
+            LOGGER.fine("Listing internship at index: " + i);
             Ui.printInternshipListContent(i, internship);
         }
-
-        logger.info("Finished listing internships. Total: " + i);
+        LOGGER.info("Finished listing internships. Total: " + i);
         assert (i == size()) : "All internships should be listed";
     }
 
+    // @@author {V1T0bh}
     private static boolean isEmpty() {
         return internshipList.isEmpty();
     }
@@ -188,25 +233,25 @@ public class InternshipList {
      * @param keyword the search keyword to look for within the company or role fields
      */
     public static void findInternship(String keyword) {
-        logger.info("Searching for internships that match keyword.");
+        LOGGER.info("Searching for internships that match keyword.");
         ArrayList<Internship> matchingInternships = internshipList.stream()
                 .filter(internship ->
                         internship.getCompany().toLowerCase().contains(keyword.toLowerCase()) ||
                                 internship.getRole().toLowerCase().contains(keyword.toLowerCase()))
                 .collect(Collectors.toCollection(ArrayList::new)
                 );
-        logger.info("Search completed successfully.");
+        LOGGER.info("Search completed successfully.");
 
         if (matchingInternships.isEmpty()) {
-            logger.info("No matching internships were found.");
+            LOGGER.info("No matching internships were found.");
             System.out.println("No internships with this company or role found.");
             return;
         }
 
-        logger.info("Matching internships found.");
-        logger.info("Printing matching internships.");
+        LOGGER.info("Matching internships found.");
+        LOGGER.info("Printing matching internships.");
         Ui.printFindInternship(matchingInternships);
-        logger.info("Matching internships printed successfully.");
+        LOGGER.info("Matching internships printed successfully.");
     }
 
     public static void clear() {

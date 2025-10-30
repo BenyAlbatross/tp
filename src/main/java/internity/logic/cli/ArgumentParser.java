@@ -13,9 +13,20 @@ import internity.core.InternityException;
 import internity.ui.Ui;
 import internity.utils.DateFormatter;
 
+
 /**
- * A utility class responsible for parsing command-line arguments for various commands
+ * The {@code ArgumentParser} class is responsible for parsing command-line arguments for various commands
  * such as Add, Delete, Find, Update and List.
+ *
+ * <p>Supported commands include:
+ * <ul>
+ *      <li>{@link AddCommand}</li>
+ *      <li>{@link DeleteCommand}</li>
+ *      <li>{@link FindCommand}</li>
+ *      <li>{@link UpdateCommand}</li>
+ *      <li>{@link ListCommand}</li>
+ *      <li>{@link UsernameCommand}</li>
+ * </ul>
  */
 public final class ArgumentParser {
     private static final int ADD_COMMAND_PARTS = 4;
@@ -326,6 +337,13 @@ public final class ArgumentParser {
         return token.substring(tag.length()).trim();
     }
 
+    /**
+     * Parses the arguments for Username Command to create an {@link UsernameCommand} instance.
+     *
+     * @param args arguments for {@link UsernameCommand}
+     * @return an instance of {@link UsernameCommand} constructed from the parsed arguments.
+     * @throws InternityException if the arguments are missing or invalid.
+     */
     public static UsernameCommand parseUsernameCommandArgs(String args) throws InternityException {
         if (args == null || args.isBlank()) {
             throw InternityException.invalidUsernameCommand();
