@@ -145,7 +145,7 @@ public class InternshipList {
         LOGGER.info("Listing all internships");
 
         if (InternshipList.isEmpty()) {
-            logger.warning("No internships found to list");
+            LOGGER.warning("No internships found to list");
             Ui.printInternshipListEmpty();
             assert (size() == 0) : "Internship list should be empty";
             return;
@@ -158,7 +158,7 @@ public class InternshipList {
         int i;
         for (i = 0; i < InternshipList.size(); i++) {
             Internship internship = InternshipList.get(i);
-            logger.fine("Listing internship at index: " + i);
+            LOGGER.fine("Listing internship at index: " + i);
             Ui.printInternshipListContent(i, internship);
         }
         LOGGER.info("Finished listing internships. Total: " + i);
