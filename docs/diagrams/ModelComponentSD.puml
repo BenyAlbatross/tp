@@ -1,36 +1,78 @@
-@startuml ModelComponentSD
-title Model Component - Sequence Diagram
+@startuml
+' Model Component Sequence Diagram
+' Shows interactions between Logic, Model, InternshipList, Internship, Date and Status
+' Additional abstract components: Logic (parses commands) and Storage (persists data)
+'
+actor User as "User"
+participant Logic as "Logic (CommandParser / UI)"
+participant Model as "Model (InternityManager)"
 
-box Logic #FFFFFF
-participant "command : AddCommand" as Command
-end box
 box Model
-participant "internship : Internship" as internship
-participant "<<class>> InternshipList" as Model
-end box
+participant InternshipList as "<<class>>\nInternshipList"
+participant Internship as "Internship"
+participant Date as "Date"
+participant Status as "<<enum>>\nStatus"
+endbox
 
-box Ui #FFFFFF
-participant "<<class>> Ui" as Ui
-end box
+participant Storage as "<<class>>\nStorage"
 
-activate Command
--> Command : execute()
+' --- Scenario 1: Adding a new internship ---
+== Adding a new internship ==
+' User types an `add` command; Logic parses and hands off a semantic request to Model
+User -> Logic: add ...
+Logic -> Model: addInternship(...)
+' Model validates high-level constraints then delegates to the list component
+Model -> InternshipList: add(...)
+' InternshipList constructs a new Internship object (calls constructor)
+create Internship
+InternshipList -> Internship: new Internship(...)
+activate Internship
+' Internship object parses and stores a Date and Status internally
+create Date
+Internship -> Date: parse(deadlineStr) : Date
+activate Date
+Internship -> Status: initDefault() : Status (Pending)
+deactivate Date
+' Construction returns the Internship instance to InternshipList
+Internship --> InternshipList: (created)
+deactivate Internship
 
-Command -> internship : new Internship(company, role, deadline, pay)
-activate internship
-internship --> Command : Internship
-Command -> Model : add(internship)
-Model -> Model : add internship to List
-Model --> Command
-Command -> Ui : printAddSuccess(internship)
-deactivate internship
+' InternshipList appends to internal collection
+InternshipList -> InternshipList: addToCollection(Internship)
+' After mutation, Model requests Storage to persist the updated list
+InternshipList -> Storage: save(internships.txt, currentState)
+Storage --> InternshipList: success
+Model <-- InternshipList: addedConfirmation
+Logic <-- Model: successMessage("Added: COMPANY - ROLE")
+User <-- Logic: display(successMessage)
 
+' --- Scenario 2: Updating status of an existing internship ---
+== Updating status of an existing internship ==
+User -> Logic: `update 3 status/Interviewing`
+Logic -> Model: updateStatus(index=3, newStatus="Interviewing")
+Model -> InternshipList: get(index=3)
+InternshipList --> Model: Internship@3
+Model -> Internship: setStatus("Interviewing")
+Internship -> Status: update("Interviewing")
+Internship --> Model: updatedInternship
+Model -> InternshipList: replace(index=3, updatedInternship)
+' Persist change
+InternshipList -> Storage: save(internships.txt, currentState)
+Storage --> InternshipList: success
+Model --> Logic: successMessage("Updated status")
+Logic --> User: display(successMessage)
 
-
-<-- Command
-destroy internship
-
-deactivate Command
-destroy Command
+' --- Scenario 3: Querying nearest deadline ---
+== Querying nearest deadline ==
+User -> Logic: `dashboard` or `nearest`
+Logic -> Model: getNearestDeadline()
+Model -> InternshipList: getAll()
+InternshipList --> Model: [Internship@1, Internship@2, ...]
+Model -> Internship: getDeadline() ' calls getDeadline on each internship in loop
+Internship -> Date: compareTo(dateOther) ' Date handles comparison logic
+' Model computes nearest and returns formatted result
+Model --> Logic: nearestDeadlineInfo
+Logic --> User: display(nearestDeadlineInfo)
 
 @enduml
+
