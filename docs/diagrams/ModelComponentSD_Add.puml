@@ -1,4 +1,5 @@
 @startuml
+title Model Component - Sequence Diagram (Adding a new Internship)
 ' Model Component Sequence Diagram
 ' Shows interactions between Logic, Model, InternshipList, Internship, Date and Status
 ' Additional abstract components: Logic (parses commands) and Storage (persists data)
@@ -15,7 +16,6 @@ participant Status as "<<enum>>\nStatus"
 endbox
 
 ' --- Scenario 1: Adding a new internship ---
-== Adding a new internship ==
 ' User types an `add` command; Logic parses and hands off a semantic request to Model
 ' Model validates high-level constraints then delegates to the list component
 Logic -> InternshipList: add(...)
@@ -45,16 +45,5 @@ InternshipList --> InternshipList
 deactivate InternshipList
 
 Logic <-- InternshipList
-
-' --- Scenario 2: Updating status of an existing internship ---
-== Updating status of an existing internship ==
-Logic -> InternshipList: updateStatus(...)
-InternshipList -> Internship: setStatus(...)
-activate Internship
-Internship <-- Status: Status (...)
-Internship --> InternshipList
-deactivate Internship
-' Persist change
-InternshipList --> Logic
 
 @enduml
