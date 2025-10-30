@@ -280,7 +280,7 @@ The sequence diagram shows how the delete command flows through multiple layers:
 The list mechanism is implemented by the `ListCommand` class, which allows users to view all internships in their list.
 
 Below is the sequence diagram for a common usage of the list feature:
-![List Feature: Sequence Diagram](diagrams/ListFeatureSD.png)
+![List Command: Sequence Diagram](diagrams/ListCommandSD.png)
 
 #### Design considerations
 
