@@ -4,13 +4,6 @@ import internity.core.Internship;
 
 import java.util.ArrayList;
 
-import static internity.core.InternshipList.INDEX_MAXLEN;
-import static internity.core.InternshipList.COMPANY_MAXLEN;
-import static internity.core.InternshipList.ROLE_MAXLEN;
-import static internity.core.InternshipList.DEADLINE_MAXLEN;
-import static internity.core.InternshipList.PAY_MAXLEN;
-import static internity.core.InternshipList.STATUS_MAXLEN;
-
 /**
  * The {@code Ui} class provides methods for interacting with the user in the Internity chatbot.
  * <p>
@@ -20,9 +13,21 @@ import static internity.core.InternshipList.STATUS_MAXLEN;
  * </p>
  */
 public class Ui {
+    public static final int INDEX_MAXLEN = 5;
+    public static final int COMPANY_MAXLEN = 15;
+    public static final int ROLE_MAXLEN = 30;
+    public static final int DEADLINE_MAXLEN = 15;
+    public static final int PAY_MAXLEN = 10;
+    public static final int STATUS_MAXLEN = 10;
+
+    static final String FORMAT_HEADER = "%" + INDEX_MAXLEN + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+            + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
+    static final String FORMAT_CONTENT = "%" + INDEX_MAXLEN + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
+            + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
+
     /** Horizontal line used to visually separate sections in the console output. */
     static final String LINE = "____________________________________________________" +
-            "_____________________________________\n";
+            "__________________________________________\n";
 
     /**
      * Prints a horizontal divider line to the console.
@@ -87,6 +92,53 @@ public class Ui {
         System.out.println("Internship status updated successfully!");
     }
 
+    public static void printInternshipListEmpty() {
+        System.out.println("Your internship list is currently empty.");
+    }
+
+    /**
+     * Prints the header for the internship list with a custom message.
+     *
+     * <p>
+     * This method displays a provided message followed by a formatted header row
+     * for the internship list. The header includes columns for index, company,
+     * role, deadline, pay, and status, with appropriate spacing for readability.
+     * </p>
+     *
+     * @param message the custom message to display before the header
+     */
+    public static void printInternshipListHeader(String message) {
+        System.out.println(message);
+        Ui.printHorizontalLine();
+        System.out.printf(FORMAT_HEADER,
+                "No.", "Company", "Role", "Deadline", "Pay", "Status");
+        Ui.printHorizontalLine();
+    }
+
+    /**
+     * Prints the details of a single internship in a formatted manner.
+     *
+     * <p>
+     * This method displays the details of the given {@link Internship} object
+     * in a tabular format, including its index, company name, role, deadline,
+     * pay, and status. The details are aligned according to predefined column widths
+     * for consistent presentation.
+     * </p>
+     *
+     * @param index      the index of the internship in the list (0-based)
+     * @param internship the {@code Internship} object whose details are to be printed
+     */
+    public static void printInternshipListContent(int index, Internship internship) {
+        System.out.printf(FORMAT_CONTENT,
+                index + 1,
+                internship.getCompany(),
+                internship.getRole(),
+                internship.getDeadline().toString(),
+                internship.getPay(),
+                internship.getStatus()
+        );
+    }
+
     /**
      * Prints a formatted list of internships that match the user's search keyword.
      *
@@ -102,30 +154,15 @@ public class Ui {
      * @param list the list of matching {@code Internship} objects to display
      */
     public static void printFindInternship(ArrayList<Internship> list) {
-        System.out.println("These are the matching internships in your list:");
-
-        Ui.printHorizontalLine();
-        String formatHeader = "%" + INDEX_MAXLEN  + "s %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
-                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "s %-" + STATUS_MAXLEN + "s%n";
-        String formatContent = "%" + INDEX_MAXLEN  + "d %-" + COMPANY_MAXLEN + "s %-" + ROLE_MAXLEN
-                + "s %-" + DEADLINE_MAXLEN + "s %-" + PAY_MAXLEN + "d %-" + STATUS_MAXLEN + "s%n";
-        System.out.printf(formatHeader,
-                "No.", "Company", "Role", "Deadline", "Pay", "Status");
-        Ui.printHorizontalLine();
+        printInternshipListHeader("These are the matching internships in your list:");
 
         int i;
         for (i = 0; i < list.size(); i++) {
             Internship internship = list.get(i);
-            System.out.printf(formatContent,
-                    i + 1,
-                    internship.getCompany(),
-                    internship.getRole(),
-                    internship.getDeadline().toString(),
-                    internship.getPay(),
-                    internship.getStatus()
-            );
+            printInternshipListContent(i, internship);
         }
     }
+
     public static void printAskUsername() {
         System.out.println("What is your name?");
     }
